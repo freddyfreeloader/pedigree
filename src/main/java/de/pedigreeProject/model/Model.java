@@ -140,7 +140,7 @@ public class Model {
     }
 
     /**
-     * Clears {@link #persons} and {@link #generationsListsSorted}, add persons from database of current pedigree to PERSONS.
+     * Clears {@link #persons} and {@link #generationsListsSorted}, add persons from database of current pedigree to persons list.
      */
     private void clearListsAndGetPersonsFromDatabase() {
 
@@ -226,7 +226,7 @@ public class Model {
     }
 
     /**
-     * Deletes person from each relative list of PERSONS and from database,<br>
+     * Deletes person from each relative list of {@link #persons} and from database,<br>
      * then calls {@link #updateGenerationsLists()}.<br>
      * If person equals {@link #currentPerson} set currentPerson to null.
      *
