@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+    </padding>
+    <GridPane layoutX="174.0" layoutY="139.0" prefWidth="400.0" vgap="5.0">
+        <columnConstraints>
+            <ColumnConstraints fillWidth="false" hgrow="NEVER" minWidth="10.0" prefWidth="150.0"/>
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="200.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <TextField fx:id="titleTextField" prefWidth="200.0" GridPane.columnIndex="1"/>
+        <TextField fx:id="descriptionTextField" layoutX="110.0" layoutY="43.0" GridPane.columnIndex="1"
+                   GridPane.rowIndex="1"/>
+        <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" text="%save"/>
+            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" text="%cancel"
+                    GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        </HBox>
+        <Label prefHeight="30.0" prefWidth="209.0" text="%label.titlePedigree"/>
+        <Label layoutX="10.0" layoutY="47.0" text="%label.descriptionOptional" GridPane.rowIndex="1"/>
+    </GridPane>
+</StackPane>

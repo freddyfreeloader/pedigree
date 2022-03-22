@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--suppress JavaFxUnresolvedFxIdReference -->
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import org.kordamp.ikonli.javafx.*?>
+
+<AnchorPane fx:id="mainPane" prefHeight="600.0" prefWidth="1200.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.pedigreeProject.controller.MainModelController">
+    <children>
+        <BorderPane fx:id="borderPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <center>
+            <AnchorPane fx:id="anchorCenter" BorderPane.alignment="CENTER">
+               <children>
+                        <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" pannable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <content>
+                                <AnchorPane fx:id="pedigreeView">
+                                    <children>
+                                        <VBox fx:id="mainVBox" alignment="CENTER" spacing="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <padding>
+                                                <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                            </padding>
+                                        </VBox>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                            <padding>
+                                <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                            </padding>
+                        </ScrollPane>
+               </children>
+            </AnchorPane>
+            </center>
+            <top>
+                <MenuBar fx:id="menuBar">
+                    <menus>
+                        <Menu fx:id="fileMenu" mnemonicParsing="false" text="%file">
+                            <items>
+                                <MenuItem fx:id="newPedigree" mnemonicParsing="false" onAction="#createNewPedigree" text="%new" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem fx:id="openPedigree" disable="true" mnemonicParsing="false" text="%open" />
+                                <Menu fx:id="menuRecent" mnemonicParsing="false" text="%recent" />
+                                <MenuItem fx:id="menuDeletePedigree" mnemonicParsing="false" onAction="#deletePedigree" text="%deletePedigree" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                                <MenuItem disable="true" mnemonicParsing="false" text="%import" />
+                                <MenuItem disable="true" mnemonicParsing="false" text="%export" />
+                                <MenuItem fx:id="exitWithoutSaving" mnemonicParsing="false" onAction="#exit" text="%exit" />
+                                <SeparatorMenuItem mnemonicParsing="false" />
+                            </items>
+                        </Menu>
+                        <Menu fx:id="viewMenu" mnemonicParsing="false" text="%view">
+                            <items>
+                                <CheckMenuItem fx:id="ageCheckBox" mnemonicParsing="false" text="%moveByAge" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="%menu.help" />
+                    </menus>
+                </MenuBar>
+            </top>
+            <left>
+                <VBox alignment="TOP_CENTER" maxWidth="382.0" spacing="10.0" BorderPane.alignment="CENTER">
+                    <padding>
+                        <Insets bottom="10.0" />
+                    </padding>
+                    <children>
+                        <StackPane fx:id="stackPane">
+                            <children>
+                                <VBox fx:id="pedigreeTitelVBox" alignment="CENTER" onMouseClicked="#updatePedigreeName" spacing="8.0">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                    <padding>
+                                        <Insets bottom="5.0" top="5.0" />
+                                    </padding>
+                                    <children>
+                                        <Label fx:id="titleOfPedigreeLabel" alignment="CENTER" lineSpacing="3.0" textAlignment="CENTER" wrapText="true">
+                                            <font>
+                                                <Font name="Carlito" size="24.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="descriptionOfPedigreeLabel" alignment="CENTER" layoutX="10.0" layoutY="10.0" lineSpacing="3.0" textAlignment="CENTER" wrapText="true">
+                                            <font>
+                                                <Font name="Carlito" size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                            </children>
+                     <padding>
+                        <Insets left="10.0" top="10.0" />
+                     </padding>
+                        </StackPane>
+                        <TableView fx:id="table" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="givenNameColumn" editable="false" prefWidth="100.0" />
+                                <TableColumn fx:id="familyNameColumn" editable="false" prefWidth="100.0" />
+                                <TableColumn fx:id="yearOfBirthColumn" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                                <TableColumn fx:id="editColumn" editable="false" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" sortable="false" />
+                                <TableColumn fx:id="editRelativesColumn" editable="false" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" sortable="false" />
+                                <TableColumn fx:id="deleteColumn" editable="false" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" sortable="false" />
+                            </columns>
+                            <VBox.margin>
+                                <Insets left="10.0" right="10.0" />
+                            </VBox.margin>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                        <Button fx:id="addNewPersonButton" mnemonicParsing="false" onAction="#openDataInputStage" text="%addPerson">
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                </VBox>
+            </left>
+        </BorderPane>
+        <Button id="move-right-button" fx:id="movePersonToRight" visible="false">
+            <graphic>
+                <FontIcon iconLiteral="icm-arrow-right" />
+            </graphic>
+        </Button>
+        <Button id="move-left-button" fx:id="movePersonToLeft" visible="false">
+            <graphic>
+                <FontIcon iconLiteral="icm-arrow-left" />
+            </graphic>
+        </Button>
+    </children>
+</AnchorPane>
