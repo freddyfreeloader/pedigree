@@ -12,8 +12,6 @@ import de.pedigreeProject.database.DatabaseConnectionSqlite;
 import de.pedigreeProject.database.GatewayFactory;
 import de.pedigreeProject.database.PedigreeGateway;
 import de.pedigreeProject.database.PersonGateway;
-import de.pedigreeProject.utils.gui_utils.StageInjector;
-import de.pedigreeProject.utils.gui_utils.StageInjectorService;
 import de.pedigreeProject.kinship.CloseKinshipUpdater;
 import de.pedigreeProject.kinship.GeneticKinshipCalculator;
 import de.pedigreeProject.kinship.KinshipSorterImpl;
@@ -21,11 +19,14 @@ import de.pedigreeProject.model.Model;
 import de.pedigreeProject.model.Pedigree;
 import de.pedigreeProject.model.Person;
 import de.pedigreeProject.utils.IndexChanger;
+import de.pedigreeProject.utils.gui_utils.StageInjector;
+import de.pedigreeProject.utils.gui_utils.StageInjectorService;
 import javafx.application.Platform;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -36,40 +37,36 @@ import org.testfx.framework.junit5.Start;
 import java.sql.Connection;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @ExtendWith(MockitoExtension.class)
 class StageInjectorServiceTestFX extends ApplicationTest {
 
-    Model model;
-    static GatewayFactory gatewayFactory;
-
-    PedigreeGateway pedigreeGateway;
-    PersonGateway personGateway;
-    Pedigree testPedigree;
-    Person person;
-    static TestDatabaseCleaner cleaner = new TestDatabaseCleaner();
+    private Model model;
+    private PedigreeGateway pedigreeGateway;
+    private Pedigree testPedigree;
+    private Person person;
+    private static final TestDatabaseCleaner CLEANER = new TestDatabaseCleaner();
 
     @Start
     public void start(Stage stage) {
-        cleaner.deleteRecords();
+        CLEANER.deleteRecords();
+
         Connection connection = new DatabaseConnectionSqlite(DatabaseName.TEST.toString()).getConnection();
-        gatewayFactory = new GatewayFactory(connection);
+        GatewayFactory gatewayFactory = new GatewayFactory(connection);
         pedigreeGateway = gatewayFactory.getPedigreeGateway();
-        personGateway = gatewayFactory.getPersonGateway();
+        PersonGateway personGateway = gatewayFactory.getPersonGateway();
         model = new Model(gatewayFactory, new KinshipSorterImpl(), new CloseKinshipUpdater(), new GeneticKinshipCalculator(), new IndexChanger());
 
         testPedigree = pedigreeGateway.createPedigree("Test", "").orElse(null);
-        assumeTrue(testPedigree != null);
-
+        assertNotNull(testPedigree);
         person = personGateway.createPerson(testPedigree, "TestPersons", "", null).orElse(null);
-        assumeTrue(person != null);
+        assertNotNull(person);
 
         StageInjector stageInjector = new StageInjectorService(new MainModelController(model));
         assertNotNull(stageInjector);
-        Stage stage1 = stageInjector.getStage();
-        stage1.show();
-        stage1.toFront();
+        stage = stageInjector.getStage();
+        stage.show();
+        stage.toFront();
     }
 
     @AfterEach
@@ -78,13 +75,13 @@ class StageInjectorServiceTestFX extends ApplicationTest {
     }
 
     @Test
+    @DisplayName("illegal controller class input")
     void illegalController_null() {
-        Platform.runLater(() -> {
-            assertThrows(NullPointerException.class, () -> new StageInjectorService(null));
-        });
+        Platform.runLater(() -> assertThrows(NullPointerException.class, () -> new StageInjectorService(null)));
     }
 
     @Test
+    @DisplayName("get parent node of controller class")
     void getParentWithoutStage() {
         Platform.runLater(() -> {
             StageInjector stageInjector = new StageInjectorService(new InputRelativesController(model, person));
@@ -95,6 +92,7 @@ class StageInjectorServiceTestFX extends ApplicationTest {
     }
 
     @Test
+    @DisplayName("test show()")
     void show() {
         InputRelativesController mockedController = Mockito.mock(InputRelativesController.class);
 
@@ -107,6 +105,7 @@ class StageInjectorServiceTestFX extends ApplicationTest {
     }
 
     @Test
+    @DisplayName("InputRelativesController()")
     void getStage_InputRelativesStage() {
         Platform.runLater(() -> {
             StageInjector stageInjector = new StageInjectorService(new InputRelativesController(model, person));
@@ -117,14 +116,12 @@ class StageInjectorServiceTestFX extends ApplicationTest {
 
             assertTrue(stageInjector.getParent() instanceof AnchorPane);
 
-            stageInjector.show();
-            assertTrue(stage.isShowing());
-
-            stage.close();
+            assertStageIsShowingAndClose(stageInjector, stage);
         });
     }
 
     @Test
+    @DisplayName("UpdatePersonDataController()")
     void getStage_UpdatePersonsStage() {
         Platform.runLater(() -> {
             StageInjector stageInjector = new StageInjectorService(new UpdatePersonDataController(model, person));
@@ -135,14 +132,12 @@ class StageInjectorServiceTestFX extends ApplicationTest {
 
             assertTrue(stageInjector.getParent() instanceof AnchorPane);
 
-            stageInjector.show();
-            assertTrue(stage.isShowing());
-
-            stage.close();
+            assertStageIsShowingAndClose(stageInjector, stage);
         });
     }
 
     @Test
+    @DisplayName("NewPersonDataController()")
     void getStage_InputPersonsStage() {
         Platform.runLater(() -> {
             StageInjector stageInjector = new StageInjectorService(new NewPersonDataController(model));
@@ -153,14 +148,12 @@ class StageInjectorServiceTestFX extends ApplicationTest {
 
             assertTrue(stageInjector.getParent() instanceof AnchorPane);
 
-            stageInjector.show();
-            assertTrue(stage.isShowing());
-
-            stage.close();
+            assertStageIsShowingAndClose(stageInjector, stage);
         });
     }
 
     @Test
+    @DisplayName("NewPedigreeController()")
     void getStage_NewPedigreeStage() {
         Platform.runLater(() -> {
             StageInjector stageInjector = new StageInjectorService(new NewPedigreeController(model));
@@ -171,14 +164,12 @@ class StageInjectorServiceTestFX extends ApplicationTest {
 
             assertTrue(stageInjector.getParent() instanceof StackPane);
 
-            stageInjector.show();
-            assertTrue(stage.isShowing());
-
-            stage.close();
+            assertStageIsShowingAndClose(stageInjector, stage);
         });
     }
 
     @Test
+    @DisplayName("UpdatePedigreeController()")
     void getStage_UpdatePedigreeStage() {
         Platform.runLater(() -> {
             StageInjector stageInjector = new StageInjectorService(new UpdatePedigreeController(model));
@@ -189,14 +180,12 @@ class StageInjectorServiceTestFX extends ApplicationTest {
 
             assertTrue(stageInjector.getParent() instanceof StackPane);
 
-            stageInjector.show();
-            assertTrue(stage.isShowing());
-            stage.close();
+            assertStageIsShowingAndClose(stageInjector, stage);
         });
-
     }
 
     @Test
+    @DisplayName("MainModelController()")
     void getStage_MainStage() {
         Platform.runLater(() -> {
             StageInjector stageInjector = new StageInjectorService(new MainModelController(model));
@@ -207,9 +196,13 @@ class StageInjectorServiceTestFX extends ApplicationTest {
 
             assertTrue(stageInjector.getParent() instanceof AnchorPane);
 
-            stageInjector.show();
-            assertTrue(stage.isShowing());
-            stage.close();
+            assertStageIsShowingAndClose(stageInjector, stage);
         });
+    }
+
+    private void assertStageIsShowingAndClose(StageInjector stageInjector, Stage stage) {
+        stageInjector.show();
+        assertTrue(stage.isShowing());
+        stage.close();
     }
 }
