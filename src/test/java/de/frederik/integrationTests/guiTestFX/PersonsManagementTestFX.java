@@ -20,6 +20,10 @@ import static org.testfx.api.FxAssert.verifyThat;
 @ExtendWith(MockitoExtension.class)
 public class PersonsManagementTestFX extends BaseTestFXClass {
 
+    private final static String NAME_IS_BLANK_ALERT = ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("name.is.blank");
+    private final static String INVALID_YEAR_ALERT = ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("invalid.year");
+    private final static String NAME_ALREADY_EXISTS_ALERT = ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("name.already.exists");
+
     @Test
     @DisplayName("basic test visibility nodes of stage")
     void basicTest() {
@@ -53,7 +57,7 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     void addNewPerson_invalid_empty_name() {
         addNewPerson("", "", "");
 
-        helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("name.is.blank"));
+        helper.verifyAlertDialogAndPressEnter(NAME_IS_BLANK_ALERT);
 
         helper.fireButton(CANCEL_BUTTON_PERSON_DATA);
     }
@@ -63,7 +67,7 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     void addNewPerson_invalid_year() {
         addNewPerson(GIVEN_NAME, FAMILY_NAME, "invalidYear");
 
-        helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("invalid.year"));
+        helper.verifyAlertDialogAndPressEnter(INVALID_YEAR_ALERT);
         verifyThat(YEAR_OF_BIRTH_TF, NodeMatchers.isFocused());
 
         helper.fireButton(CANCEL_BUTTON_PERSON_DATA);
@@ -75,7 +79,7 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
         addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
         addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
 
-        helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("name.already.exists"));
+        helper.verifyAlertDialogAndPressEnter(NAME_ALREADY_EXISTS_ALERT);
 
         helper.fireButton(CANCEL_BUTTON_PERSON_DATA);
     }
@@ -127,6 +131,6 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
         fireEditPersonButton(GIVEN_NAME2, FAMILY_NAME2);
         fillAllTextFieldsAndSave(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
 
-        helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("name.already.exists"));
+        helper.verifyAlertDialogAndPressEnter(NAME_ALREADY_EXISTS_ALERT);
     }
 }
