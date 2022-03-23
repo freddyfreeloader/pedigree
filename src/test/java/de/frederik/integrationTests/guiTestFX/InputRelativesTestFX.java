@@ -1,20 +1,15 @@
 package de.frederik.integrationTests.guiTestFX;
 
 import de.pedigreeProject.model.Person;
-import javafx.application.Platform;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.testfx.matcher.control.TableViewMatchers;
 
 import java.time.Year;
-import java.util.Arrays;
 import java.util.List;
 
 import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.testfx.api.FxAssert.verifyThat;
 
 public class InputRelativesTestFX extends BaseTestFXClass {
 
@@ -397,41 +392,41 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         type(KeyCode.ENTER);
 
         // assert sync with model:
-        verifyRelativesLists(grandfather, 0,1, 0, 1);
+        verifyRelativesLists(grandfather, 0, 1, 0, 1);
         assertTrue(grandfather.getSpouses().contains(grandmother));
         assertTrue(grandfather.getChildren().contains(father));
 
-        verifyRelativesLists(grandmother, 0,1, 0, 1);
+        verifyRelativesLists(grandmother, 0, 1, 0, 1);
         assertTrue(grandmother.getSpouses().contains(grandfather));
         assertTrue(grandfather.getChildren().contains(father));
 
-        verifyRelativesLists(father, 2,1, 0, 3);
+        verifyRelativesLists(father, 2, 1, 0, 3);
         assertTrue(father.getParents().containsAll(List.of(grandfather, grandmother)));
         assertTrue(father.getSpouses().contains(mother));
         assertTrue(father.getChildren().containsAll(List.of(brother, me, sister)));
 
-        verifyRelativesLists(mother, 0,1, 0, 3);
+        verifyRelativesLists(mother, 0, 1, 0, 3);
         assertTrue(mother.getSpouses().contains(father));
         assertTrue(mother.getChildren().containsAll(List.of(brother, me, sister)));
 
-        verifyRelativesLists(brother, 2,0, 2, 0);
+        verifyRelativesLists(brother, 2, 0, 2, 0);
         assertTrue(brother.getParents().containsAll(List.of(father, mother)));
         assertTrue(brother.getSiblings().containsAll(List.of(me, sister)));
 
-        verifyRelativesLists(sister, 2,0, 2, 0);
+        verifyRelativesLists(sister, 2, 0, 2, 0);
         assertTrue(sister.getParents().containsAll(List.of(father, mother)));
         assertTrue(sister.getSiblings().containsAll(List.of(me, brother)));
 
-        verifyRelativesLists(me, 2,0, 2, 2);
+        verifyRelativesLists(me, 2, 0, 2, 2);
         assertTrue(me.getParents().containsAll(List.of(father, mother)));
         assertTrue(me.getSiblings().containsAll(List.of(sister, brother)));
         assertTrue(me.getChildren().containsAll(List.of(myChild1, myChild2)));
 
-        verifyRelativesLists(myChild1, 1,0, 1, 0);
+        verifyRelativesLists(myChild1, 1, 0, 1, 0);
         assertTrue(myChild1.getParents().contains(me));
         assertTrue(myChild1.getSiblings().contains(myChild2));
 
-        verifyRelativesLists(myChild2, 1,0, 1, 0);
+        verifyRelativesLists(myChild2, 1, 0, 1, 0);
         assertTrue(myChild2.getParents().contains(me));
         assertTrue(myChild2.getSiblings().contains(myChild1));
     }
