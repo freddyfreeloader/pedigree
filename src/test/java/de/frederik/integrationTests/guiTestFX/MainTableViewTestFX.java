@@ -115,12 +115,11 @@ public class MainTableViewTestFX extends BaseTestFXClass {
         clickOn(secondPersonLabel);
         table = lookup(TABLE).queryTableView();
         assertEquals(GIVEN_NAME2, table.getSelectionModel().getSelectedItems().get(0).getGivenName());
-
     }
 
     private void verifyNewStage(String stageRoot) {
         verifyThat(stageRoot, NodeMatchers.isNotNull());
-        Node personDataWindow = lookup(stageRoot).query();
-        verifyThat(window(personDataWindow), WindowMatchers.isShowing());
+        Node stage = lookup(stageRoot).query();
+        verifyThat(window(stage), WindowMatchers.isShowing());
     }
 }
