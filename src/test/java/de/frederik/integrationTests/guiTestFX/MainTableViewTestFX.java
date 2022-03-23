@@ -12,6 +12,7 @@ import org.testfx.matcher.base.WindowMatchers;
 import org.testfx.matcher.control.TableViewMatchers;
 
 import java.time.Year;
+import java.util.ResourceBundle;
 
 import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,7 +58,7 @@ public class MainTableViewTestFX extends BaseTestFXClass {
     }
 
     @Test
-    @DisplayName("test funktion of buttons in table row")
+    @DisplayName("test function of buttons in table row")
     void tableView_RowButtons() {
 
         helper.addNewEntry(GIVEN_NAME1, FAMILY_NAME1, Year.of(Integer.parseInt(YEAR_OF_BIRTH1)));
@@ -74,17 +75,17 @@ public class MainTableViewTestFX extends BaseTestFXClass {
         helper.fireButton(CANCEL_BUTTON_PERSON_DATA);
         fireDeleteButton(GIVEN_NAME1, FAMILY_NAME1);
 
-        helper.verifyAlertDialogAndPressEnter("Person wird unwiderruflich aus der Datenbank entfernt!\n\nWirklich fortfahren?");
+        helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts").getString("delete.person"));
         verifyThat(TABLE, TableViewMatchers.hasNumRows(1));
 
         fireDeleteButton(GIVEN_NAME2, FAMILY_NAME2);
 
-        helper.verifyAlertDialogAndPressEnter("Person wird unwiderruflich aus der Datenbank entfernt!\n\nWirklich fortfahren?");
+        helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts").getString("delete.person"));
         verifyThat(TABLE, TableViewMatchers.hasNumRows(0));
     }
 
     @Test
-    @DisplayName("Selected person should be selected in pedigree view and vice a verse")
+    @DisplayName("Selected person should be selected in pedigree view and vice-versa")
     void selectedPerson() {
         helper.addNewEntry(GIVEN_NAME1, FAMILY_NAME1, null);
         helper.addNewEntry(GIVEN_NAME2, FAMILY_NAME2, null);
