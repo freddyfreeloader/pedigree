@@ -24,9 +24,11 @@ class ChildrenKinshipValidatorTest extends ValidatorBase {
 
         return Stream.of(
                 aspirantIsParentOfPerson(),
+                aspirantIsInParentLineOfPerson(),
                 aspirantIsSpouseOfPerson(),
                 aspirantIsSiblingOfPerson(),
                 aspirantIsChildOfPerson(),
+                aspirantIsInChildrenLineOfPerson(),
                 aspirantIsOlderThanPerson(),
                 aspirantHasTwoOtherParents(),
                 aspirantEqualsPerson()
@@ -36,7 +38,6 @@ class ChildrenKinshipValidatorTest extends ValidatorBase {
     @ParameterizedTest(name = "{2}")
     @MethodSource("aspirantAllowedToBecomeAChild")
     @DisplayName("CHILD: Aspirant is ALLOWED to become a child of person")
-
     void test_if_aspirant_is_allowed_to_become_Child_of_person(Person aspirant, Person person, String message) {
         assertFalse(kinshipValidator.aspirantCouldBeChildOfPerson(aspirant, person).isPresent(), message);
     }

@@ -22,15 +22,15 @@ public abstract class ValidatorBase {
     // Arguments that should provoke an error message:
 
     static Arguments aspirantEqualsPerson() {
-        Person person = createPerson();
+        Person person = createPerson(1);
         String message = "Generates an error message because aspirant equals person.";
 
         return Arguments.of(person, person, message);
     }
 
     static Arguments aspirantIsParentOfPerson() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
         person.addParent(aspirant);
         String message = "Generates an error message because aspirant is already a parent of person.";
 
@@ -38,8 +38,8 @@ public abstract class ValidatorBase {
     }
 
     static Arguments aspirantIsSpouseOfPerson() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
         person.addSpouse(aspirant);
         String message = "Generates an error message because aspirant is already a spouse of person.";
 
@@ -47,8 +47,8 @@ public abstract class ValidatorBase {
     }
 
     static Arguments aspirantIsSiblingOfPerson() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
         person.addSibling(aspirant);
         String message = "Generates an error message because aspirant is already a sibling of person.";
 
@@ -56,8 +56,8 @@ public abstract class ValidatorBase {
     }
 
     static Arguments aspirantIsChildOfPerson() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
         person.addChild(aspirant);
         String message = "Generates an error message because aspirant is already a child of person.";
 
@@ -65,8 +65,8 @@ public abstract class ValidatorBase {
     }
 
     static Arguments aspirantIsOlderThanPerson() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
         person.setYearOfBirth(Year.of(2000));
         aspirant.setYearOfBirth(Year.of(1000));
         String message = "Generates an error message because aspirant is older than person.";
@@ -75,9 +75,9 @@ public abstract class ValidatorBase {
     }
 
     static Arguments aspirantIsYoungerThanPerson() {
-        Person person = createPerson();
+        Person person = createPerson(1);
         person.setYearOfBirth(Year.of(2000));
-        Person aspirant = createAspirant();
+        Person aspirant = createPerson(2);
         aspirant.setYearOfBirth(Year.of(2001));
         String message = "Generates an error message because aspirant is younger than person.";
 
@@ -85,19 +85,19 @@ public abstract class ValidatorBase {
     }
 
     static Arguments aspirantHasTwoOtherParents() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
-        aspirant.addParent(createRelative1());
-        aspirant.addParent(createRelative2());
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        aspirant.addParent(createPerson(3));
+        aspirant.addParent(createPerson(4));
         String message = "Generates an error message because aspirant has two other parents.";
 
         return Arguments.of(aspirant, person, message);
     }
 
     static Arguments aspirantIsInChildrenLineOfPerson() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
-        Person childOfPerson = createRelative1();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person childOfPerson = createPerson(3);
         person.addChild(childOfPerson);
         childOfPerson.addChild(aspirant);
         String message = "Generates an error message because aspirant is in children's line of person.";
@@ -106,9 +106,9 @@ public abstract class ValidatorBase {
     }
 
     static Arguments personIsInChildrenLineOfAspirant() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
-        Person childOfAspirant = createRelative1();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person childOfAspirant = createPerson(3);
         aspirant.addChild(childOfAspirant);
         childOfAspirant.addChild(person);
         String message = "Generates an error message because person is in children's line of aspirant.";
@@ -117,8 +117,8 @@ public abstract class ValidatorBase {
     }
 
     static Arguments personIsChildOfAspirant() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
         aspirant.addChild(person);
         String message = "Generates an error message because person is already child of aspirant.";
 
@@ -126,8 +126,8 @@ public abstract class ValidatorBase {
     }
 
     static Arguments personIsParentOfAspirant() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
         aspirant.addParent(person);
         String message = "Generates an error message because person is a parent of aspirant.";
 
@@ -135,9 +135,9 @@ public abstract class ValidatorBase {
     }
 
     static Arguments personIsInParentLineOfAspirant() {
-        Person person = createAspirant();
-        Person aspirant = createPerson();
-        Person parentOfAspirant = createRelative1();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person parentOfAspirant = createPerson(3);
         aspirant.addParent(parentOfAspirant);
         parentOfAspirant.addParent(person);
         String message = "Generates an error message because person is in the parent line of aspirant.";
@@ -146,9 +146,9 @@ public abstract class ValidatorBase {
     }
 
     static Arguments aspirantIsInParentLineOfPerson() {
-        Person person = createAspirant();
-        Person aspirant = createPerson();
-        Person parentOfPerson = createRelative1();
+        Person person = createPerson(2);
+        Person aspirant = createPerson(1);
+        Person parentOfPerson = createPerson(3);
         person.addParent(parentOfPerson);
         parentOfPerson.addParent(aspirant);
         String message = "Generates an error message because aspirant is in the parent line of person.";
@@ -157,12 +157,12 @@ public abstract class ValidatorBase {
     }
 
     static Arguments aspirantAndPersonHaveDifferentParents() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
-        Person parentOfPerson1 = createRelative1();
-        Person parentOfPerson2 = createRelative2();
-        Person parentOfAspirant1 = createRelative3();
-        Person parentOfAspirant2 = createRelative4();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person parentOfPerson1 = createPerson(3);
+        Person parentOfPerson2 = createPerson(4);
+        Person parentOfAspirant1 = createPerson(5);
+        Person parentOfAspirant2 = createPerson(6);
 
         person.addParent(parentOfPerson1);
         person.addParent(parentOfPerson2);
@@ -175,9 +175,9 @@ public abstract class ValidatorBase {
     }
 
     static Arguments aspirantIsParentOfPersonsSpouse() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
-        Person spouseOfPerson = createRelative1();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person spouseOfPerson = createPerson(3);
         person.addSpouse(spouseOfPerson);
         spouseOfPerson.addParent(aspirant);
         String message = "Generates an error message because aspirant is already a parent of persons spouse.";
@@ -186,9 +186,9 @@ public abstract class ValidatorBase {
     }
 
     static Arguments aspirantIsSiblingOfPersonsParent() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
-        Person parentOfPerson = createRelative1();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person parentOfPerson = createPerson(3);
         person.addParent(parentOfPerson);
         parentOfPerson.addSibling(aspirant);
         String message = "Generates an error message because aspirant is already an uncle/an aunt of person.";
@@ -197,10 +197,10 @@ public abstract class ValidatorBase {
     }
 
     static Arguments personHasTwoParents() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
-        Person parentOfPerson = createRelative1();
-        Person parentOfPerson2 = createRelative2();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person parentOfPerson = createPerson(3);
+        Person parentOfPerson2 = createPerson(4);
         person.addParent(parentOfPerson);
         person.addParent(parentOfPerson2);
         String message = "Generates an error message because aspirant is already an uncle/an aunt of person.";
@@ -209,9 +209,9 @@ public abstract class ValidatorBase {
     }
 
     static Arguments personHasAlreadyASpouse() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
-        Person spouseOfPerson = createRelative1();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person spouseOfPerson = createPerson(3);
         person.addSpouse(spouseOfPerson);
         String message = "Generates an error message because person has already a spouse.";
 
@@ -219,9 +219,9 @@ public abstract class ValidatorBase {
     }
 
     static Arguments aspirantHasAlreadyAnotherSpouse() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
-        Person spouseOfAspirant = createRelative1();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person spouseOfAspirant = createPerson(3);
         aspirant.addSpouse(spouseOfAspirant);
         String message = "Generates an error message because aspirant has already another spouse.";
 
@@ -229,8 +229,8 @@ public abstract class ValidatorBase {
     }
 
     static Arguments aspirantAndPersonAreSiblings() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
         person.addSibling(aspirant);
         aspirant.addSibling(person);
         String message = "Generates an error message because aspirant and person are siblings.";
@@ -241,79 +241,59 @@ public abstract class ValidatorBase {
     // Arguments that causes NO error messages:
 
     static Arguments aspirantIsNotInChildrenLineOfPerson() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
-        Person childOfPerson = createRelative1();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person childOfPerson = createPerson(3);
         person.addChild(childOfPerson);
-        childOfPerson.addChild(createRelative2());
+        childOfPerson.addChild(createPerson(4));
         String message = "Generates NO error message because aspirant is NOT in the children's line of person.";
 
         return Arguments.of(aspirant, person, message);
     }
     static Arguments aspirantIsNotInParentLineOfPerson() {
-        Person person = createAspirant();
-        Person aspirant = createPerson();
-        Person parentOfPerson = createRelative1();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person parentOfPerson = createPerson(3);
         person.addParent(parentOfPerson);
-        parentOfPerson.addParent(createRelative2());
+        parentOfPerson.addParent(createPerson(4));
         String message = "Generates NO error message because aspirant is NOT in the parent line of person.";
 
         return Arguments.of(aspirant, person, message);
     }
 
     static Arguments personIsNotInParentLineOfAspirant() {
-        Person person = createAspirant();
-        Person aspirant = createPerson();
-        Person parentOfAspirant = createRelative1();
-        Person parentOfParentOfAspirant = createRelative2();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person parentOfAspirant = createPerson(3);
+        Person parentOfParentOfAspirant = createPerson(4);
         aspirant.addParent(parentOfAspirant);
         parentOfAspirant.addParent(parentOfParentOfAspirant);
-        parentOfParentOfAspirant.addParent(createRelative3());
+        parentOfParentOfAspirant.addParent(createPerson(5));
         String message = "Generates NO error message because person is NOT in the parent line of aspirant.";
 
         return Arguments.of(aspirant, person, message);
     }
 
     static Arguments aspirantIsNotInChildrenLine() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
-        Person childOfPerson = createRelative1();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
+        Person childOfPerson = createPerson(3);
         person.addChild(childOfPerson);
-        childOfPerson.addChild(createRelative2());
+        childOfPerson.addChild(createPerson(4));
         String message = "Generates NO error message because aspirant is NOT in the parent line of person.";
 
         return Arguments.of(aspirant, person, message);
     }
     static Arguments aspirantAndPersonHaveNoKinship() {
-        Person person = createPerson();
-        Person aspirant = createAspirant();
+        Person person = createPerson(1);
+        Person aspirant = createPerson(2);
         String message = "Generates NO error message because aspirant and person have no relatives.";
 
         return Arguments.of(aspirant, person, message);
     }
 
 
-    static Person createPerson() {
-        return new Person(1, 1, "person", "", null);
-    }
-
-    static Person createAspirant() {
-        return new Person(2, 1, "aspirant", "", null);
-    }
-
-    static Person createRelative1() {
-        return new Person(3, 1, "relative1", "", null);
-    }
-
-    static Person createRelative2() {
-        return new Person(4, 1, "relative2", "", null);
-    }
-
-    static Person createRelative3() {
-        return new Person(5, 1, "relative3", "", null);
-    }
-
-    static Person createRelative4() {
-        return new Person(6, 1, "relative4", "", null);
+    static Person createPerson(int id) {
+        return new Person(id, 1, "person"+id, "", null);
     }
 }
