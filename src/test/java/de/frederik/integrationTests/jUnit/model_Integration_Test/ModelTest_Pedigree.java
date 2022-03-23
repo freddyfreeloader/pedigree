@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ModelTest_Pedigree extends ModelTest {
 
     @Test
-    @DisplayName("createNewPedigree() : valid Input, tests all lists")
+    @DisplayName("createNewPedigree() : valid input, tests all lists")
     void createNewPedigree_ValidInput() {
         String title = "TestPedigree";
         String description = "this is a test pedigree";
@@ -333,7 +333,7 @@ class ModelTest_Pedigree extends ModelTest {
 
             suffixString = suffix[0];
         }
-        String title = ("TestPedigree" + suffixString);
+        String title = "TestPedigree" + suffixString;
         String description = "this is a test pedigree";
         Pedigree pedigree = model.createNewPedigree(title, description).orElse(null);
         assertNotNull(pedigree, "created pedigree should not be null");
