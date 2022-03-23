@@ -298,22 +298,22 @@ public abstract class ValidatorBase {
     }
 
     static Person createAspirant() {
-        return new Person(2, 2, "aspirant", "", null);
+        return new Person(2, 1, "aspirant", "", null);
     }
 
     static Person createRelative1() {
-        return new Person(3, 3, "relative1", "", null);
+        return new Person(3, 1, "relative1", "", null);
     }
 
     static Person createRelative2() {
-        return new Person(4, 4, "relative2", "", null);
+        return new Person(4, 1, "relative2", "", null);
     }
 
     static Person createRelative3() {
-        return new Person(5, 5, "relative3", "", null);
+        return new Person(5, 1, "relative3", "", null);
     }
 
     static Person createRelative4() {
-        return new Person(6, 6, "relative4", "", null);
+        return new Person(6, 1, "relative4", "", null);
     }
 }

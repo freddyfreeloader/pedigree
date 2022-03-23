@@ -66,8 +66,8 @@ public class CouldBeSibling extends TestCSV_Factory {
         array[0] = aspirant.toString();
         array[1] = person.toString();
         array[2] = String.valueOf(boo);
-        array[3] = "adding '" + aspirant + "' to " + LIST_NAME + " of '" + person + "' should " + emptyOrNot + " fail." +
-                "\n" + additionalMessage;
+        array[3] = "Adding '" + aspirant + "' to " + LIST_NAME + " of '" + person + "' should " + emptyOrNot + " fail" +
+                "\nbecause " + additionalMessage;
         stringArray.add(array);
     }
 }

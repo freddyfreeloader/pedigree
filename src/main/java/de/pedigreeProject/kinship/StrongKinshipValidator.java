@@ -43,13 +43,18 @@ public class StrongKinshipValidator implements KinshipValidator {
             message = (MessageFormat.format(bundle.getString("child.of.himself"), aspirant));
         } else if (aspirantIsParentOfPerson) {
             message = MessageFormat.format(bundle.getString("simultan.child.and.parent"), aspirant);
+        }
+        else if (aspirantIsInParentLineOfPerson) {
+            message = MessageFormat.format(bundle.getString("is.in.parental.line"), aspirant);
         } else if (aspirantIsSpouseOfPerson) {
             message = MessageFormat.format(bundle.getString("simultan.child.and.spouse"), aspirant);
         } else if (aspirantIsSiblingOfPerson) {
             message = MessageFormat.format(bundle.getString("simultan.child.and.sibling"), aspirant);
         } else if (aspirantIsChildOfPerson) {
             message = MessageFormat.format(bundle.getString("is.already.child"), aspirant);
-        } else if (aspirantIsOlderThanPerson) {
+        } else if (aspirantIsInChildrenLineOfPerson) {
+            message = MessageFormat.format(bundle.getString("is.in.children.line"), aspirant);
+        }else if (aspirantIsOlderThanPerson) {
             message = MessageFormat.format(bundle.getString("is.older.than"), aspirant,person);
         }
         if (aspirantHasTwoParents && !personIsParentOfAspirant) {
@@ -84,7 +89,9 @@ public class StrongKinshipValidator implements KinshipValidator {
             message = MessageFormat.format(bundle.getString("is.already.parent"), aspirant);
         } else if (personIsInParentLineOfAspirant) {
             message = MessageFormat.format(bundle.getString("is.in.parental.line"), person);
-        } else if (personHasTwoParents) {
+        } else if (aspirantIsInParentLineOfPerson) {
+            message = MessageFormat.format(bundle.getString("is.in.parental.line"), person);
+        }else if (personHasTwoParents) {
             message = bundle.getString("two.parents.already");
         } else if (aspirantIsSiblingOfPerson) {
             message = bundle.getString("is.already.sibling");

@@ -26,25 +26,31 @@ abstract class TestCSV_Factory {
 
 
     private boolean aspirantIsInParentalLineOfPerson(Person aspirant, Person person) {
-        Set<Person> set = person.getParents();
-        if (set.contains(aspirant)) {
+        Set<Person> parents = person.getParents();
+        if (parents.contains(aspirant)) {
             return true;
         }
-        if (!set.isEmpty()) {
-
-            set.forEach(par -> aspirantIsInParentalLineOfPerson(aspirant, par));
+        if (!parents.isEmpty()) {
+            for (Person parent : parents) {
+                if (aspirantIsInParentalLineOfPerson(aspirant, parent)) {
+                    return true;
+                }
+            }
         }
         return false;
     }
 
     private boolean aspirantIsInChildrenLineOfPerson(Person aspirant, Person person) {
-        Set<Person> set = person.getChildren();
-        if (set.contains(aspirant)) {
+        Set<Person> children = person.getChildren();
+        if (children.contains(aspirant)) {
             return true;
         }
-        if (!set.isEmpty()) {
-
-            set.forEach(child -> aspirantIsInChildrenLineOfPerson(aspirant, child));
+        if (!children.isEmpty()) {
+            for (Person child : children) {
+                if (aspirantIsInChildrenLineOfPerson(aspirant, child)) {
+                    return true;
+                }
+            }
         }
         return false;
     }
