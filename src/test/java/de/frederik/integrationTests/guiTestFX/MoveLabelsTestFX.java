@@ -4,14 +4,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.testfx.matcher.base.NodeMatchers;
 
+import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.*;
 import static org.hamcrest.core.IsNot.not;
 import static org.testfx.api.FxAssert.verifyThat;
-import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.*;
 
 public class MoveLabelsTestFX extends BaseTestFXClass {
 
     @Test
-    @DisplayName("test funktion of move buttons")
+    @DisplayName("test function of move buttons")
     void testMoveLabels() {
         createBaseFamilyPedigree();
 

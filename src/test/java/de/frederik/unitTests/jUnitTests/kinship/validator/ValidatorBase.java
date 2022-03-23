@@ -250,6 +250,7 @@ public abstract class ValidatorBase {
 
         return Arguments.of(aspirant, person, message);
     }
+
     static Arguments aspirantIsNotInParentLineOfPerson() {
         Person person = createPerson(1);
         Person aspirant = createPerson(2);
@@ -284,6 +285,7 @@ public abstract class ValidatorBase {
 
         return Arguments.of(aspirant, person, message);
     }
+
     static Arguments aspirantAndPersonHaveNoKinship() {
         Person person = createPerson(1);
         Person aspirant = createPerson(2);
@@ -294,6 +296,6 @@ public abstract class ValidatorBase {
 
 
     static Person createPerson(int id) {
-        return new Person(id, 1, "person"+id, "", null);
+        return new Person(id, 1, "person" + id, "", null);
     }
 }

@@ -55,5 +55,5 @@ abstract class TestCSV_Factory {
         return false;
     }
 
-    abstract List<String[]>  getStringArray();
+    abstract List<String[]> getStringArray();
 }

@@ -9,12 +9,14 @@ import java.util.List;
 /**
  * Provides a test pedigree of the buddenbrook family.
  * Every person is correctly related to each other.
+ *
  * @see <a href="http://buddenbrookhaus.de/file/stb_fam_buddenbrook.pdf">buddenbrookhaus.de</a>
  */
 public class Buddenbrooks implements TestPersons {
 
     /**
      * Pedigree of Buddenbrooks:
+     *
      * @see <a href="http://buddenbrookhaus.de/file/stb_fam_buddenbrook.pdf">buddenbrookhaus.de</a>
      */
     @Override

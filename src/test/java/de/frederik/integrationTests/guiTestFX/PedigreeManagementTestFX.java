@@ -27,35 +27,45 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
 
     private final static Logger logger = LogManager.getLogger("tests");
 
+    final String DEFAULT_PEDIGREE = ResourceBundle.getBundle("pedigree").getString("default.pedigree.title");
+    final String FIRST_TEST_PEDIGREE = "first test pedigree";
+    final String SECOND_TEST_PEDIGREE = "second test pedigree";
+    final String CHANGED_TITLE = "New Title Of Pedigree";
+    final String EMPTY_TITLE = "";
+    final String CHANGED_DESCRIPTION = "New Description";
+    final String EXISTING_PEDIGREE1 = "Already existing Pedigree 1";
+    final String EXISTING_PEDIGREE2 = "Already existing Pedigree 2";
+
+    final String DELETE_ALERT = ResourceBundle.getBundle("alerts").getString("delete.pedigree");
+    final String TITLE_IS_BLANK_ALERT = ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("title.is.blank");
+    final String TITLE_ALREADY_EXISTS_ALERT = ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("name.already.exists");
+
     @Test
     @DisplayName("change title and description of pedigree, verify model and labels")
     void changeTitle() {
 
-        String changedTitle = "New Title Of Pedigree";
-        String changedDescription = "New Description";
+        changePedigreeNameInPedigreeVBox(CHANGED_TITLE, CHANGED_DESCRIPTION);
 
-        changePedigreeNameInPedigreeVBox(changedTitle, changedDescription);
+        verifyThat(PEDIGREE_TITEL_LABEL, LabeledMatchers.hasText(CHANGED_TITLE));
+        verifyThat(PEDIGREE_DESCRIPTION_LABEL, LabeledMatchers.hasText(CHANGED_DESCRIPTION));
 
-        verifyThat(PEDIGREE_TITEL_LABEL, LabeledMatchers.hasText(changedTitle));
-        verifyThat(PEDIGREE_DESCRIPTION_LABEL, LabeledMatchers.hasText(changedDescription));
-
-        assertEquals(changedTitle, model.getCurrentPedigree().getTitle());
-        assertEquals(changedDescription, model.getCurrentPedigree().getDescription());
+        assertEquals(CHANGED_TITLE, model.getCurrentPedigree().getTitle());
+        assertEquals(CHANGED_DESCRIPTION, model.getCurrentPedigree().getDescription());
     }
+
     @Test
-    @DisplayName("change description of pedigree")
+    @DisplayName("change only description of pedigree")
     void changeDescription() {
 
-        String changedTitle = model.getCurrentPedigree().getTitle();
-        String changedDescription = "New Description";
+        String unchangedTitle = model.getCurrentPedigree().getTitle();
 
-        changePedigreeNameInPedigreeVBox(changedTitle, changedDescription);
+        changePedigreeNameInPedigreeVBox(unchangedTitle, CHANGED_DESCRIPTION);
 
-        verifyThat(PEDIGREE_TITEL_LABEL, LabeledMatchers.hasText(changedTitle));
-        verifyThat(PEDIGREE_DESCRIPTION_LABEL, LabeledMatchers.hasText(changedDescription));
+        verifyThat(PEDIGREE_TITEL_LABEL, LabeledMatchers.hasText(unchangedTitle));
+        verifyThat(PEDIGREE_DESCRIPTION_LABEL, LabeledMatchers.hasText(CHANGED_DESCRIPTION));
 
-        assertEquals(changedTitle, model.getCurrentPedigree().getTitle());
-        assertEquals(changedDescription, model.getCurrentPedigree().getDescription());
+        assertEquals(unchangedTitle, model.getCurrentPedigree().getTitle());
+        assertEquals(CHANGED_DESCRIPTION, model.getCurrentPedigree().getDescription());
     }
 
     @Test
@@ -64,12 +74,9 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
         String oldTitle = getTitleOfPedigreeLabel();
         String oldDescription = getDescriptionOfPedigreeLabel();
 
-        String changedTitle = "";
-        String changedDescription = "New Description";
+        changePedigreeNameInPedigreeVBox(EMPTY_TITLE, CHANGED_DESCRIPTION);
 
-        changePedigreeNameInPedigreeVBox(changedTitle, changedDescription);
-
-        helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("title.is.blank"));
+        helper.verifyAlertDialogAndPressEnter(TITLE_IS_BLANK_ALERT);
 
         assertEquals(oldTitle, model.getCurrentPedigree().getTitle());
         assertEquals(oldDescription, model.getCurrentPedigree().getDescription());
@@ -92,15 +99,12 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
     @Test
     @DisplayName("change title of pedigree to already existing pedigree should fail")
     void changeTitle_InvalidInput_TitleExistAlready() {
-        String existingPedigree1 = "Already existing Pedigree 1";
-        String existingPedigree2 = "Already existing Pedigree 2";
+        modelCreateNewPedigree(EXISTING_PEDIGREE1);
+        modelCreateNewPedigree(EXISTING_PEDIGREE2);
 
-        modelCreateNewPedigree(existingPedigree1);
-        modelCreateNewPedigree(existingPedigree2);
+        changePedigreeNameInPedigreeVBox(EXISTING_PEDIGREE1, "");
 
-        changePedigreeNameInPedigreeVBox(existingPedigree1, "");
-
-        helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("name.already.exists"));
+        helper.verifyAlertDialogAndPressEnter(TITLE_ALREADY_EXISTS_ALERT);
 
         helper.fireButton(CANCEL_NEW_PEDIGREE);
     }
@@ -108,29 +112,23 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
     @Test
     @DisplayName("basic test to create new pedigree")
     void createNewPedigree() {
-        String title = "New Title Of Pedigree";
-        String description = "New Description";
-
-        createNewPedigreeInMenu(title, description);
+        createNewPedigreeInMenu(CHANGED_TITLE, CHANGED_DESCRIPTION);
 
         String titelLabel = getTitleOfPedigreeLabel();
         String descriptionLabel = getDescriptionOfPedigreeLabel();
 
-        assertEquals(title, model.getCurrentPedigree().getTitle());
-        assertEquals(description, model.getCurrentPedigree().getDescription());
-        assertEquals(titelLabel, title);
-        assertEquals(descriptionLabel, description);
+        assertEquals(CHANGED_TITLE, model.getCurrentPedigree().getTitle());
+        assertEquals(CHANGED_DESCRIPTION, model.getCurrentPedigree().getDescription());
+        assertEquals(titelLabel, CHANGED_TITLE);
+        assertEquals(descriptionLabel, CHANGED_DESCRIPTION);
     }
 
     @Test
     @DisplayName("create new pedigree with empty title should fail, verify alert dialog")
     void createNewPedigree_InvalidInput_EmptyTitle() {
-        String title = "";
-        String description = "New Description";
+        createNewPedigreeInMenu(EMPTY_TITLE, CHANGED_DESCRIPTION);
 
-        createNewPedigreeInMenu(title, description);
-
-        helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("title.is.blank"));
+        helper.verifyAlertDialogAndPressEnter(TITLE_IS_BLANK_ALERT);
 
         helper.fireButton(CANCEL_NEW_PEDIGREE);
     }
@@ -138,13 +136,10 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
     @Test
     @DisplayName("create new pedigree with already existing title name should fail, verify alert dialog")
     void createNewPedigree_InvalidInput_TitleAlreadyExists() {
-        String existingPedigree1 = "Already existing Pedigree 1";
-        String changedDescription = "New Description";
+        modelCreateNewPedigree(EXISTING_PEDIGREE1);
 
-        modelCreateNewPedigree(existingPedigree1);
-
-        createNewPedigreeInMenu(existingPedigree1, changedDescription);
-        helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("name.already.exists"));
+        createNewPedigreeInMenu(EXISTING_PEDIGREE1, CHANGED_DESCRIPTION);
+        helper.verifyAlertDialogAndPressEnter(TITLE_ALREADY_EXISTS_ALERT);
 
         helper.fireButton(CANCEL_NEW_PEDIGREE);
     }
@@ -152,9 +147,6 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
     @Test
     @DisplayName("recent menu should show existing pedigrees and open by click")
     void testMenu_Recent() {
-        final String DEFAULT_PEDIGREE = ResourceBundle.getBundle("pedigree").getString("default.pedigree.title");
-        final String FIRST_TEST_PEDIGREE = "first test pedigree";
-        final String SECOND_TEST_PEDIGREE = "second test pedigree";
 
         verifyThat(PEDIGREE_TITEL_LABEL, LabeledMatchers.hasText(DEFAULT_PEDIGREE));
 
@@ -187,9 +179,6 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
     @Test
     @DisplayName("delete pedigree: check synchronisation of pedigree Label and recent menu")
     void deletePedigree() {
-        final String DEFAULT_PEDIGREE = ResourceBundle.getBundle("pedigree").getString("default.pedigree.title");
-        final String FIRST_TEST_PEDIGREE = "first test pedigree";
-        final String SECOND_TEST_PEDIGREE = "second test pedigree";
 
         verifyThat(PEDIGREE_TITEL_LABEL, LabeledMatchers.hasText(DEFAULT_PEDIGREE));
 
@@ -207,7 +196,7 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
         assertTrue(verifyLabelIsInMenu(SECOND_TEST_PEDIGREE));
 
         clickOn(MENU_DELETE);
-        helper.verifyAlertDialogAndPressEnter("");
+        helper.verifyAlertDialogAndPressEnter(DELETE_ALERT);
         type(KeyCode.ENTER);
 
         verifyThat(PEDIGREE_TITEL_LABEL, LabeledMatchers.hasText(FIRST_TEST_PEDIGREE));
@@ -217,7 +206,7 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
         assertFalse(verifyLabelIsInMenu(SECOND_TEST_PEDIGREE));
 
         clickOn(MENU_DELETE);
-        helper.verifyAlertDialogAndPressEnter("");
+        helper.verifyAlertDialogAndPressEnter(DELETE_ALERT);
         type(KeyCode.ENTER);
 
         verifyThat(PEDIGREE_TITEL_LABEL, LabeledMatchers.hasText(DEFAULT_PEDIGREE));
@@ -227,7 +216,7 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
         assertFalse(verifyLabelIsInMenu(SECOND_TEST_PEDIGREE));
 
         clickOn(MENU_DELETE);
-        helper.verifyAlertDialogAndPressEnter("");
+        helper.verifyAlertDialogAndPressEnter(DELETE_ALERT);
 
         type(KeyCode.ENTER);
         // if default pedigree is deleted, another new default pedigree is created
