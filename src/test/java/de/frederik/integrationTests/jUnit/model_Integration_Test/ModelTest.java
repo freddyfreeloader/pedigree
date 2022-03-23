@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.sql.Connection;
 
-class ModelTest {
+abstract class ModelTest {
 
     static Model model;
     static GatewayFactory gatewayFactory;
@@ -37,7 +37,6 @@ class ModelTest {
         kinshipUpdater = new CloseKinshipUpdater();
         kinshipCalculator = new GeneticKinshipCalculator();
         indexChanger = new IndexChanger();
-
     }
 
     @BeforeEach

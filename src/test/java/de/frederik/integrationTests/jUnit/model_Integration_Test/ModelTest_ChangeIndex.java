@@ -24,30 +24,31 @@ class ModelTest_ChangeIndex extends ModelTest {
         model.setCurrentPerson(oldest);
 
         // start order
-        checkOrder(model.getGenerationsListsSorted().get(0), oldest, middle, youngest);
+        checkOrder(oldest, middle, youngest);
 
         // one position right ->true
         assertTrue(model.changeIndexOfPerson(oldest, 1));
-        checkOrder(model.getGenerationsListsSorted().get(0), middle, oldest, youngest);
+        checkOrder(middle, oldest, youngest);
 
         // one position right ->true
         assertTrue(model.changeIndexOfPerson(oldest, 1));
-        checkOrder(model.getGenerationsListsSorted().get(0), middle, youngest, oldest);
+        checkOrder(middle, youngest, oldest);
 
         // one position right ->false (out of bounds)
         assertFalse(model.changeIndexOfPerson(oldest, 1));
-        checkOrder(model.getGenerationsListsSorted().get(0), middle, youngest, oldest);
+        checkOrder(middle, youngest, oldest);
 
         // one position left ->true
         assertTrue(model.changeIndexOfPerson(oldest, -1));
-        checkOrder(model.getGenerationsListsSorted().get(0), middle, oldest, youngest);
+        checkOrder(middle, oldest, youngest);
 
         // two positions left -> false (out of bounds)
         assertFalse(model.changeIndexOfPerson(oldest, -2));
-        checkOrder(model.getGenerationsListsSorted().get(0), middle, oldest, youngest);
+        checkOrder(middle, oldest, youngest);
     }
 
-    private void checkOrder(List<Person> list, Person oldest, Person middle, Person youngest) {
+    private void checkOrder(Person oldest, Person middle, Person youngest) {
+        List<Person> list = model.getGenerationsListsSorted().get(0);
         assertEquals(oldest, list.get(0));
         assertEquals(middle, list.get(1));
         assertEquals(youngest, list.get(2));
