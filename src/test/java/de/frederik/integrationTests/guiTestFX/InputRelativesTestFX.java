@@ -182,6 +182,7 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         assertNotNull(mySpouse);
 
         fireEditRelativesButton(ME, "1990");
+
         personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
         parentsTableHaveOnlyThisMembers();
         spousesTableHaveOnlyThisMembers();
@@ -189,58 +190,72 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         childrenTableHaveOnlyThisMembers();
 
         helper.dragAndDropToTable(MY_MOTHER, PARENTS_TABLE);
+
         parentsTableHaveOnlyThisMembers(myMother);
         personsTableHaveOnlyThisMembers(myFather, myBrother, mySister, myChild1, myChild2, mySpouse);
 
         helper.dragAndDropToTable(MY_FATHER, PARENTS_TABLE);
+
         parentsTableHaveOnlyThisMembers(myFather, myMother);
         personsTableHaveOnlyThisMembers(myBrother, mySister, myChild1, myChild2, mySpouse);
 
         fireDeleteButton(MY_FATHER, "parentsGivenNameColumn");
+
         parentsTableHaveOnlyThisMembers(myMother);
         personsTableHaveOnlyThisMembers(myFather, myBrother, mySister, myChild1, myChild2, mySpouse);
 
         fireDeleteButton(MY_MOTHER, "parentsGivenNameColumn");
+
         parentsTableHaveOnlyThisMembers();
         personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
 
         helper.dragAndDropToTable(MY_SPOUSE, SPOUSES_TABLE);
+
         spousesTableHaveOnlyThisMembers(mySpouse);
         personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2);
 
         fireDeleteButton(MY_SPOUSE, "spousesGivenNameColumn");
+
         spousesTableHaveOnlyThisMembers();
         personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
 
         helper.dragAndDropToTable(MY_BROTHER, SIBLINGS_TABLE);
+
         siblingsTableHaveOnlyThisMembers(myBrother);
         personsTableHaveOnlyThisMembers(myFather, myMother, mySister, myChild1, myChild2, mySpouse);
 
         helper.dragAndDropToTable(MY_SISTER, SIBLINGS_TABLE);
+
         siblingsTableHaveOnlyThisMembers(myBrother, mySister);
         personsTableHaveOnlyThisMembers(myFather, myMother, myChild1, myChild2, mySpouse);
 
         fireDeleteButton(MY_BROTHER, "siblingsGivenNameColumn");
+
         siblingsTableHaveOnlyThisMembers(mySister);
         personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, myChild1, myChild2, mySpouse);
 
         fireDeleteButton(MY_SISTER, "siblingsGivenNameColumn");
+
         siblingsTableHaveOnlyThisMembers();
         personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
 
         helper.dragAndDropToTable(MY_CHILD1, CHILDREN_TABLE);
+
         childrenTableHaveOnlyThisMembers(myChild1);
         personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild2, mySpouse);
 
         helper.dragAndDropToTable(MY_CHILD2, CHILDREN_TABLE);
+
         childrenTableHaveOnlyThisMembers(myChild1, myChild2);
         personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, mySpouse);
 
         fireDeleteButton(MY_CHILD1, "childrenGivenNameColumn");
+
         childrenTableHaveOnlyThisMembers(myChild2);
         personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, mySpouse);
 
         fireDeleteButton(MY_CHILD2, "childrenGivenNameColumn");
+
         childrenTableHaveOnlyThisMembers();
         personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
     }
@@ -281,6 +296,7 @@ public class InputRelativesTestFX extends BaseTestFXClass {
 
         // GRANDFATHER:
         fireEditRelativesButton(MY_GRANDFATHER, "1938");
+
         personsTableHaveOnlyThisMembers(grandmother, father, mother, brother, me, sister, myChild1, myChild2);
         parentsTableHaveOnlyThisMembers();
         spousesTableHaveOnlyThisMembers();
@@ -289,15 +305,18 @@ public class InputRelativesTestFX extends BaseTestFXClass {
 
         helper.dragAndDropToTable(MY_GRANDMOTHER, SPOUSES_TABLE);
         helper.dragAndDropToTable(MY_FATHER, CHILDREN_TABLE);
+
         personsTableHaveOnlyThisMembers(mother, brother, me, sister, myChild1, myChild2);
         parentsTableHaveOnlyThisMembers();
         spousesTableHaveOnlyThisMembers(grandmother);
         siblingsTableHaveOnlyThisMembers();
         childrenTableHaveOnlyThisMembers(father);
+
         type(KeyCode.ENTER);
 
         // GRANDMOTHER:
         fireEditRelativesButton(MY_GRANDMOTHER, "1940");
+
         personsTableHaveOnlyThisMembers(father, mother, brother, me, sister, myChild1, myChild2);
         parentsTableHaveOnlyThisMembers();
         spousesTableHaveOnlyThisMembers(grandfather);
@@ -305,15 +324,18 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         childrenTableHaveOnlyThisMembers();
 
         helper.dragAndDropToTable(MY_FATHER, CHILDREN_TABLE);
+
         personsTableHaveOnlyThisMembers(mother, brother, me, sister, myChild1, myChild2);
         parentsTableHaveOnlyThisMembers();
         spousesTableHaveOnlyThisMembers(grandfather);
         siblingsTableHaveOnlyThisMembers();
         childrenTableHaveOnlyThisMembers(father);
+
         type(KeyCode.ENTER);
 
         // FATHER:
         fireEditRelativesButton(MY_FATHER, "1968");
+
         personsTableHaveOnlyThisMembers(mother, brother, me, sister, myChild1, myChild2);
         parentsTableHaveOnlyThisMembers(grandmother, grandfather);
         spousesTableHaveOnlyThisMembers();
@@ -330,10 +352,12 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         spousesTableHaveOnlyThisMembers(mother);
         siblingsTableHaveOnlyThisMembers();
         childrenTableHaveOnlyThisMembers(brother, me, sister);
+
         type(KeyCode.ENTER);
 
         // MOTHER:
         fireEditRelativesButton(MY_MOTHER, "1970");
+
         personsTableHaveOnlyThisMembers(brother, me, sister, myChild1, myChild2);
         parentsTableHaveOnlyThisMembers();
         spousesTableHaveOnlyThisMembers(father);
@@ -343,15 +367,18 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.dragAndDropToTable(MY_BROTHER, CHILDREN_TABLE);
         helper.dragAndDropToTable(ME, CHILDREN_TABLE);
         helper.dragAndDropToTable(MY_SISTER, CHILDREN_TABLE);
+
         personsTableHaveOnlyThisMembers(myChild1, myChild2);
         parentsTableHaveOnlyThisMembers();
         spousesTableHaveOnlyThisMembers(father);
         siblingsTableHaveOnlyThisMembers();
         childrenTableHaveOnlyThisMembers(brother, me, sister);
+
         type(KeyCode.ENTER);
 
         // ME:
         fireEditRelativesButton(ME, "1990");
+
         personsTableHaveOnlyThisMembers(myChild1, myChild2);
         parentsTableHaveOnlyThisMembers(father, mother);
         spousesTableHaveOnlyThisMembers();
@@ -360,79 +387,59 @@ public class InputRelativesTestFX extends BaseTestFXClass {
 
         helper.dragAndDropToTable(MY_CHILD1, CHILDREN_TABLE);
         helper.dragAndDropToTable(MY_CHILD2, CHILDREN_TABLE);
+
         personsTableHaveOnlyThisMembers();
         parentsTableHaveOnlyThisMembers(father, mother);
         spousesTableHaveOnlyThisMembers();
         siblingsTableHaveOnlyThisMembers(brother, sister);
         childrenTableHaveOnlyThisMembers(myChild1, myChild2);
+
         type(KeyCode.ENTER);
 
         // assert sync with model:
-        assertEquals(0, grandfather.getParents().size());
-        assertEquals(1, grandfather.getSpouses().size());
-        assertEquals(0, grandfather.getSiblings().size());
-        assertEquals(1, grandfather.getChildren().size());
+        verifyRelativesLists(grandfather, 0,1, 0, 1);
         assertTrue(grandfather.getSpouses().contains(grandmother));
         assertTrue(grandfather.getChildren().contains(father));
 
-        assertEquals(0, grandmother.getParents().size());
-        assertEquals(1, grandmother.getSpouses().size());
-        assertEquals(0, grandmother.getSiblings().size());
-        assertEquals(1, grandmother.getChildren().size());
+        verifyRelativesLists(grandmother, 0,1, 0, 1);
         assertTrue(grandmother.getSpouses().contains(grandfather));
         assertTrue(grandfather.getChildren().contains(father));
 
-        assertEquals(2, father.getParents().size());
-        assertEquals(1, father.getSpouses().size());
-        assertEquals(0, father.getSiblings().size());
-        assertEquals(3, father.getChildren().size());
+        verifyRelativesLists(father, 2,1, 0, 3);
         assertTrue(father.getParents().containsAll(List.of(grandfather, grandmother)));
         assertTrue(father.getSpouses().contains(mother));
         assertTrue(father.getChildren().containsAll(List.of(brother, me, sister)));
 
-        assertEquals(0, mother.getParents().size());
-        assertEquals(1, mother.getSpouses().size());
-        assertEquals(0, mother.getSiblings().size());
-        assertEquals(3, mother.getChildren().size());
+        verifyRelativesLists(mother, 0,1, 0, 3);
         assertTrue(mother.getSpouses().contains(father));
         assertTrue(mother.getChildren().containsAll(List.of(brother, me, sister)));
 
-        assertEquals(2, brother.getParents().size());
-        assertEquals(0, brother.getSpouses().size());
-        assertEquals(2, brother.getSiblings().size());
-        assertEquals(0, brother.getChildren().size());
+        verifyRelativesLists(brother, 2,0, 2, 0);
         assertTrue(brother.getParents().containsAll(List.of(father, mother)));
         assertTrue(brother.getSiblings().containsAll(List.of(me, sister)));
 
-        assertEquals(2, sister.getParents().size());
-        assertEquals(0, sister.getSpouses().size());
-        assertEquals(2, sister.getSiblings().size());
-        assertEquals(0, sister.getChildren().size());
+        verifyRelativesLists(sister, 2,0, 2, 0);
         assertTrue(sister.getParents().containsAll(List.of(father, mother)));
         assertTrue(sister.getSiblings().containsAll(List.of(me, brother)));
 
-        assertEquals(2, me.getParents().size());
-        assertEquals(0, me.getSpouses().size());
-        assertEquals(2, me.getSiblings().size());
-        assertEquals(2, me.getChildren().size());
+        verifyRelativesLists(me, 2,0, 2, 2);
         assertTrue(me.getParents().containsAll(List.of(father, mother)));
         assertTrue(me.getSiblings().containsAll(List.of(sister, brother)));
         assertTrue(me.getChildren().containsAll(List.of(myChild1, myChild2)));
 
-        assertEquals(1, myChild1.getParents().size());
-        assertEquals(0, myChild1.getSpouses().size());
-        assertEquals(1, myChild1.getSiblings().size());
-        assertEquals(0, myChild1.getChildren().size());
+        verifyRelativesLists(myChild1, 1,0, 1, 0);
         assertTrue(myChild1.getParents().contains(me));
         assertTrue(myChild1.getSiblings().contains(myChild2));
 
-        assertEquals(1, myChild2.getParents().size());
-        assertEquals(0, myChild2.getSpouses().size());
-        assertEquals(1, myChild2.getSiblings().size());
-        assertEquals(0, myChild2.getChildren().size());
+        verifyRelativesLists(myChild2, 1,0, 1, 0);
         assertTrue(myChild2.getParents().contains(me));
         assertTrue(myChild2.getSiblings().contains(myChild1));
     }
 
-
+    private void verifyRelativesLists(Person person, int parents, int spouses, int siblings, int children) {
+        assertEquals(parents, person.getParents().size());
+        assertEquals(spouses, person.getSpouses().size());
+        assertEquals(siblings, person.getSiblings().size());
+        assertEquals(children, person.getChildren().size());
+    }
 }
