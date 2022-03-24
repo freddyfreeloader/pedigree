@@ -72,26 +72,19 @@ abstract class BaseTestFXClass extends ApplicationTest {
     }
 
     void createBaseFamilyPedigree() {
-        Platform.runLater(() -> {
-            Pedigree pedigree = TestDatabase.getPedigreeOfBaseFamily();
-            model.replacePedigree(pedigree);
-        });
-        interrupt();
+        createAndReplaceTestPedigree(TestDatabase.getPedigreeOfBaseFamily());
     }
 
     void createBuddenbrookPedigree() {
-        Platform.runLater(() -> {
-            Pedigree pedigree = TestDatabase.getPedigreeOfBuddenbrook();
-            model.replacePedigree(pedigree);
-        });
-        interrupt();
+        createAndReplaceTestPedigree(TestDatabase.getPedigreeOfBuddenbrook());
     }
 
     void createTranslationTestPedigree() {
-        Platform.runLater(() -> {
-            Pedigree pedigree = TestDatabase.getTranslationTestPedigree();
-            model.replacePedigree(pedigree);
-        });
+        createAndReplaceTestPedigree(TestDatabase.getTranslationTestPedigree());
+    }
+
+    void createAndReplaceTestPedigree(Pedigree pedigree) {
+        Platform.runLater(() -> model.replacePedigree(pedigree));
         interrupt();
     }
 }
