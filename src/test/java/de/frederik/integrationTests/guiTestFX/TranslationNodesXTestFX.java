@@ -10,28 +10,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TranslationNodesXTestFX extends BaseTestFXClass {
 
-
     @Test
     @DisplayName("test spacing between labels: Buddenbrooks")
     void testTranslation() {
         createBuddenbrookPedigree();
-
         clickOn("Olly");
-        // next is sibling
-        Label gotthold = helper.getLabelFromScrollPane("Gotthold");
-        assertEquals(NEXT_IS_SIBLING.spacing, HBox.getMargin(gotthold).getRight());
-        // next is no direct relative
-        Label olly = helper.getLabelFromScrollPane("Olly");
-        assertEquals(NEXT_IS_NO_RELATIVE.spacing, HBox.getMargin(olly).getRight());
-        // next label is spouse
-        Label johann = helper.getLabelFromScrollPane("Johann");
-        assertEquals(NEXT_IS_SPOUSE.spacing, HBox.getMargin(johann).getRight());
-        // next label is sibling of label before
-        Label antoinette = helper.getLabelFromScrollPane("Antoinette");
-        assertEquals(BEFORE_IS_SIBLING_OF_NEXT.spacing, HBox.getMargin(antoinette).getRight());
-        // is last label
-        Label klothilde = helper.getLabelFromScrollPane("Klothilde");
-        assertEquals(LAST_INDEX.spacing, HBox.getMargin(klothilde).getRight());
+
+        assertEquals(NEXT_IS_SIBLING.spacing, rightMarginOf("Gotthold"));
+        assertEquals(NEXT_IS_NO_RELATIVE.spacing, rightMarginOf("Olly"));
+        assertEquals(NEXT_IS_SPOUSE.spacing, rightMarginOf("Johann"));
+        assertEquals(BEFORE_IS_SIBLING_OF_NEXT.spacing, rightMarginOf("Antoinette"));
+        assertEquals(LAST_INDEX.spacing, rightMarginOf("Klothilde"));
     }
 
     @Test
@@ -45,23 +34,17 @@ public class TranslationNodesXTestFX extends BaseTestFXClass {
         final String SIBLING_OF_SPOUSE = "siblingOfSpouse";
 
         createTranslationTestPedigree();
-
         clickOn(MY_CHILD);
 
-        // next label is spouse
-        Label meLabel = helper.getLabelFromScrollPane(ME);
-        assertEquals(NEXT_IS_SPOUSE.spacing, HBox.getMargin(meLabel).getRight());
-        // next label is sibling of label before
-        Label mySpouseLabel = helper.getLabelFromScrollPane(MY_SPOUSE);
-        assertEquals(BEFORE_IS_SIBLING_OF_NEXT.spacing, HBox.getMargin(mySpouseLabel).getRight());
-        // next label is a sibling
-        Label mySisterLabel = helper.getLabelFromScrollPane(MY_SISTER);
-        assertEquals(NEXT_IS_SIBLING.spacing, HBox.getMargin(mySisterLabel).getRight());
-        // next is no direct relative
-        Label myBrotherLabel = helper.getLabelFromScrollPane(MY_BROTHER);
-        assertEquals(NEXT_IS_NO_RELATIVE.spacing, HBox.getMargin(myBrotherLabel).getRight());
-        // is last label
-        Label siblingOfSpouseLabel = helper.getLabelFromScrollPane(SIBLING_OF_SPOUSE);
-        assertEquals(LAST_INDEX.spacing, HBox.getMargin(siblingOfSpouseLabel).getRight());
+        assertEquals(NEXT_IS_SPOUSE.spacing, rightMarginOf(ME));
+        assertEquals(BEFORE_IS_SIBLING_OF_NEXT.spacing, rightMarginOf(MY_SPOUSE));
+        assertEquals(NEXT_IS_SIBLING.spacing, rightMarginOf(MY_SISTER));
+        assertEquals(NEXT_IS_NO_RELATIVE.spacing, rightMarginOf(MY_BROTHER));
+        assertEquals(LAST_INDEX.spacing, rightMarginOf(SIBLING_OF_SPOUSE));
+    }
+
+    private double rightMarginOf(String GivenName) {
+        Label gotthold = helper.getLabelFromScrollPane(GivenName);
+        return HBox.getMargin(gotthold).getRight();
     }
 }
