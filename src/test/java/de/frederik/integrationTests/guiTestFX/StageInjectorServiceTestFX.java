@@ -107,102 +107,52 @@ class StageInjectorServiceTestFX extends ApplicationTest {
     @Test
     @DisplayName("InputRelativesController()")
     void getStage_InputRelativesStage() {
-        Platform.runLater(() -> {
-            StageInjector stageInjector = new StageInjectorService(new InputRelativesController(model, person));
-            assertNotNull(stageInjector);
-
-            Stage stage = stageInjector.getStage();
-            assertNotNull(stage);
-
-            assertTrue(stageInjector.getParent() instanceof AnchorPane);
-
-            assertStageIsShowingAndClose(stageInjector, stage);
-        });
+        checkStageAndPane(new InputRelativesController(model, person), AnchorPane.class.getName());
     }
 
     @Test
     @DisplayName("UpdatePersonDataController()")
     void getStage_UpdatePersonsStage() {
-        Platform.runLater(() -> {
-            StageInjector stageInjector = new StageInjectorService(new UpdatePersonDataController(model, person));
-            assertNotNull(stageInjector);
-
-            Stage stage = stageInjector.getStage();
-            assertNotNull(stage);
-
-            assertTrue(stageInjector.getParent() instanceof AnchorPane);
-
-            assertStageIsShowingAndClose(stageInjector, stage);
-        });
+        checkStageAndPane(new UpdatePersonDataController(model, person), AnchorPane.class.getName());
     }
 
     @Test
     @DisplayName("NewPersonDataController()")
     void getStage_InputPersonsStage() {
-        Platform.runLater(() -> {
-            StageInjector stageInjector = new StageInjectorService(new NewPersonDataController(model));
-            assertNotNull(stageInjector);
-
-            Stage stage = stageInjector.getStage();
-            assertNotNull(stage);
-
-            assertTrue(stageInjector.getParent() instanceof AnchorPane);
-
-            assertStageIsShowingAndClose(stageInjector, stage);
-        });
+        checkStageAndPane(new NewPersonDataController(model), AnchorPane.class.getName());
     }
 
     @Test
     @DisplayName("NewPedigreeController()")
     void getStage_NewPedigreeStage() {
-        Platform.runLater(() -> {
-            StageInjector stageInjector = new StageInjectorService(new NewPedigreeController(model));
-            assertNotNull(stageInjector);
-
-            Stage stage = stageInjector.getStage();
-            assertNotNull(stage);
-
-            assertTrue(stageInjector.getParent() instanceof StackPane);
-
-            assertStageIsShowingAndClose(stageInjector, stage);
-        });
+        checkStageAndPane(new NewPedigreeController(model), StackPane.class.getName());
     }
 
     @Test
     @DisplayName("UpdatePedigreeController()")
     void getStage_UpdatePedigreeStage() {
-        Platform.runLater(() -> {
-            StageInjector stageInjector = new StageInjectorService(new UpdatePedigreeController(model));
-            assertNotNull(stageInjector);
-
-            Stage stage = stageInjector.getStage();
-            assertNotNull(stage);
-
-            assertTrue(stageInjector.getParent() instanceof StackPane);
-
-            assertStageIsShowingAndClose(stageInjector, stage);
-        });
+        checkStageAndPane(new UpdatePedigreeController(model), StackPane.class.getName());
     }
 
     @Test
     @DisplayName("MainModelController()")
     void getStage_MainStage() {
+        checkStageAndPane(new MainModelController(model), AnchorPane.class.getName());
+    }
+
+    private void checkStageAndPane(Object controllerClass, String paneClassName) {
         Platform.runLater(() -> {
-            StageInjector stageInjector = new StageInjectorService(new MainModelController(model));
+            StageInjector stageInjector = new StageInjectorService(controllerClass);
             assertNotNull(stageInjector);
 
             Stage stage = stageInjector.getStage();
             assertNotNull(stage);
 
-            assertTrue(stageInjector.getParent() instanceof AnchorPane);
+            assertEquals(stageInjector.getParent().getClass().getName(), paneClassName);
 
-            assertStageIsShowingAndClose(stageInjector, stage);
+            stageInjector.show();
+            assertTrue(stage.isShowing());
+            stage.close();
         });
-    }
-
-    private void assertStageIsShowingAndClose(StageInjector stageInjector, Stage stage) {
-        stageInjector.show();
-        assertTrue(stage.isShowing());
-        stage.close();
     }
 }

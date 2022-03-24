@@ -16,6 +16,11 @@ import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.matcher.base.NodeMatchers.isFocused;
+import static org.testfx.matcher.base.NodeMatchers.isVisible;
+import static org.testfx.matcher.control.TableViewMatchers.hasNumRows;
+import static org.testfx.matcher.control.TableViewMatchers.hasTableCell;
+import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
 @ExtendWith(MockitoExtension.class)
 public class PersonsManagementTestFX extends BaseTestFXClass {
@@ -29,11 +34,11 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     void basicTest() {
         helper.fireButton(ADD_PERSON_BUTTON);
 
-        verifyThat(GIVEN_NAME_TF, NodeMatchers.isVisible());
-        verifyThat(FAMILY_NAME_TF, NodeMatchers.isVisible());
-        verifyThat(YEAR_OF_BIRTH_TF, NodeMatchers.isVisible());
-        verifyThat(SAVE_BUTTON_PERSON_DATA, NodeMatchers.isVisible());
-        verifyThat(CANCEL_BUTTON_PERSON_DATA, NodeMatchers.isVisible());
+        verifyThat(GIVEN_NAME_TF, isVisible());
+        verifyThat(FAMILY_NAME_TF, isVisible());
+        verifyThat(YEAR_OF_BIRTH_TF, isVisible());
+        verifyThat(SAVE_BUTTON_PERSON_DATA, isVisible());
+        verifyThat(CANCEL_BUTTON_PERSON_DATA, isVisible());
 
         helper.fireButton(CANCEL_BUTTON_PERSON_DATA);
     }
@@ -48,8 +53,8 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
         assertEquals(GIVEN_NAME, person.getGivenName());
         assertEquals(FAMILY_NAME, person.getFamilyName());
         assertEquals(YEAR_OF_BIRTH, person.getYearOfBirth().orElse(null).toString());
-        verifyThat(TABLE, TableViewMatchers.hasNumRows(1));
-        verifyThat(TABLE, TableViewMatchers.hasTableCell(GIVEN_NAME));
+        verifyThat(TABLE, hasNumRows(1));
+        verifyThat(TABLE, hasTableCell(GIVEN_NAME));
     }
 
     @Test
@@ -68,7 +73,7 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
         helper.addNewPerson(GIVEN_NAME, FAMILY_NAME, "invalidYear");
 
         helper.verifyAlertDialogAndPressEnter(INVALID_YEAR_ALERT);
-        verifyThat(YEAR_OF_BIRTH_TF, NodeMatchers.isFocused());
+        verifyThat(YEAR_OF_BIRTH_TF, isFocused());
 
         helper.fireButton(CANCEL_BUTTON_PERSON_DATA);
     }
@@ -91,9 +96,9 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
 
         helper.fireEditPersonButton(GIVEN_NAME, FAMILY_NAME);
 
-        verifyThat(GIVEN_NAME_TF, TextInputControlMatchers.hasText(GIVEN_NAME));
-        verifyThat(FAMILY_NAME_TF, TextInputControlMatchers.hasText(FAMILY_NAME));
-        verifyThat(YEAR_OF_BIRTH_TF, TextInputControlMatchers.hasText(YEAR_OF_BIRTH));
+        verifyThat(GIVEN_NAME_TF, hasText(GIVEN_NAME));
+        verifyThat(FAMILY_NAME_TF, hasText(FAMILY_NAME));
+        verifyThat(YEAR_OF_BIRTH_TF, hasText(YEAR_OF_BIRTH));
 
         helper.fireButton(CANCEL_BUTTON_PERSON_DATA);
     }
@@ -108,8 +113,8 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
         assertEquals(GIVEN_NAME, person.getGivenName());
         assertEquals(FAMILY_NAME, person.getFamilyName());
         assertEquals(YEAR_OF_BIRTH, person.getYearOfBirth().orElse(null).toString());
-        verifyThat(TABLE, TableViewMatchers.hasNumRows(1));
-        verifyThat(TABLE, TableViewMatchers.hasTableCell(GIVEN_NAME));
+        verifyThat(TABLE, hasNumRows(1));
+        verifyThat(TABLE, hasTableCell(GIVEN_NAME));
 
         helper.fireEditPersonButton(GIVEN_NAME, FAMILY_NAME);
         helper.fillAllTextFieldsAndSave(GIVEN_NAME1, FAMILY_NAME1, YEAR_OF_BIRTH1);
@@ -118,8 +123,8 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
         assertEquals(FAMILY_NAME1, person.getFamilyName());
         assertEquals(YEAR_OF_BIRTH1, person.getYearOfBirth().orElse(null).toString());
 
-        verifyThat(TABLE, TableViewMatchers.hasNumRows(1));
-        verifyThat(TABLE, TableViewMatchers.hasTableCell(GIVEN_NAME1));
+        verifyThat(TABLE, hasNumRows(1));
+        verifyThat(TABLE, hasTableCell(GIVEN_NAME1));
     }
 
     @Test

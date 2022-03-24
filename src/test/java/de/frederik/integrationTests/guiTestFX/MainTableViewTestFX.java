@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.matcher.control.TableViewMatchers.hasNumRows;
 
 public class MainTableViewTestFX extends BaseTestFXClass {
 
@@ -24,23 +25,23 @@ public class MainTableViewTestFX extends BaseTestFXClass {
 
         TableView<Person> table = lookup(TABLE).queryTableView();
         assertNotNull(table);
-        verifyThat(table, TableViewMatchers.hasNumRows(0));
+        verifyThat(table, hasNumRows(0));
 
         helper.addNewEntry(GIVEN_NAME1, FAMILY_NAME1, Year.of(Integer.parseInt(YEAR_OF_BIRTH1)));
 
-        verifyThat(table, TableViewMatchers.hasNumRows(1));
+        verifyThat(table, hasNumRows(1));
         Person person = table.getItems().get(0);
         verifyPersonIsInSync(person, GIVEN_NAME1, FAMILY_NAME1, YEAR_OF_BIRTH1);
 
         helper.addNewEntry(GIVEN_NAME2, FAMILY_NAME2, Year.of(Integer.parseInt(YEAR_OF_BIRTH2)));
 
-        verifyThat(table, TableViewMatchers.hasNumRows(2));
+        verifyThat(table, hasNumRows(2));
         Person person2 = table.getItems().get(1);
         verifyPersonIsInSync(person2, GIVEN_NAME2, FAMILY_NAME2, YEAR_OF_BIRTH2);
 
         helper.addNewEntry(GIVEN_NAME, FAMILY_NAME, Year.of(Integer.parseInt(YEAR_OF_BIRTH)));
 
-        verifyThat(table, TableViewMatchers.hasNumRows(3));
+        verifyThat(table, hasNumRows(3));
 
         //  person3 should be at first position because of the sort order of tableview
         Person person3 = table.getItems().get(0);
@@ -73,12 +74,12 @@ public class MainTableViewTestFX extends BaseTestFXClass {
         helper.fireDeleteButton(GIVEN_NAME1, FAMILY_NAME1);
 
         helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts").getString("delete.person"));
-        verifyThat(TABLE, TableViewMatchers.hasNumRows(1));
+        verifyThat(TABLE, hasNumRows(1));
 
         helper.fireDeleteButton(GIVEN_NAME2, FAMILY_NAME2);
 
         helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts").getString("delete.person"));
-        verifyThat(TABLE, TableViewMatchers.hasNumRows(0));
+        verifyThat(TABLE, hasNumRows(0));
     }
 
     @Test
