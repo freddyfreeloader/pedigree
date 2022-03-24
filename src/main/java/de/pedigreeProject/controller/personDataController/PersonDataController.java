@@ -39,7 +39,6 @@ public abstract class PersonDataController {
     TextField yearOfBirthTF;
     @FXML
     Button saveButton;
-    @SuppressWarnings("unused")
     @FXML
     Button cancelButton;
 

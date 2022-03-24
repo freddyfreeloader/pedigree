@@ -1,5 +1,6 @@
 package de.frederik.integrationTests.guiTestFX.utils;
 
+import com.sun.javafx.scene.control.LabeledText;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -8,10 +9,13 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.hamcrest.CoreMatchers;
 import org.jetbrains.annotations.NotNull;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
+import org.testfx.matcher.control.TextInputControlMatchers;
+import org.testfx.robot.Motion;
 
 import java.time.Year;
 import java.util.Set;
@@ -22,6 +26,7 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
 /**
  * Provides helper methods for GUI-Tests
@@ -201,5 +206,76 @@ public class TestFxHelperMethods extends ApplicationTest {
         });
         interrupt();
         type(KeyCode.ENTER);
+    }
+    public void createNewPedigreeInMenu(String title, String description) {
+        clickOn(MENU_FILE).clickOn(MENU_NEW_PEDIGREE);
+
+        TextField titleTF = lookup(TITLE_TF).queryAs(TextField.class);
+        TextField descriptionTF = lookup(DESCRIPTION_TF).queryAs(TextField.class);
+
+        changeTitleAndDescription(titleTF, descriptionTF, title, description);
+
+        verifyThat(TITLE_TF, hasText(title));
+        verifyThat(DESCRIPTION_TF, hasText(description));
+
+        fireButton(SAVE_NEW_PEDIGREE);
+    }
+    public void changePedigreeNameInPedigreeVBox(String title, String description) {
+        clickOn(PEDIGREE_VBOX).interrupt();
+        TextField titleTF = lookup(TITLE_TF).queryAs(TextField.class);
+        TextField descriptionTF = lookup(DESCRIPTION_TF).queryAs(TextField.class);
+
+        changeTitleAndDescription(titleTF, descriptionTF, title, description);
+
+        verifyThat(TITLE_TF, TextInputControlMatchers.hasText(title));
+        verifyThat(DESCRIPTION_TF, TextInputControlMatchers.hasText(description));
+
+        fireButton(SAVE_NEW_PEDIGREE);
+        interrupt();
+    }
+
+    public String getTitleOfPedigreeLabel() {
+        Label titleLabel = lookup(PEDIGREE_TITEL_LABEL).queryAs(Label.class);
+        return titleLabel.getText();
+    }
+
+    public String getDescriptionOfPedigreeLabel() {
+        Label descriptionLabel = lookup(PEDIGREE_DESCRIPTION_LABEL).queryAs(Label.class);
+        return descriptionLabel.getText();
+    }
+
+    public void clickLabelInMenu(String textOfLabel) {
+        Set<LabeledText> nodesInRecentMenu = lookup(textOfLabel).lookup(CoreMatchers.instanceOf(LabeledText.class)).queryAll();
+
+        nodesInRecentMenu.forEach(menuNode -> {
+            if (menuNode.getParent().toString().contains("ContextMenu")) {
+                clickOn(menuNode, Motion.HORIZONTAL_FIRST);
+            }
+        });
+    }
+
+    public boolean verifyLabelIsInMenu(String pedigreeTitle) {
+        Set<LabeledText> nodesInRecentMenu = lookup(pedigreeTitle).lookup(CoreMatchers.instanceOf(LabeledText.class)).queryAll();
+
+        return nodesInRecentMenu.stream()
+                .anyMatch(menuNode ->
+                        menuNode.getParent().toString().contains("ContextMenu"));
+    }
+
+    public void createTestPedigree(String title) {
+        clickOn(MENU_FILE).clickOn(MENU_NEW_PEDIGREE);
+        interrupt();
+        TextField titleTF = lookup(TITLE_TF).queryAs(TextField.class);
+        TextField descriptionTF = lookup(DESCRIPTION_TF).queryAs(TextField.class);
+        changeTitleAndDescription(titleTF, descriptionTF, title, "");
+        fireButton(SAVE_NEW_PEDIGREE);
+    }
+
+    public void changeTitleAndDescription(TextField titleTF, TextField descriptionTF, String title, String description) {
+        Platform.runLater(() -> {
+            titleTF.setText(title);
+            descriptionTF.setText(description);
+        });
+        interrupt();
     }
 }
