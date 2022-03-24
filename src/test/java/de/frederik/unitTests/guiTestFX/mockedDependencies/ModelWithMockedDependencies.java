@@ -52,7 +52,6 @@ public abstract class ModelWithMockedDependencies extends ApplicationTest {
 
     TestFxHelperMethods helper = new TestFxHelperMethods();
 
-
     @Start
     public void start(Stage stage) {
         when(gatewayFactory.getPedigreeGateway()).thenReturn(pedigreeGatewayMock);
