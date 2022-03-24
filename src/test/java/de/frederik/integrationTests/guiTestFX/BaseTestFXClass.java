@@ -64,11 +64,14 @@ abstract class BaseTestFXClass extends ApplicationTest {
         stage1.toFront();
     }
 
-    // helper methods for testFX:
+    // helper methods:
 
     @Nullable
     Person getPersonByGivenName(String givenName) {
-        return model.getPersons().stream().filter(person -> person.getGivenName().equals(givenName)).findFirst().orElse(null);
+        return model.getPersons().stream()
+                .filter(person -> person.getGivenName().equals(givenName))
+                .findFirst()
+                .orElse(null);
     }
 
     void createBaseFamilyPedigree() {
