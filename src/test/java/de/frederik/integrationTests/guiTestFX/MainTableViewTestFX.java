@@ -1,14 +1,11 @@
 package de.frederik.integrationTests.guiTestFX;
 
 import de.pedigreeProject.model.Person;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.testfx.matcher.base.NodeMatchers;
-import org.testfx.matcher.base.WindowMatchers;
 import org.testfx.matcher.control.TableViewMatchers;
 
 import java.time.Year;
@@ -63,22 +60,22 @@ public class MainTableViewTestFX extends BaseTestFXClass {
 
         helper.addNewEntry(GIVEN_NAME1, FAMILY_NAME1, Year.of(Integer.parseInt(YEAR_OF_BIRTH1)));
         helper.addNewEntry(GIVEN_NAME2, FAMILY_NAME2, Year.of(Integer.parseInt(YEAR_OF_BIRTH2)));
-        fireEditRelativesButton(GIVEN_NAME1, FAMILY_NAME1);
+        helper.fireEditRelativesButton(GIVEN_NAME1, FAMILY_NAME1);
 
-        verifyNewStage(INPUT_RELATIVES_ROOT);
+        helper.verifyStageIsShowing(INPUT_RELATIVES_ROOT);
 
         type(KeyCode.ENTER);
-        fireEditPersonButton(GIVEN_NAME1, FAMILY_NAME1);
+        helper.fireEditPersonButton(GIVEN_NAME1, FAMILY_NAME1);
 
-        verifyNewStage(DATA_INPUT_ROOT);
+        helper.verifyStageIsShowing(DATA_INPUT_ROOT);
 
         helper.fireButton(CANCEL_BUTTON_PERSON_DATA);
-        fireDeleteButton(GIVEN_NAME1, FAMILY_NAME1);
+        helper.fireDeleteButton(GIVEN_NAME1, FAMILY_NAME1);
 
         helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts").getString("delete.person"));
         verifyThat(TABLE, TableViewMatchers.hasNumRows(1));
 
-        fireDeleteButton(GIVEN_NAME2, FAMILY_NAME2);
+        helper.fireDeleteButton(GIVEN_NAME2, FAMILY_NAME2);
 
         helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts").getString("delete.person"));
         verifyThat(TABLE, TableViewMatchers.hasNumRows(0));
@@ -89,20 +86,20 @@ public class MainTableViewTestFX extends BaseTestFXClass {
     void selectedPerson() {
         helper.addNewEntry(GIVEN_NAME1, FAMILY_NAME1, null);
         helper.addNewEntry(GIVEN_NAME2, FAMILY_NAME2, null);
-        fireEditRelativesButton(GIVEN_NAME1, FAMILY_NAME1);
+        helper.fireEditRelativesButton(GIVEN_NAME1, FAMILY_NAME1);
         helper.dragAndDropToTable(GIVEN_NAME2, PARENTS_TABLE);
         push(KeyCode.ENTER);
 
         // if clicked on person in table, person label in pedigree view is selected
         clickOn(GIVEN_NAME1).interrupt();
-        Label firstPersonLabel = getLabelFromScrollPane(GIVEN_NAME1);
-        Label secondPersonLabel = getLabelFromScrollPane(GIVEN_NAME2);
+        Label firstPersonLabel = helper.getLabelFromScrollPane(GIVEN_NAME1);
+        Label secondPersonLabel = helper.getLabelFromScrollPane(GIVEN_NAME2);
         assertTrue(firstPersonLabel.getStyleClass().contains("selected-person"));
         assertFalse(secondPersonLabel.getStyleClass().contains("selected-person"));
 
         clickOn(GIVEN_NAME2).interrupt();
-        firstPersonLabel = getLabelFromScrollPane(GIVEN_NAME1);
-        secondPersonLabel = getLabelFromScrollPane(GIVEN_NAME2);
+        firstPersonLabel = helper.getLabelFromScrollPane(GIVEN_NAME1);
+        secondPersonLabel = helper.getLabelFromScrollPane(GIVEN_NAME2);
         assertFalse(firstPersonLabel.getStyleClass().contains("selected-person"));
         assertTrue(secondPersonLabel.getStyleClass().contains("selected-person"));
 
@@ -111,15 +108,9 @@ public class MainTableViewTestFX extends BaseTestFXClass {
         TableView<Person> table = lookup(TABLE).queryTableView();
         assertEquals(GIVEN_NAME1, table.getSelectionModel().getSelectedItems().get(0).getGivenName());
 
-        secondPersonLabel = getLabelFromScrollPane(GIVEN_NAME2);
+        secondPersonLabel = helper.getLabelFromScrollPane(GIVEN_NAME2);
         clickOn(secondPersonLabel);
         table = lookup(TABLE).queryTableView();
         assertEquals(GIVEN_NAME2, table.getSelectionModel().getSelectedItems().get(0).getGivenName());
-    }
-
-    private void verifyNewStage(String stageRoot) {
-        verifyThat(stageRoot, NodeMatchers.isNotNull());
-        Node stage = lookup(stageRoot).query();
-        verifyThat(window(stage), WindowMatchers.isShowing());
     }
 }

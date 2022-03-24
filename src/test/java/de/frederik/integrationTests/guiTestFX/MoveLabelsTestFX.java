@@ -17,31 +17,36 @@ public class MoveLabelsTestFX extends BaseTestFXClass {
 
         clickOn(helper.getItemOfTableview(TABLE, "mainPerson"));
 
-        moveTo(helper.getLabelFromPaneWithText(SCROLL_PANE, "myBrother"));
+        moveToLabel("myBrother");
         verifyThat(MOVE_RIGHT, NodeMatchers.isVisible());
         verifyThat(MOVE_LEFT, not(NodeMatchers.isVisible()));
 
         helper.fireButton(MOVE_RIGHT);
-        moveTo(helper.getLabelFromPaneWithText(SCROLL_PANE, "myBrother"));
+
+        moveToLabel("myBrother");
         verifyThat(MOVE_RIGHT, NodeMatchers.isVisible());
         verifyThat(MOVE_LEFT, NodeMatchers.isVisible());
 
         helper.fireButton(MOVE_RIGHT);
 
-        moveTo(helper.getLabelFromPaneWithText(SCROLL_PANE, "myBrother"));
+        moveToLabel("myBrother");
         verifyThat(MOVE_RIGHT, not(NodeMatchers.isVisible()));
         verifyThat(MOVE_LEFT, NodeMatchers.isVisible());
 
         helper.fireButton(MOVE_LEFT);
-        moveTo(helper.getLabelFromPaneWithText(SCROLL_PANE, "myBrother"));
+        moveToLabel("myBrother");
 
         verifyThat(MOVE_RIGHT, NodeMatchers.isVisible());
         verifyThat(MOVE_LEFT, NodeMatchers.isVisible());
 
         clickOn(helper.getItemOfTableview(TABLE, "myMother"));
 
-        moveTo(helper.getLabelFromPaneWithText(SCROLL_PANE, "myMother"));
+        moveToLabel("myMother");
         verifyThat(MOVE_RIGHT, not(NodeMatchers.isVisible()));
         verifyThat(MOVE_LEFT, not(NodeMatchers.isVisible()));
+    }
+
+    private void moveToLabel(String labelText) {
+        moveTo(helper.getLabelFromPaneWithText(SCROLL_PANE, labelText));
     }
 }

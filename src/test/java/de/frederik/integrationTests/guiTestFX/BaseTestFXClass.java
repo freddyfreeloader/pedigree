@@ -17,10 +17,6 @@ import de.pedigreeProject.utils.IndexChanger;
 import de.pedigreeProject.utils.gui_utils.StageInjector;
 import de.pedigreeProject.utils.gui_utils.StageInjectorService;
 import javafx.application.Platform;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,15 +24,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.framework.junit5.Start;
-import org.testfx.matcher.control.TableViewMatchers;
 
 import java.sql.Connection;
-import java.util.Arrays;
-import java.util.Set;
-
-import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.*;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.testfx.api.FxAssert.verifyThat;
 
 @ExtendWith(MockitoExtension.class)
 abstract class BaseTestFXClass extends ApplicationTest {
@@ -104,77 +93,5 @@ abstract class BaseTestFXClass extends ApplicationTest {
             model.replacePedigree(pedigree);
         });
         interrupt();
-    }
-
-    void addNewPerson(String givenName, String familyName, String yearOfBirth) {
-        helper.fireButton(ADD_PERSON_BUTTON);
-
-        fillAllTextFieldsAndSave(givenName, familyName, yearOfBirth);
-    }
-
-    void fillAllTextFieldsAndSave(String givenName, String familyName, String yearOfBirth) {
-        helper.fillTextField(GIVEN_NAME_TF, givenName);
-        helper.fillTextField(FAMILY_NAME_TF, familyName);
-        helper.fillTextField(YEAR_OF_BIRTH_TF, yearOfBirth);
-        helper.fireButton(SAVE_BUTTON_PERSON_DATA);
-    }
-
-    void fireEditPersonButton(String givenName, String familyName) {
-        Button editButton = lookup(helper.isButtonInTableRow(EDIT_SELECTOR, givenName, familyName)).queryButton();
-        helper.fireButton(editButton);
-    }
-
-    Set<Label> getLabelsFromScrollPane() {
-        Node scrollPane = lookup(SCROLL_PANE).query();
-        return from(scrollPane).lookup(instanceOf(Label.class)).queryAll();
-    }
-
-    Label getLabelFromScrollPane(String identifier) {
-        Node scrollPane = lookup(SCROLL_PANE).query();
-        Set<Label> labels = from(scrollPane).lookup(instanceOf(Label.class)).queryAll();
-        return labels.stream().filter(label -> label.getText().contains(identifier)).findFirst().orElse(null);
-
-    }
-
-    boolean mostlyOneLabelIsTranslated() {
-        Set<Label> labels = getLabelsFromScrollPane();
-        return labels.stream().anyMatch(label -> HBox.getMargin(label).getTop() > 0);
-    }
-
-    void fireEditRelativesButton(String givenName, String yearOfBirth) {
-        Button editButton = lookup(helper.isButtonInTableRow(ADD_RELATIVES_CSS, givenName, yearOfBirth)).queryButton();
-        helper.fireButton(editButton);
-        interrupt();
-    }
-
-    void fireDeleteButton(String givenName, String tableRowElement) {
-        Button deleteButton = lookup(helper.isButtonInTableRow(CLOSE_BUTTON_RELATIVES, givenName, tableRowElement)).queryButton();
-        Platform.runLater(deleteButton::fire);
-        interrupt();
-    }
-
-    void personsTableHaveOnlyThisMembers(Person... persons) {
-        verifyThat(PERSONS_TABLE, TableViewMatchers.hasNumRows(persons.length));
-        Arrays.stream(persons).forEach(person -> verifyThat(PERSONS_TABLE, TableViewMatchers.hasTableCell(person)));
-    }
-
-    void parentsTableHaveOnlyThisMembers(Person... persons) {
-        verifyThat(PARENTS_TABLE, TableViewMatchers.hasNumRows(persons.length));
-        Arrays.stream(persons).forEach(person -> verifyThat(PARENTS_TABLE, TableViewMatchers.hasTableCell(person)));
-    }
-
-    void spousesTableHaveOnlyThisMembers(Person... persons) {
-        verifyThat(SPOUSES_TABLE, TableViewMatchers.hasNumRows(persons.length));
-        Arrays.stream(persons).forEach(person -> verifyThat(SPOUSES_TABLE, TableViewMatchers.hasTableCell(person)));
-    }
-
-    void siblingsTableHaveOnlyThisMembers(Person... persons) {
-        verifyThat(SIBLINGS_TABLE, TableViewMatchers.hasNumRows(persons.length));
-        Arrays.stream(persons).forEach(person -> verifyThat(SIBLINGS_TABLE, TableViewMatchers.hasTableCell(person)));
-    }
-
-    void childrenTableHaveOnlyThisMembers(Person... persons) {
-        verifyThat(CHILDREN_TABLE, TableViewMatchers.hasNumRows(persons.length));
-        Arrays.stream(persons).forEach(person -> verifyThat(CHILDREN_TABLE, TableViewMatchers.hasTableCell(person)));
     }
 }

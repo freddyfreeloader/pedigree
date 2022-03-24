@@ -41,7 +41,7 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     @Test
     @DisplayName("add new Person: valid input should synchronized with model and tableView")
     void addNewPerson_validInput() {
-        addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
+        helper.addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
 
         Person person = getPersonByGivenName(GIVEN_NAME);
         assertNotNull(person);
@@ -53,9 +53,9 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     }
 
     @Test
-    @DisplayName("addNewPerson() invalid input: empty full name , verify alert dialog")
+    @DisplayName("helper.addNewPerson() invalid input: empty full name , verify alert dialog")
     void addNewPerson_invalid_empty_name() {
-        addNewPerson("", "", "");
+        helper.addNewPerson("", "", "");
 
         helper.verifyAlertDialogAndPressEnter(NAME_IS_BLANK_ALERT);
 
@@ -63,9 +63,9 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     }
 
     @Test
-    @DisplayName("addNewPerson() invalid input: invalid year of birth, verify alert dialog")
+    @DisplayName("helper.addNewPerson() invalid input: invalid year of birth, verify alert dialog")
     void addNewPerson_invalid_year() {
-        addNewPerson(GIVEN_NAME, FAMILY_NAME, "invalidYear");
+        helper.addNewPerson(GIVEN_NAME, FAMILY_NAME, "invalidYear");
 
         helper.verifyAlertDialogAndPressEnter(INVALID_YEAR_ALERT);
         verifyThat(YEAR_OF_BIRTH_TF, NodeMatchers.isFocused());
@@ -74,10 +74,10 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     }
 
     @Test
-    @DisplayName("addNewPerson() invalid input: person already exists in database, verify alert dialog")
+    @DisplayName("helper.addNewPerson() invalid input: person already exists in database, verify alert dialog")
     void addNewPerson_invalid_person_already_exists() {
-        addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
-        addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
+        helper.addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
+        helper.addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
 
         helper.verifyAlertDialogAndPressEnter(NAME_ALREADY_EXISTS_ALERT);
 
@@ -87,9 +87,9 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     @Test
     @DisplayName("updatePersonData(): basic test text field ")
     void updatePersonData_textFields() {
-        addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
+        helper.addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
 
-        fireEditPersonButton(GIVEN_NAME, FAMILY_NAME);
+        helper.fireEditPersonButton(GIVEN_NAME, FAMILY_NAME);
 
         verifyThat(GIVEN_NAME_TF, TextInputControlMatchers.hasText(GIVEN_NAME));
         verifyThat(FAMILY_NAME_TF, TextInputControlMatchers.hasText(FAMILY_NAME));
@@ -101,7 +101,7 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     @Test
     @DisplayName("updatePersonData(): valid input, verify sync with table and model ")
     void updatePersonData_valid_input() {
-        addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
+        helper.addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
 
         Person person = getPersonByGivenName(GIVEN_NAME);
         assertNotNull(person);
@@ -111,8 +111,8 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
         verifyThat(TABLE, TableViewMatchers.hasNumRows(1));
         verifyThat(TABLE, TableViewMatchers.hasTableCell(GIVEN_NAME));
 
-        fireEditPersonButton(GIVEN_NAME, FAMILY_NAME);
-        fillAllTextFieldsAndSave(GIVEN_NAME1, FAMILY_NAME1, YEAR_OF_BIRTH1);
+        helper.fireEditPersonButton(GIVEN_NAME, FAMILY_NAME);
+        helper.fillAllTextFieldsAndSave(GIVEN_NAME1, FAMILY_NAME1, YEAR_OF_BIRTH1);
 
         assertEquals(GIVEN_NAME1, person.getGivenName());
         assertEquals(FAMILY_NAME1, person.getFamilyName());
@@ -125,11 +125,11 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     @Test
     @DisplayName("update person data person already exists, verify alert dialog")
     void updatePersonData_Invalid_Entry() {
-        addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
-        addNewPerson(GIVEN_NAME2, FAMILY_NAME2, YEAR_OF_BIRTH2);
+        helper.addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
+        helper.addNewPerson(GIVEN_NAME2, FAMILY_NAME2, YEAR_OF_BIRTH2);
 
-        fireEditPersonButton(GIVEN_NAME2, FAMILY_NAME2);
-        fillAllTextFieldsAndSave(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
+        helper.fireEditPersonButton(GIVEN_NAME2, FAMILY_NAME2);
+        helper.fillAllTextFieldsAndSave(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
 
         helper.verifyAlertDialogAndPressEnter(NAME_ALREADY_EXISTS_ALERT);
     }

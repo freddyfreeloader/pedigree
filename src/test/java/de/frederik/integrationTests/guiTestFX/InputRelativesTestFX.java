@@ -62,62 +62,62 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         assertNotNull(aliensFather);
         assertNotNull(aliensMother);
 
-        fireEditRelativesButton(ME, "1990");
-        personsTableHaveOnlyThisMembers(myFather, myMother, myChild1, mySpouse, alien, aliensFather, aliensMother);
+        helper.fireEditRelativesButton(ME, "1990");
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myChild1, mySpouse, alien, aliensFather, aliensMother);
 
         // should fail because child is younger than me
         helper.dragAndDropToTable(MY_CHILD1, PARENTS_TABLE);
-        personsTableHaveOnlyThisMembers(myFather, myMother, myChild1, mySpouse, alien, aliensFather, aliensMother);
-        parentsTableHaveOnlyThisMembers();
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myChild1, mySpouse, alien, aliensFather, aliensMother);
+        helper.parentsTableHasOnlyThisMembers();
 
         // should fail because father ist older than me
         helper.dragAndDropToTable(MY_FATHER, CHILDREN_TABLE);
-        personsTableHaveOnlyThisMembers(myFather, myMother, myChild1, mySpouse, alien, aliensFather, aliensMother);
-        parentsTableHaveOnlyThisMembers();
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myChild1, mySpouse, alien, aliensFather, aliensMother);
+        helper.parentsTableHasOnlyThisMembers();
 
         // should pass
         helper.dragAndDropToTable(MY_SPOUSE, SPOUSES_TABLE);
-        personsTableHaveOnlyThisMembers(myFather, myMother, myChild1, alien, aliensFather, aliensMother);
-        spousesTableHaveOnlyThisMembers(mySpouse);
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myChild1, alien, aliensFather, aliensMother);
+        helper.spousesTableHasOnlyThisMembers(mySpouse);
 
         // should fail because only one spouse is allowed
         helper.dragAndDropToTable(ALIEN, SPOUSES_TABLE);
-        personsTableHaveOnlyThisMembers(myFather, myMother, myChild1, alien, aliensFather, aliensMother);
-        spousesTableHaveOnlyThisMembers(mySpouse);
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myChild1, alien, aliensFather, aliensMother);
+        helper.spousesTableHasOnlyThisMembers(mySpouse);
 
         // should pass
         helper.dragAndDropToTable(MY_CHILD1, CHILDREN_TABLE);
         helper.dragAndDropToTable(MY_FATHER, PARENTS_TABLE);
         helper.dragAndDropToTable(MY_MOTHER, PARENTS_TABLE);
-        personsTableHaveOnlyThisMembers(alien, aliensFather, aliensMother);
-        parentsTableHaveOnlyThisMembers(myFather, myMother);
-        spousesTableHaveOnlyThisMembers(mySpouse);
-        childrenTableHaveOnlyThisMembers(myChild1);
+        helper.personsTableHasOnlyThisMembers(alien, aliensFather, aliensMother);
+        helper.parentsTableHasOnlyThisMembers(myFather, myMother);
+        helper.spousesTableHasOnlyThisMembers(mySpouse);
+        helper.childrenTableHasOnlyThisMembers(myChild1);
 
         type(KeyCode.ENTER);
 
-        fireEditRelativesButton(ALIEN, "1966");
-        personsTableHaveOnlyThisMembers(me, myFather, myMother, myChild1, mySpouse, aliensFather, aliensMother);
+        helper.fireEditRelativesButton(ALIEN, "1966");
+        helper.personsTableHasOnlyThisMembers(me, myFather, myMother, myChild1, mySpouse, aliensFather, aliensMother);
 
         //should pass
         helper.dragAndDropToTable(ALIENS_FATHER, PARENTS_TABLE);
         helper.dragAndDropToTable(ALIENS_MOTHER, PARENTS_TABLE);
-        personsTableHaveOnlyThisMembers(me, myFather, myMother, myChild1, mySpouse);
-        parentsTableHaveOnlyThisMembers(aliensFather, aliensMother);
+        helper.personsTableHasOnlyThisMembers(me, myFather, myMother, myChild1, mySpouse);
+        helper.parentsTableHasOnlyThisMembers(aliensFather, aliensMother);
         type(KeyCode.ENTER);
 
-        fireEditRelativesButton(ME, "1990");
-        personsTableHaveOnlyThisMembers(alien, aliensFather, aliensMother);
-        parentsTableHaveOnlyThisMembers(myFather, myMother);
-        spousesTableHaveOnlyThisMembers(mySpouse);
-        childrenTableHaveOnlyThisMembers(myChild1);
+        helper.fireEditRelativesButton(ME, "1990");
+        helper.personsTableHasOnlyThisMembers(alien, aliensFather, aliensMother);
+        helper.parentsTableHasOnlyThisMembers(myFather, myMother);
+        helper.spousesTableHasOnlyThisMembers(mySpouse);
+        helper.childrenTableHasOnlyThisMembers(myChild1);
 
         // should fail because alien has two other parents
         helper.dragAndDropToTable("1966", SIBLINGS_TABLE);
-        personsTableHaveOnlyThisMembers(alien, aliensFather, aliensMother);
-        parentsTableHaveOnlyThisMembers(myFather, myMother);
-        spousesTableHaveOnlyThisMembers(mySpouse);
-        childrenTableHaveOnlyThisMembers(myChild1);
+        helper.personsTableHasOnlyThisMembers(alien, aliensFather, aliensMother);
+        helper.parentsTableHasOnlyThisMembers(myFather, myMother);
+        helper.spousesTableHasOnlyThisMembers(mySpouse);
+        helper.childrenTableHasOnlyThisMembers(myChild1);
     }
 
 
@@ -130,19 +130,19 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         Person myBrother = getPersonByGivenName(MY_BROTHER);
         Person myBrothersChild = getPersonByGivenName(MY_BROTHERS_CHILD);
 
-        fireEditRelativesButton(ME, "1990");
+        helper.fireEditRelativesButton(ME, "1990");
 
-        personsTableHaveOnlyThisMembers(myBrother, myBrothersChild);
+        helper.personsTableHasOnlyThisMembers(myBrother, myBrothersChild);
         helper.dragAndDropToTable(MY_BROTHER, SIBLINGS_TABLE);
 
         type(KeyCode.ENTER);
-        fireEditRelativesButton(MY_BROTHER, "1988");
+        helper.fireEditRelativesButton(MY_BROTHER, "1988");
 
         helper.dragAndDropToTable(MY_BROTHERS_CHILD, CHILDREN_TABLE);
 
         type(KeyCode.ENTER);
-        fireEditRelativesButton(ME, "1990");
-        personsTableHaveOnlyThisMembers();
+        helper.fireEditRelativesButton(ME, "1990");
+        helper.personsTableHasOnlyThisMembers();
     }
 
     @Test
@@ -176,83 +176,83 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         assertNotNull(myChild2);
         assertNotNull(mySpouse);
 
-        fireEditRelativesButton(ME, "1990");
+        helper.fireEditRelativesButton(ME, "1990");
 
-        personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
-        parentsTableHaveOnlyThisMembers();
-        spousesTableHaveOnlyThisMembers();
-        siblingsTableHaveOnlyThisMembers();
-        childrenTableHaveOnlyThisMembers();
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
+        helper.parentsTableHasOnlyThisMembers();
+        helper.spousesTableHasOnlyThisMembers();
+        helper.siblingsTableHasOnlyThisMembers();
+        helper.childrenTableHasOnlyThisMembers();
 
         helper.dragAndDropToTable(MY_MOTHER, PARENTS_TABLE);
 
-        parentsTableHaveOnlyThisMembers(myMother);
-        personsTableHaveOnlyThisMembers(myFather, myBrother, mySister, myChild1, myChild2, mySpouse);
+        helper.parentsTableHasOnlyThisMembers(myMother);
+        helper.personsTableHasOnlyThisMembers(myFather, myBrother, mySister, myChild1, myChild2, mySpouse);
 
         helper.dragAndDropToTable(MY_FATHER, PARENTS_TABLE);
 
-        parentsTableHaveOnlyThisMembers(myFather, myMother);
-        personsTableHaveOnlyThisMembers(myBrother, mySister, myChild1, myChild2, mySpouse);
+        helper.parentsTableHasOnlyThisMembers(myFather, myMother);
+        helper.personsTableHasOnlyThisMembers(myBrother, mySister, myChild1, myChild2, mySpouse);
 
-        fireDeleteButton(MY_FATHER, "parentsGivenNameColumn");
+        helper.fireDeleteButton(MY_FATHER, "parentsGivenNameColumn");
 
-        parentsTableHaveOnlyThisMembers(myMother);
-        personsTableHaveOnlyThisMembers(myFather, myBrother, mySister, myChild1, myChild2, mySpouse);
+        helper.parentsTableHasOnlyThisMembers(myMother);
+        helper.personsTableHasOnlyThisMembers(myFather, myBrother, mySister, myChild1, myChild2, mySpouse);
 
-        fireDeleteButton(MY_MOTHER, "parentsGivenNameColumn");
+        helper.fireDeleteButton(MY_MOTHER, "parentsGivenNameColumn");
 
-        parentsTableHaveOnlyThisMembers();
-        personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
+        helper.parentsTableHasOnlyThisMembers();
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
 
         helper.dragAndDropToTable(MY_SPOUSE, SPOUSES_TABLE);
 
-        spousesTableHaveOnlyThisMembers(mySpouse);
-        personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2);
+        helper.spousesTableHasOnlyThisMembers(mySpouse);
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2);
 
-        fireDeleteButton(MY_SPOUSE, "spousesGivenNameColumn");
+        helper.fireDeleteButton(MY_SPOUSE, "spousesGivenNameColumn");
 
-        spousesTableHaveOnlyThisMembers();
-        personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
+        helper.spousesTableHasOnlyThisMembers();
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
 
         helper.dragAndDropToTable(MY_BROTHER, SIBLINGS_TABLE);
 
-        siblingsTableHaveOnlyThisMembers(myBrother);
-        personsTableHaveOnlyThisMembers(myFather, myMother, mySister, myChild1, myChild2, mySpouse);
+        helper.siblingsTableHasOnlyThisMembers(myBrother);
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, mySister, myChild1, myChild2, mySpouse);
 
         helper.dragAndDropToTable(MY_SISTER, SIBLINGS_TABLE);
 
-        siblingsTableHaveOnlyThisMembers(myBrother, mySister);
-        personsTableHaveOnlyThisMembers(myFather, myMother, myChild1, myChild2, mySpouse);
+        helper.siblingsTableHasOnlyThisMembers(myBrother, mySister);
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myChild1, myChild2, mySpouse);
 
-        fireDeleteButton(MY_BROTHER, "siblingsGivenNameColumn");
+        helper.fireDeleteButton(MY_BROTHER, "siblingsGivenNameColumn");
 
-        siblingsTableHaveOnlyThisMembers(mySister);
-        personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, myChild1, myChild2, mySpouse);
+        helper.siblingsTableHasOnlyThisMembers(mySister);
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, myChild1, myChild2, mySpouse);
 
-        fireDeleteButton(MY_SISTER, "siblingsGivenNameColumn");
+        helper.fireDeleteButton(MY_SISTER, "siblingsGivenNameColumn");
 
-        siblingsTableHaveOnlyThisMembers();
-        personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
+        helper.siblingsTableHasOnlyThisMembers();
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
 
         helper.dragAndDropToTable(MY_CHILD1, CHILDREN_TABLE);
 
-        childrenTableHaveOnlyThisMembers(myChild1);
-        personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild2, mySpouse);
+        helper.childrenTableHasOnlyThisMembers(myChild1);
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild2, mySpouse);
 
         helper.dragAndDropToTable(MY_CHILD2, CHILDREN_TABLE);
 
-        childrenTableHaveOnlyThisMembers(myChild1, myChild2);
-        personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, mySpouse);
+        helper.childrenTableHasOnlyThisMembers(myChild1, myChild2);
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, mySpouse);
 
-        fireDeleteButton(MY_CHILD1, "childrenGivenNameColumn");
+        helper.fireDeleteButton(MY_CHILD1, "childrenGivenNameColumn");
 
-        childrenTableHaveOnlyThisMembers(myChild2);
-        personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, mySpouse);
+        helper.childrenTableHasOnlyThisMembers(myChild2);
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, mySpouse);
 
-        fireDeleteButton(MY_CHILD2, "childrenGivenNameColumn");
+        helper.fireDeleteButton(MY_CHILD2, "childrenGivenNameColumn");
 
-        childrenTableHaveOnlyThisMembers();
-        personsTableHaveOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
+        helper.childrenTableHasOnlyThisMembers();
+        helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
     }
 
     @Test
@@ -290,104 +290,104 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         assertNotNull(myChild2);
 
         // GRANDFATHER:
-        fireEditRelativesButton(MY_GRANDFATHER, "1938");
+        helper.fireEditRelativesButton(MY_GRANDFATHER, "1938");
 
-        personsTableHaveOnlyThisMembers(grandmother, father, mother, brother, me, sister, myChild1, myChild2);
-        parentsTableHaveOnlyThisMembers();
-        spousesTableHaveOnlyThisMembers();
-        siblingsTableHaveOnlyThisMembers();
-        childrenTableHaveOnlyThisMembers();
+        helper.personsTableHasOnlyThisMembers(grandmother, father, mother, brother, me, sister, myChild1, myChild2);
+        helper.parentsTableHasOnlyThisMembers();
+        helper.spousesTableHasOnlyThisMembers();
+        helper.siblingsTableHasOnlyThisMembers();
+        helper.childrenTableHasOnlyThisMembers();
 
         helper.dragAndDropToTable(MY_GRANDMOTHER, SPOUSES_TABLE);
         helper.dragAndDropToTable(MY_FATHER, CHILDREN_TABLE);
 
-        personsTableHaveOnlyThisMembers(mother, brother, me, sister, myChild1, myChild2);
-        parentsTableHaveOnlyThisMembers();
-        spousesTableHaveOnlyThisMembers(grandmother);
-        siblingsTableHaveOnlyThisMembers();
-        childrenTableHaveOnlyThisMembers(father);
+        helper.personsTableHasOnlyThisMembers(mother, brother, me, sister, myChild1, myChild2);
+        helper.parentsTableHasOnlyThisMembers();
+        helper.spousesTableHasOnlyThisMembers(grandmother);
+        helper.siblingsTableHasOnlyThisMembers();
+        helper.childrenTableHasOnlyThisMembers(father);
 
         type(KeyCode.ENTER);
 
         // GRANDMOTHER:
-        fireEditRelativesButton(MY_GRANDMOTHER, "1940");
+        helper.fireEditRelativesButton(MY_GRANDMOTHER, "1940");
 
-        personsTableHaveOnlyThisMembers(father, mother, brother, me, sister, myChild1, myChild2);
-        parentsTableHaveOnlyThisMembers();
-        spousesTableHaveOnlyThisMembers(grandfather);
-        siblingsTableHaveOnlyThisMembers();
-        childrenTableHaveOnlyThisMembers();
+        helper.personsTableHasOnlyThisMembers(father, mother, brother, me, sister, myChild1, myChild2);
+        helper.parentsTableHasOnlyThisMembers();
+        helper.spousesTableHasOnlyThisMembers(grandfather);
+        helper.siblingsTableHasOnlyThisMembers();
+        helper.childrenTableHasOnlyThisMembers();
 
         helper.dragAndDropToTable(MY_FATHER, CHILDREN_TABLE);
 
-        personsTableHaveOnlyThisMembers(mother, brother, me, sister, myChild1, myChild2);
-        parentsTableHaveOnlyThisMembers();
-        spousesTableHaveOnlyThisMembers(grandfather);
-        siblingsTableHaveOnlyThisMembers();
-        childrenTableHaveOnlyThisMembers(father);
+        helper.personsTableHasOnlyThisMembers(mother, brother, me, sister, myChild1, myChild2);
+        helper.parentsTableHasOnlyThisMembers();
+        helper.spousesTableHasOnlyThisMembers(grandfather);
+        helper.siblingsTableHasOnlyThisMembers();
+        helper.childrenTableHasOnlyThisMembers(father);
 
         type(KeyCode.ENTER);
 
         // FATHER:
-        fireEditRelativesButton(MY_FATHER, "1968");
+        helper.fireEditRelativesButton(MY_FATHER, "1968");
 
-        personsTableHaveOnlyThisMembers(mother, brother, me, sister, myChild1, myChild2);
-        parentsTableHaveOnlyThisMembers(grandmother, grandfather);
-        spousesTableHaveOnlyThisMembers();
-        siblingsTableHaveOnlyThisMembers();
-        childrenTableHaveOnlyThisMembers();
+        helper.personsTableHasOnlyThisMembers(mother, brother, me, sister, myChild1, myChild2);
+        helper.parentsTableHasOnlyThisMembers(grandmother, grandfather);
+        helper.spousesTableHasOnlyThisMembers();
+        helper.siblingsTableHasOnlyThisMembers();
+        helper.childrenTableHasOnlyThisMembers();
 
         helper.dragAndDropToTable(MY_MOTHER, SPOUSES_TABLE);
         helper.dragAndDropToTable(MY_BROTHER, CHILDREN_TABLE);
         helper.dragAndDropToTable(ME, CHILDREN_TABLE);
         helper.dragAndDropToTable(MY_SISTER, CHILDREN_TABLE);
 
-        personsTableHaveOnlyThisMembers(myChild1, myChild2);
-        parentsTableHaveOnlyThisMembers(grandmother, grandfather);
-        spousesTableHaveOnlyThisMembers(mother);
-        siblingsTableHaveOnlyThisMembers();
-        childrenTableHaveOnlyThisMembers(brother, me, sister);
+        helper.personsTableHasOnlyThisMembers(myChild1, myChild2);
+        helper.parentsTableHasOnlyThisMembers(grandmother, grandfather);
+        helper.spousesTableHasOnlyThisMembers(mother);
+        helper.siblingsTableHasOnlyThisMembers();
+        helper.childrenTableHasOnlyThisMembers(brother, me, sister);
 
         type(KeyCode.ENTER);
 
         // MOTHER:
-        fireEditRelativesButton(MY_MOTHER, "1970");
+        helper.fireEditRelativesButton(MY_MOTHER, "1970");
 
-        personsTableHaveOnlyThisMembers(brother, me, sister, myChild1, myChild2);
-        parentsTableHaveOnlyThisMembers();
-        spousesTableHaveOnlyThisMembers(father);
-        siblingsTableHaveOnlyThisMembers();
-        childrenTableHaveOnlyThisMembers();
+        helper.personsTableHasOnlyThisMembers(brother, me, sister, myChild1, myChild2);
+        helper.parentsTableHasOnlyThisMembers();
+        helper.spousesTableHasOnlyThisMembers(father);
+        helper.siblingsTableHasOnlyThisMembers();
+        helper.childrenTableHasOnlyThisMembers();
 
         helper.dragAndDropToTable(MY_BROTHER, CHILDREN_TABLE);
         helper.dragAndDropToTable(ME, CHILDREN_TABLE);
         helper.dragAndDropToTable(MY_SISTER, CHILDREN_TABLE);
 
-        personsTableHaveOnlyThisMembers(myChild1, myChild2);
-        parentsTableHaveOnlyThisMembers();
-        spousesTableHaveOnlyThisMembers(father);
-        siblingsTableHaveOnlyThisMembers();
-        childrenTableHaveOnlyThisMembers(brother, me, sister);
+        helper.personsTableHasOnlyThisMembers(myChild1, myChild2);
+        helper.parentsTableHasOnlyThisMembers();
+        helper.spousesTableHasOnlyThisMembers(father);
+        helper.siblingsTableHasOnlyThisMembers();
+        helper.childrenTableHasOnlyThisMembers(brother, me, sister);
 
         type(KeyCode.ENTER);
 
         // ME:
-        fireEditRelativesButton(ME, "1990");
+        helper.fireEditRelativesButton(ME, "1990");
 
-        personsTableHaveOnlyThisMembers(myChild1, myChild2);
-        parentsTableHaveOnlyThisMembers(father, mother);
-        spousesTableHaveOnlyThisMembers();
-        siblingsTableHaveOnlyThisMembers(brother, sister);
-        childrenTableHaveOnlyThisMembers();
+        helper.personsTableHasOnlyThisMembers(myChild1, myChild2);
+        helper.parentsTableHasOnlyThisMembers(father, mother);
+        helper.spousesTableHasOnlyThisMembers();
+        helper.siblingsTableHasOnlyThisMembers(brother, sister);
+        helper.childrenTableHasOnlyThisMembers();
 
         helper.dragAndDropToTable(MY_CHILD1, CHILDREN_TABLE);
         helper.dragAndDropToTable(MY_CHILD2, CHILDREN_TABLE);
 
-        personsTableHaveOnlyThisMembers();
-        parentsTableHaveOnlyThisMembers(father, mother);
-        spousesTableHaveOnlyThisMembers();
-        siblingsTableHaveOnlyThisMembers(brother, sister);
-        childrenTableHaveOnlyThisMembers(myChild1, myChild2);
+        helper.personsTableHasOnlyThisMembers();
+        helper.parentsTableHasOnlyThisMembers(father, mother);
+        helper.spousesTableHasOnlyThisMembers();
+        helper.siblingsTableHasOnlyThisMembers(brother, sister);
+        helper.childrenTableHasOnlyThisMembers(myChild1, myChild2);
 
         type(KeyCode.ENTER);
 

@@ -1,7 +1,6 @@
 package de.frederik.integrationTests.guiTestFX;
 
 import javafx.application.Platform;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -12,7 +11,6 @@ import java.time.Year;
 import java.util.Set;
 
 import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.*;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -23,12 +21,12 @@ public class TranslationNodesYTestFX extends BaseTestFXClass {
         createBaseFamilyPedigree();
 
         clickOn("mainPerson");
-        assertFalse(mostlyOneLabelIsTranslated(), "no node should be translated");
+        assertFalse(helper.mostlyOneLabelIsTranslated(), "no node should be translated");
 
         clickOn(MENU_VIEW).clickOn(MENU_AGE_CHECK_BOX);
-        assertTrue(mostlyOneLabelIsTranslated(), "mostly one node should be translated");
+        assertTrue(helper.mostlyOneLabelIsTranslated(), "mostly one node should be translated");
 
-        Set<Label> labels = getLabelsFromScrollPane();
+        Set<Label> labels = helper.getLabelsFromScrollPane();
         labels.forEach(label -> {
             double translation = HBox.getMargin(label).getTop();
             String firstWordOfLabel = label.getText().substring(0, label.getText().indexOf(' '));
@@ -39,13 +37,13 @@ public class TranslationNodesYTestFX extends BaseTestFXClass {
         });
 
         clickOn("myMother");
-        assertTrue(mostlyOneLabelIsTranslated(), "mostly one node should be translated");
+        assertTrue(helper.mostlyOneLabelIsTranslated(), "mostly one node should be translated");
         // remove translations
         clickOn(MENU_VIEW).clickOn(MENU_AGE_CHECK_BOX);
-        assertFalse(mostlyOneLabelIsTranslated(), "no node should be translated");
+        assertFalse(helper.mostlyOneLabelIsTranslated(), "no node should be translated");
 
         clickOn("myBrother");
-        assertFalse(mostlyOneLabelIsTranslated(), "no node should be translated");
+        assertFalse(helper.mostlyOneLabelIsTranslated(), "no node should be translated");
     }
 
     @Test
@@ -68,8 +66,8 @@ public class TranslationNodesYTestFX extends BaseTestFXClass {
 
         clickOn(PERSON_WITHOUT_YEAR).clickOn(MENU_VIEW).clickOn(MENU_AGE_CHECK_BOX);
 
-        assertTrue(mostlyOneLabelIsTranslated(), "mostly one node should be translated");
-        Set<Label> labels = getLabelsFromScrollPane();
+        assertTrue(helper.mostlyOneLabelIsTranslated(), "mostly one node should be translated");
+        Set<Label> labels = helper.getLabelsFromScrollPane();
         labels.forEach(label -> {
             double translation = HBox.getMargin(label).getTop();
             String firstWordOfLabel = label.getText().substring(0, label.getText().indexOf(' '));
