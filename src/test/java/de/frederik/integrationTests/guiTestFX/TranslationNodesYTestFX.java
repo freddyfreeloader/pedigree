@@ -12,7 +12,6 @@ import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.MENU_VIE
 import static de.frederik.testUtils.testData.BaseFamily.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 public class TranslationNodesYTestFX extends BaseTestFXClass {
 
     private final static String NO_TRANSLATION = "no node should be translated";

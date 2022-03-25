@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static de.pedigreeProject.kinship.StateOfRelation.*;
 import static de.frederik.testUtils.testData.TranslationY.*;
+import static de.frederik.testUtils.testData.BuddenbrooksData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TranslationNodesXTestFX extends BaseTestFXClass {
@@ -15,13 +16,13 @@ public class TranslationNodesXTestFX extends BaseTestFXClass {
     @DisplayName("test spacing between labels: Buddenbrooks")
     void testTranslation() {
         createBuddenbrookPedigree();
-        clickOn("Olly");
+        clickOn(OLLY.givenName);
 
-        assertEquals(NEXT_IS_SIBLING.spacing, rightMarginOf("Gotthold"));
-        assertEquals(NEXT_IS_NO_RELATIVE.spacing, rightMarginOf("Olly"));
-        assertEquals(NEXT_IS_SPOUSE.spacing, rightMarginOf("Johann"));
-        assertEquals(BEFORE_IS_SIBLING_OF_NEXT.spacing, rightMarginOf("Antoinette"));
-        assertEquals(LAST_INDEX.spacing, rightMarginOf("Klothilde"));
+        assertEquals(NEXT_IS_SIBLING.spacing, rightMarginOf(GOTTHOLD.givenName));
+        assertEquals(NEXT_IS_NO_RELATIVE.spacing, rightMarginOf(OLLY.givenName));
+        assertEquals(NEXT_IS_SPOUSE.spacing, rightMarginOf(JOHANN.givenName));
+        assertEquals(BEFORE_IS_SIBLING_OF_NEXT.spacing, rightMarginOf(ANTOINETTE.givenName));
+        assertEquals(LAST_INDEX.spacing, rightMarginOf(KLOTHILDE.givenName));
     }
 
     @Test

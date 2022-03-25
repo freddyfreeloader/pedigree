@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.*;
 
+import static de.frederik.testUtils.testData.BaseFamily.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,8 +23,10 @@ class GeneticKinshipCalculatorTest {
         Set<Person> expectedSet = computeExpectedPersonsSet(person);
         assertEquals(expectedSet, new GeneticKinshipCalculator().getRelatives(person), "sets should be equal of " + person);
     }
+
     /**
      * Pedigree of Buddenbrooks:
+     *
      * @see <a href="http://buddenbrookhaus.de/file/stb_fam_buddenbrook.pdf">buddenbrookhaus.de</a>
      */
     @ParameterizedTest(name = "{index} testing kinship of {0} ")
@@ -38,14 +41,18 @@ class GeneticKinshipCalculatorTest {
         // all persons in parental line are related by blood with person
         Set<Person> parentalLine = new HashSet<>();
         collectParentalLineOfPersonToList(person, parentalLine);
+
         // all siblings of person are related by blood with person
         Set<Person> siblings = new HashSet<>();
         collectAllSiblingsOfPersonToList(person, siblings);
+
         // all siblings of persons in parental line are related by blood to person
         parentalLine.forEach(parent -> collectAllSiblingsOfPersonToList(parent, siblings));
+
         // all persons in children's line are related by blood with person
         Set<Person> childrenLine = new HashSet<>();
         collectChildrenLineOfPersonToList(person, childrenLine);
+
         // whole children's line of persons siblings and parental line are related by blood with person
         parentalLine.addAll(siblings);
         parentalLine.forEach(parent -> collectChildrenLineOfPersonToList(parent, childrenLine));
@@ -72,6 +79,7 @@ class GeneticKinshipCalculatorTest {
             childrenLine.add(child);
         });
     }
+
     @Test
     @DisplayName("Calculator: test computing of generation")
     void testGeneration() {
@@ -93,19 +101,19 @@ class GeneticKinshipCalculatorTest {
         final int generationChildren;
 
         switch (person.getGivenName()) {
-            case "myGrandfather", "myGrandmother" -> {
+            case GRANDFATHER, GRANDMOTHER -> {
                 generationGrandParents = 0;
                 generationParents = 1;
                 generationMainPerson = 2;
                 generationChildren = 3;
             }
-            case "myFather", "myMother" -> {
+            case FATHER, MOTHER -> {
                 generationGrandParents = -1;
                 generationParents = 0;
                 generationMainPerson = 1;
                 generationChildren = 2;
             }
-            case "myBrother", "mainPerson", "mySister" -> {
+            case BROTHER, ME, SISTER -> {
                 generationGrandParents = -2;
                 generationParents = -1;
                 generationMainPerson = 0;
@@ -125,18 +133,18 @@ class GeneticKinshipCalculatorTest {
         Set<Person> personSet = computeExpectedPersonsSet(person);
         Map<Person, Integer> baseFamilyMap = new HashMap<>();
 
-        personSet.stream().filter(p -> p.getGivenName().equals("myGrandfather")).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationGrandParents));
-        personSet.stream().filter(p -> p.getGivenName().equals("myGrandmother")).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationGrandParents));
+        personSet.stream().filter(p -> p.getGivenName().equals(GRANDFATHER)).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationGrandParents));
+        personSet.stream().filter(p -> p.getGivenName().equals(GRANDMOTHER)).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationGrandParents));
 
-        personSet.stream().filter(p -> p.getGivenName().equals("myFather")).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationParents));
-        personSet.stream().filter(p -> p.getGivenName().equals("myMother")).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationParents));
+        personSet.stream().filter(p -> p.getGivenName().equals(FATHER)).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationParents));
+        personSet.stream().filter(p -> p.getGivenName().equals(MOTHER)).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationParents));
 
-        personSet.stream().filter(p -> p.getGivenName().equals("myBrother")).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationMainPerson));
-        personSet.stream().filter(p -> p.getGivenName().equals("mainPerson")).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationMainPerson));
-        personSet.stream().filter(p -> p.getGivenName().equals("mySister")).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationMainPerson));
+        personSet.stream().filter(p -> p.getGivenName().equals(BROTHER)).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationMainPerson));
+        personSet.stream().filter(p -> p.getGivenName().equals(ME)).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationMainPerson));
+        personSet.stream().filter(p -> p.getGivenName().equals(SISTER)).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationMainPerson));
 
-        personSet.stream().filter(p -> p.getGivenName().equals("myChild1")).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationChildren));
-        personSet.stream().filter(p -> p.getGivenName().equals("myChild2")).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationChildren));
+        personSet.stream().filter(p -> p.getGivenName().equals(CHILD1)).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationChildren));
+        personSet.stream().filter(p -> p.getGivenName().equals(CHILD2)).findFirst().ifPresent(p -> baseFamilyMap.put(p, generationChildren));
 
         return baseFamilyMap;
     }

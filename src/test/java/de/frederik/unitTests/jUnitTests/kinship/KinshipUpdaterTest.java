@@ -74,7 +74,7 @@ class KinshipUpdaterTest {
         assertEquals(Set.of(), person.getChildren());
         assertEquals(Set.of(), person.getSpouses());
         assertEquals(Set.of(childOfFather, childOfMother), person.getSiblings());
-        // mother get person as child
+        // mother gets person as child
         assertEquals(Set.of(), mother.getParents());
         assertEquals(Set.of(childOfMother, person), mother.getChildren());
         assertEquals(Set.of(), mother.getSpouses());
