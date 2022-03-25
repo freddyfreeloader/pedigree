@@ -3,34 +3,34 @@ package de.frederik.integrationTests.guiTestFX;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.Year;
+import static de.frederik.testUtils.testData.BaseFamily.*;
 
 public class MainVBoxTestFX extends BaseTestFXClass {
 
     @Test
-    @DisplayName("test id table content is synchronized with labels of view")
+    @DisplayName("test if table content is synchronized with labels of view")
     void labels_should_have_same_names() {
 
-        helper.addNewEntry("grandfather", "", Year.of(1938));
-        helper.addNewEntry("grandmother", "", Year.of(1940));
-        helper.addNewEntry("father", "", Year.of(1968));
-        helper.addNewEntry("mother", "", Year.of(1970));
-        helper.addNewEntry("brother", "", Year.of(1988));
-        helper.addNewEntry("me", "", Year.of(1990));
-        helper.addNewEntry("sister", "", Year.of(1992));
-        helper.addNewEntry("myChild1", "", Year.of(2010));
-        helper.addNewEntry("myChild2", "", Year.of(2012));
+        helper.addNewEntry(GRANDFATHER, GRANDFATHER_BIRTH);
+        helper.addNewEntry(GRANDMOTHER, GRANDMOTHER_BIRTH);
+        helper.addNewEntry(FATHER, FATHER_BIRTH);
+        helper.addNewEntry(MOTHER, MOTHER_BIRTH);
+        helper.addNewEntry(BROTHER, BROTHER_BIRTH);
+        helper.addNewEntry(ME, ME_BIRTH);
+        helper.addNewEntry(SISTER, SISTER_BIRTH);
+        helper.addNewEntry(CHILD1, CHILD1_BIRTH);
+        helper.addNewEntry(CHILD2, CHILD2_BIRTH);
 
         sleep(100);
         int i = -1;
-        helper.checkLabels(++i, "grandfather \n*1938");
-        helper.checkLabels(++i, "grandmother \n*1940");
-        helper.checkLabels(++i, "father \n*1968");
-        helper.checkLabels(++i, "mother \n*1970");
-        helper.checkLabels(++i, "brother \n*1988");
-        helper.checkLabels(++i, "me \n*1990");
-        helper.checkLabels(++i, "sister \n*1992");
-        helper.checkLabels(++i, "myChild1 \n*2010");
-        helper.checkLabels(++i, "myChild2 \n*2012");
+        helper.checkLabels(++i, GRANDFATHER, String.valueOf(GRANDFATHER_BIRTH));
+        helper.checkLabels(++i, GRANDMOTHER, String.valueOf(GRANDMOTHER_BIRTH));
+        helper.checkLabels(++i, FATHER, String.valueOf(FATHER_BIRTH));
+        helper.checkLabels(++i, MOTHER, String.valueOf(MOTHER_BIRTH));
+        helper.checkLabels(++i, BROTHER, String.valueOf(BROTHER_BIRTH));
+        helper.checkLabels(++i, ME, String.valueOf(ME_BIRTH));
+        helper.checkLabels(++i, SISTER, String.valueOf(SISTER_BIRTH));
+        helper.checkLabels(++i, CHILD1, String.valueOf(CHILD1_BIRTH));
+        helper.checkLabels(++i, CHILD2, String.valueOf(CHILD2_BIRTH));
     }
 }

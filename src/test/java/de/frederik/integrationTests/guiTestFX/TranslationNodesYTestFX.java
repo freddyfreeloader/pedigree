@@ -5,43 +5,48 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import org.junit.jupiter.api.Test;
 
-import java.time.Year;
 import java.util.Set;
 
 import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.MENU_AGE_CHECK_BOX;
 import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.MENU_VIEW;
+import static de.frederik.testUtils.testData.BaseFamily.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class TranslationNodesYTestFX extends BaseTestFXClass {
 
+    private final static String NO_TRANSLATION = "no node should be translated";
+    private final static String TRANSLATION = "mostly one node should be translated";
+    private final static String M_OLDEST = "Person with year==null and oldest person should not be translated.";
+    private final static String M_YOUNGER = "persons who are younger than oldest person in same generation should be translated";
+
     @Test
     void translateNodes() {
         createBaseFamilyPedigree();
 
-        clickOn("mainPerson");
-        assertFalse(helper.mostlyOneLabelIsTranslated(), "no node should be translated");
+        clickOn(ME);
+        assertFalse(helper.mostlyOneLabelIsTranslated(), NO_TRANSLATION);
 
         clickOn(MENU_VIEW).clickOn(MENU_AGE_CHECK_BOX);
-        assertTrue(helper.mostlyOneLabelIsTranslated(), "mostly one node should be translated");
+        assertTrue(helper.mostlyOneLabelIsTranslated(), TRANSLATION);
 
         Set<Label> labels = helper.getLabelsFromScrollPane();
         labels.forEach(label -> {
-            double translation = HBox.getMargin(label).getTop();
+            double translation = getTranslation(label);
             switch (getGivenName(label)) {
-                case "myGrandfather", "myFather", "myBrother", "myChild1" -> assertEquals(0.0, translation, "oldest persons in each generation should not be translated");
-                case "myGrandmother", "myMother", "mainPerson", "mySister", "myChild2" -> assertTrue(translation > 0.0, "persons who are younger than oldest person in generation should be translated");
+                case GRANDFATHER, FATHER, BROTHER, CHILD1 -> assertEquals(0.0, translation, M_OLDEST);
+                case GRANDMOTHER, MOTHER, ME, SISTER, CHILD2 -> assertTrue(translation > 0.0, M_YOUNGER);
             }
         });
 
-        clickOn("myMother");
-        assertTrue(helper.mostlyOneLabelIsTranslated(), "mostly one node should be translated");
+        clickOn(MOTHER);
+        assertTrue(helper.mostlyOneLabelIsTranslated(), TRANSLATION);
         // remove translations
         clickOn(MENU_VIEW).clickOn(MENU_AGE_CHECK_BOX);
-        assertFalse(helper.mostlyOneLabelIsTranslated(), "no node should be translated");
+        assertFalse(helper.mostlyOneLabelIsTranslated(), NO_TRANSLATION);
 
-        clickOn("myBrother");
-        assertFalse(helper.mostlyOneLabelIsTranslated(), "no node should be translated");
+        clickOn(BROTHER);
+        assertFalse(helper.mostlyOneLabelIsTranslated(), NO_TRANSLATION);
     }
 
     @Test
@@ -50,9 +55,9 @@ public class TranslationNodesYTestFX extends BaseTestFXClass {
         final String YOUNGER_PERSON = "youngerPerson";
         final String OLDER_PERSON = "olderPerson";
 
-        helper.addNewEntry(PERSON_WITHOUT_YEAR, "", null);
-        helper.addNewEntry(YOUNGER_PERSON, "", Year.of(2000));
-        helper.addNewEntry(OLDER_PERSON, "", Year.of(1950));
+        helper.addNewEntry(PERSON_WITHOUT_YEAR);
+        helper.addNewEntry(YOUNGER_PERSON, 2000);
+        helper.addNewEntry(OLDER_PERSON, 1950);
 
         helper.fireEditRelativesButton(PERSON_WITHOUT_YEAR, "");
 
@@ -62,15 +67,19 @@ public class TranslationNodesYTestFX extends BaseTestFXClass {
 
         clickOn(PERSON_WITHOUT_YEAR).clickOn(MENU_VIEW).clickOn(MENU_AGE_CHECK_BOX);
 
-        assertTrue(helper.mostlyOneLabelIsTranslated(), "mostly one node should be translated");
+        assertTrue(helper.mostlyOneLabelIsTranslated(), TRANSLATION);
         Set<Label> labels = helper.getLabelsFromScrollPane();
         labels.forEach(label -> {
-            double translation = HBox.getMargin(label).getTop();
+            double translation = getTranslation(label);
             switch (getGivenName(label)) {
-                case PERSON_WITHOUT_YEAR, OLDER_PERSON -> assertEquals(0.0, translation, "Person with year==null and oldest person should not be translated");
-                case YOUNGER_PERSON -> assertTrue(translation > 0.0, "persons who are younger should be translated");
+                case PERSON_WITHOUT_YEAR, OLDER_PERSON -> assertEquals(0.0, translation, M_OLDEST);
+                case YOUNGER_PERSON -> assertTrue(translation > 0.0, M_YOUNGER);
             }
         });
+    }
+
+    private double getTranslation(Label label) {
+        return HBox.getMargin(label).getTop();
     }
 
     private String getGivenName(Label label) {

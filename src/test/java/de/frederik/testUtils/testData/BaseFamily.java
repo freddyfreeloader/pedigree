@@ -23,6 +23,37 @@ import java.util.List;
  */
 public class BaseFamily implements TestPersons {
 
+    public final static String GRANDFATHER = "myGrandfather";
+    public final static int GRANDFATHER_BIRTH = 1930;
+    public final static String GRANDMOTHER = "myGrandmother";
+    public final static int GRANDMOTHER_BIRTH = 1932;
+    public final static String FATHER = "myFather";
+    public final static int FATHER_BIRTH = 1960;
+    public final static String MOTHER = "myMother";
+    public final static int MOTHER_BIRTH = 1962;
+    public final static String ME = "mainPerson";
+    public final static int ME_BIRTH = 1992;
+    public final static String BROTHER = "myBrother";
+    public final static int BROTHER_BIRTH = 1990;
+    public final static String SISTER = "mySister";
+    public final static int SISTER_BIRTH = 1994;
+    public final static String CHILD1 = "myChild1";
+    public final static int CHILD1_BIRTH = 2020;
+    public final static String CHILD2 = "myChild2";
+    public final static int CHILD2_BIRTH = 2022;
+
+    public final static String SPOUSE = "mySpouse";
+    public final static int SPOUSE_BIRTH = 1991;
+    public final static String BROTHERS_CHILD = "myBrothersChild";
+    public final static int BROTHERS_CHILD_BIRTH = 2022;
+
+    public final static String ALIEN = "an alien";
+    public final static int ALIEN_BIRTH = 1966;
+    public final static String ALIENS_FATHER = "aliensFather";
+    public final static int ALIENS_FATHER_BIRTH = 1933;
+    public final static String ALIENS_MOTHER = "aliensMother";
+    public final static int ALIENS_MOTHER_BIRTH = 1932;
+
     private static int countId;
     private static List<Person> persons;
 
@@ -37,6 +68,7 @@ public class BaseFamily implements TestPersons {
 
         return persons;
     }
+
     private static Person createPerson(String givenName, int yearOfBirth) {
 
         Person person = new Person(++countId, 1, givenName, "", Year.of(yearOfBirth));
@@ -46,41 +78,46 @@ public class BaseFamily implements TestPersons {
 
     private static void createPersonsList() {
 
-        Person grandfather = createPerson("myGrandfather", 1930);
-        Person grandmother = createPerson( "myGrandmother", 1932);
+        Person grandfather = createPerson(GRANDFATHER, GRANDFATHER_BIRTH);
+        Person grandmother = createPerson(GRANDMOTHER, GRANDMOTHER_BIRTH);
 
-        Person father = createPerson("myFather", 1960);
-        Person mother = createPerson("myMother", 1962);
+        Person father = createPerson(FATHER, FATHER_BIRTH);
+        Person mother = createPerson(MOTHER, MOTHER_BIRTH);
 
-        Person brother = createPerson("myBrother", 1990);
-        Person me = createPerson("mainPerson", 1992);
-        Person sister = createPerson("mySister", 1994);
+        Person brother = createPerson(BROTHER, BROTHER_BIRTH);
+        Person me = createPerson(ME, ME_BIRTH);
+        Person sister = createPerson(SISTER, SISTER_BIRTH);
 
-        Person myChild1 = createPerson("myChild1", 2020);
-        Person myChild2 = createPerson("myChild2", 2022);
+        Person myChild1 = createPerson(CHILD1, CHILD1_BIRTH);
+        Person myChild2 = createPerson(CHILD2, CHILD2_BIRTH);
 
         grandfather.addChild(father);
-        grandmother.addChild(father);
         grandfather.addSpouse(grandmother);
+
+        grandmother.addChild(father);
         grandmother.addSpouse(grandfather);
 
         father.addParent(grandfather, grandmother);
         father.addSpouse(mother);
         father.addChild(brother, me, sister);
+
         mother.addSpouse(father);
         mother.addChild(brother, me, sister);
 
         brother.addParent(father, mother);
-        me.addParent(father, mother);
-        sister.addParent(father, mother);
         brother.addSibling(me, sister);
+
+        me.addParent(father, mother);
         me.addSibling(brother, sister);
+        me.addChild(myChild1, myChild2);
+
+        sister.addParent(father, mother);
         sister.addSibling(brother, me);
 
-        me.addChild(myChild1, myChild2);
         myChild1.addParent(me);
-        myChild2.addParent(me);
         myChild1.addSibling(myChild2);
+
+        myChild2.addParent(me);
         myChild2.addSibling(myChild1);
     }
 }

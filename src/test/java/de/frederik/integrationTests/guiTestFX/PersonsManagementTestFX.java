@@ -58,7 +58,7 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     }
 
     @Test
-    @DisplayName("helper.addNewPerson() invalid input: empty full name , verify alert dialog")
+    @DisplayName("addNewPerson() invalid input: empty full name , verify alert dialog")
     void addNewPerson_invalid_empty_name() {
         helper.addNewPerson("", "", "");
 
@@ -68,7 +68,7 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     }
 
     @Test
-    @DisplayName("helper.addNewPerson() invalid input: invalid year of birth, verify alert dialog")
+    @DisplayName("addNewPerson() invalid input: invalid year of birth, verify alert dialog")
     void addNewPerson_invalid_year() {
         helper.addNewPerson(GIVEN_NAME, FAMILY_NAME, "invalidYear");
 
@@ -79,7 +79,7 @@ public class PersonsManagementTestFX extends BaseTestFXClass {
     }
 
     @Test
-    @DisplayName("helper.addNewPerson() invalid input: person already exists in database, verify alert dialog")
+    @DisplayName("addNewPerson() invalid input: person already exists in database, verify alert dialog")
     void addNewPerson_invalid_person_already_exists() {
         helper.addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
         helper.addNewPerson(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);

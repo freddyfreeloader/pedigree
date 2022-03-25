@@ -6,7 +6,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.testfx.matcher.control.TableViewMatchers;
 
 import java.time.Year;
 import java.util.ResourceBundle;
@@ -59,8 +58,8 @@ public class MainTableViewTestFX extends BaseTestFXClass {
     @DisplayName("test function of buttons in table row")
     void tableView_RowButtons() {
 
-        helper.addNewEntry(GIVEN_NAME1, FAMILY_NAME1, Year.of(Integer.parseInt(YEAR_OF_BIRTH1)));
-        helper.addNewEntry(GIVEN_NAME2, FAMILY_NAME2, Year.of(Integer.parseInt(YEAR_OF_BIRTH2)));
+        helper.addNewEntry(GIVEN_NAME1, FAMILY_NAME1);
+        helper.addNewEntry(GIVEN_NAME2, FAMILY_NAME2);
         helper.fireEditRelativesButton(GIVEN_NAME1, FAMILY_NAME1);
 
         helper.verifyStageIsShowing(INPUT_RELATIVES_ROOT);
@@ -73,45 +72,50 @@ public class MainTableViewTestFX extends BaseTestFXClass {
         helper.fireButton(CANCEL_BUTTON_PERSON_DATA);
         helper.fireDeleteButton(GIVEN_NAME1, FAMILY_NAME1);
 
-        helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts").getString("delete.person"));
+        String alertMessage = ResourceBundle.getBundle("alerts").getString("delete.person");
+        helper.verifyAlertDialogAndPressEnter(alertMessage);
         verifyThat(TABLE, hasNumRows(1));
 
         helper.fireDeleteButton(GIVEN_NAME2, FAMILY_NAME2);
 
-        helper.verifyAlertDialogAndPressEnter(ResourceBundle.getBundle("alerts").getString("delete.person"));
+        helper.verifyAlertDialogAndPressEnter(alertMessage);
         verifyThat(TABLE, hasNumRows(0));
     }
 
     @Test
     @DisplayName("Selected person should be selected in pedigree view and vice-versa")
     void selectedPerson() {
-        helper.addNewEntry(GIVEN_NAME1, FAMILY_NAME1, null);
-        helper.addNewEntry(GIVEN_NAME2, FAMILY_NAME2, null);
+        helper.addNewEntry(GIVEN_NAME1, FAMILY_NAME1);
+        helper.addNewEntry(GIVEN_NAME2, FAMILY_NAME2);
         helper.fireEditRelativesButton(GIVEN_NAME1, FAMILY_NAME1);
         helper.dragAndDropToTable(GIVEN_NAME2, PARENTS_TABLE);
         push(KeyCode.ENTER);
 
         // if clicked on person in table, person label in pedigree view is selected
         clickOn(GIVEN_NAME1).interrupt();
-        Label firstPersonLabel = helper.getLabelFromScrollPane(GIVEN_NAME1);
-        Label secondPersonLabel = helper.getLabelFromScrollPane(GIVEN_NAME2);
-        assertTrue(firstPersonLabel.getStyleClass().contains("selected-person"));
-        assertFalse(secondPersonLabel.getStyleClass().contains("selected-person"));
+        assertTrue(labelIsSelected(GIVEN_NAME1));
+        assertFalse(labelIsSelected(GIVEN_NAME2));
 
         clickOn(GIVEN_NAME2).interrupt();
-        firstPersonLabel = helper.getLabelFromScrollPane(GIVEN_NAME1);
-        secondPersonLabel = helper.getLabelFromScrollPane(GIVEN_NAME2);
-        assertFalse(firstPersonLabel.getStyleClass().contains("selected-person"));
-        assertTrue(secondPersonLabel.getStyleClass().contains("selected-person"));
+        assertFalse(labelIsSelected(GIVEN_NAME1));
+        assertTrue(labelIsSelected(GIVEN_NAME2));
 
         // if clicked on person label, person in tableView is selected
-        clickOn(firstPersonLabel);
-        TableView<Person> table = lookup(TABLE).queryTableView();
-        assertEquals(GIVEN_NAME1, table.getSelectionModel().getSelectedItems().get(0).getGivenName());
+        clickOn(helper.getLabelFromScrollPane(GIVEN_NAME1));
+        assertTrue(tableIsSelected(GIVEN_NAME1));
 
-        secondPersonLabel = helper.getLabelFromScrollPane(GIVEN_NAME2);
-        clickOn(secondPersonLabel);
-        table = lookup(TABLE).queryTableView();
-        assertEquals(GIVEN_NAME2, table.getSelectionModel().getSelectedItems().get(0).getGivenName());
+        clickOn(helper.getLabelFromScrollPane(GIVEN_NAME2));
+        assertTrue(tableIsSelected(GIVEN_NAME2));
+    }
+
+    private boolean labelIsSelected(String givenName) {
+        Label firstPersonLabel = helper.getLabelFromScrollPane(givenName);
+        return firstPersonLabel.getStyleClass().contains("selected-person");
+    }
+
+    private boolean tableIsSelected(String givenName) {
+        TableView<Person> table = lookup(TABLE).queryTableView();
+        String selectedPerson = table.getSelectionModel().getSelectedItems().get(0).getGivenName();
+        return givenName.equals(selectedPerson);
     }
 }

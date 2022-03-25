@@ -5,29 +5,13 @@ import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.Year;
 import java.util.List;
 
 import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.*;
+import static de.frederik.testUtils.testData.BaseFamily.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class InputRelativesTestFX extends BaseTestFXClass {
-
-    private static final String MY_GRANDFATHER = "myGrandfather";
-    private static final String MY_GRANDMOTHER = "myGrandmother";
-    private static final String MY_FATHER = "myFather";
-    private static final String MY_MOTHER = "myMother";
-    private static final String ME = "me";
-    private static final String MY_CHILD1 = "myChild1";
-    private static final String MY_CHILD2 = "myChild2";
-    private static final String MY_SPOUSE = "mySpouse";
-    private static final String MY_BROTHER = "myBrother";
-    private static final String MY_BROTHERS_CHILD = "myBrothersChild";
-    private static final String MY_SISTER = "mySister";
-
-    private static final String ALIEN = "alien";
-    private static final String ALIENS_FATHER = "aliensFather";
-    private static final String ALIENS_MOTHER = "aliensMother";
 
     // Can't assert that error-Code pane appear because of a bug in TestFX https://github.com/TestFX/TestFX/issues/687
     // So only verify that person is still in personTable and not dropped to another table
@@ -35,20 +19,20 @@ public class InputRelativesTestFX extends BaseTestFXClass {
     @DisplayName("drop should not be possible")
     void errorLabels() {
 
-        helper.addNewEntry(MY_FATHER, "", Year.of(1968));
-        helper.addNewEntry(MY_MOTHER, "", Year.of(1970));
-        helper.addNewEntry(ME, "", Year.of(1990));
-        helper.addNewEntry(MY_CHILD1, "", Year.of(2010));
-        helper.addNewEntry(MY_SPOUSE, "", Year.of(1991));
-        helper.addNewEntry(ALIEN, "", Year.of(1966));
-        helper.addNewEntry(ALIENS_FATHER, "", Year.of(1933));
-        helper.addNewEntry(ALIENS_MOTHER, "", Year.of(1932));
+        helper.addNewEntry(FATHER, FATHER_BIRTH);
+        helper.addNewEntry(MOTHER, MOTHER_BIRTH);
+        helper.addNewEntry(ME, ME_BIRTH);
+        helper.addNewEntry(CHILD1, CHILD1_BIRTH);
+        helper.addNewEntry(SPOUSE, SPOUSE_BIRTH);
+        helper.addNewEntry(ALIEN, ALIEN_BIRTH);
+        helper.addNewEntry(ALIENS_FATHER, ALIENS_FATHER_BIRTH);
+        helper.addNewEntry(ALIENS_MOTHER, ALIENS_MOTHER_BIRTH);
 
-        Person myFather = getPersonByGivenName(MY_FATHER);
-        Person myMother = getPersonByGivenName(MY_MOTHER);
+        Person myFather = getPersonByGivenName(FATHER);
+        Person myMother = getPersonByGivenName(MOTHER);
         Person me = getPersonByGivenName(ME);
-        Person myChild1 = getPersonByGivenName(MY_CHILD1);
-        Person mySpouse = getPersonByGivenName(MY_SPOUSE);
+        Person myChild1 = getPersonByGivenName(CHILD1);
+        Person mySpouse = getPersonByGivenName(SPOUSE);
         Person alien = getPersonByGivenName(ALIEN);
         Person aliensFather = getPersonByGivenName(ALIENS_FATHER);
         Person aliensMother = getPersonByGivenName(ALIENS_MOTHER);
@@ -62,21 +46,21 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         assertNotNull(aliensFather);
         assertNotNull(aliensMother);
 
-        helper.fireEditRelativesButton(ME, "1990");
+        helper.fireEditRelativesButton(ME, String.valueOf(ME_BIRTH));
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myChild1, mySpouse, alien, aliensFather, aliensMother);
 
         // should fail because child is younger than me
-        helper.dragAndDropToTable(MY_CHILD1, PARENTS_TABLE);
+        helper.dragAndDropToTable(CHILD1, PARENTS_TABLE);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myChild1, mySpouse, alien, aliensFather, aliensMother);
         helper.parentsTableHasOnlyThisMembers();
 
         // should fail because father ist older than me
-        helper.dragAndDropToTable(MY_FATHER, CHILDREN_TABLE);
+        helper.dragAndDropToTable(FATHER, CHILDREN_TABLE);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myChild1, mySpouse, alien, aliensFather, aliensMother);
         helper.parentsTableHasOnlyThisMembers();
 
         // should pass
-        helper.dragAndDropToTable(MY_SPOUSE, SPOUSES_TABLE);
+        helper.dragAndDropToTable(SPOUSE, SPOUSES_TABLE);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myChild1, alien, aliensFather, aliensMother);
         helper.spousesTableHasOnlyThisMembers(mySpouse);
 
@@ -86,9 +70,9 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.spousesTableHasOnlyThisMembers(mySpouse);
 
         // should pass
-        helper.dragAndDropToTable(MY_CHILD1, CHILDREN_TABLE);
-        helper.dragAndDropToTable(MY_FATHER, PARENTS_TABLE);
-        helper.dragAndDropToTable(MY_MOTHER, PARENTS_TABLE);
+        helper.dragAndDropToTable(CHILD1, CHILDREN_TABLE);
+        helper.dragAndDropToTable(FATHER, PARENTS_TABLE);
+        helper.dragAndDropToTable(MOTHER, PARENTS_TABLE);
         helper.personsTableHasOnlyThisMembers(alien, aliensFather, aliensMother);
         helper.parentsTableHasOnlyThisMembers(myFather, myMother);
         helper.spousesTableHasOnlyThisMembers(mySpouse);
@@ -96,7 +80,7 @@ public class InputRelativesTestFX extends BaseTestFXClass {
 
         type(KeyCode.ENTER);
 
-        helper.fireEditRelativesButton(ALIEN, "1966");
+        helper.fireEditRelativesButton(ALIEN, String.valueOf(ALIEN_BIRTH));
         helper.personsTableHasOnlyThisMembers(me, myFather, myMother, myChild1, mySpouse, aliensFather, aliensMother);
 
         //should pass
@@ -106,14 +90,14 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.parentsTableHasOnlyThisMembers(aliensFather, aliensMother);
         type(KeyCode.ENTER);
 
-        helper.fireEditRelativesButton(ME, "1990");
+        helper.fireEditRelativesButton(ME, String.valueOf(ME_BIRTH));
         helper.personsTableHasOnlyThisMembers(alien, aliensFather, aliensMother);
         helper.parentsTableHasOnlyThisMembers(myFather, myMother);
         helper.spousesTableHasOnlyThisMembers(mySpouse);
         helper.childrenTableHasOnlyThisMembers(myChild1);
 
         // should fail because alien has two other parents
-        helper.dragAndDropToTable("1966", SIBLINGS_TABLE);
+        helper.dragAndDropToTable(ALIEN, SIBLINGS_TABLE);
         helper.personsTableHasOnlyThisMembers(alien, aliensFather, aliensMother);
         helper.parentsTableHasOnlyThisMembers(myFather, myMother);
         helper.spousesTableHasOnlyThisMembers(mySpouse);
@@ -124,24 +108,24 @@ public class InputRelativesTestFX extends BaseTestFXClass {
     @Test
     @DisplayName("the children of sibling should not be in persons table")
     void children_of_sibling_should_not_be_in_personsTable() {
-        helper.addNewEntry(MY_BROTHER, "", Year.of(1988));
-        helper.addNewEntry(ME, "", Year.of(1990));
-        helper.addNewEntry(MY_BROTHERS_CHILD, "", Year.of(2000));
-        Person myBrother = getPersonByGivenName(MY_BROTHER);
-        Person myBrothersChild = getPersonByGivenName(MY_BROTHERS_CHILD);
+        helper.addNewEntry(BROTHER, BROTHER_BIRTH);
+        helper.addNewEntry(ME, ME_BIRTH);
+        helper.addNewEntry(BROTHERS_CHILD, BROTHERS_CHILD_BIRTH);
+        Person myBrother = getPersonByGivenName(BROTHER);
+        Person myBrothersChild = getPersonByGivenName(BROTHERS_CHILD);
 
-        helper.fireEditRelativesButton(ME, "1990");
+        helper.fireEditRelativesButton(ME, String.valueOf(ME_BIRTH));
 
         helper.personsTableHasOnlyThisMembers(myBrother, myBrothersChild);
-        helper.dragAndDropToTable(MY_BROTHER, SIBLINGS_TABLE);
+        helper.dragAndDropToTable(BROTHER, SIBLINGS_TABLE);
 
         type(KeyCode.ENTER);
-        helper.fireEditRelativesButton(MY_BROTHER, "1988");
+        helper.fireEditRelativesButton(BROTHER, String.valueOf(BROTHER_BIRTH));
 
-        helper.dragAndDropToTable(MY_BROTHERS_CHILD, CHILDREN_TABLE);
+        helper.dragAndDropToTable(BROTHERS_CHILD, CHILDREN_TABLE);
 
         type(KeyCode.ENTER);
-        helper.fireEditRelativesButton(ME, "1990");
+        helper.fireEditRelativesButton(ME, String.valueOf(ME_BIRTH));
         helper.personsTableHasOnlyThisMembers();
     }
 
@@ -149,23 +133,23 @@ public class InputRelativesTestFX extends BaseTestFXClass {
     @DisplayName("basic test for drag&drop and delete buttons")
     void test_Table_Functions_DragAndDrop_DeleteFromTable() {
 
-        helper.addNewEntry(MY_FATHER, "", Year.of(1968));
-        helper.addNewEntry(MY_MOTHER, "", Year.of(1970));
-        helper.addNewEntry(MY_BROTHER, "", Year.of(1988));
-        helper.addNewEntry(ME, "", Year.of(1990));
-        helper.addNewEntry(MY_SISTER, "", Year.of(1992));
-        helper.addNewEntry(MY_CHILD1, "", Year.of(2010));
-        helper.addNewEntry(MY_CHILD2, "", Year.of(2012));
-        helper.addNewEntry(MY_SPOUSE, "", Year.of(1991));
+        helper.addNewEntry(FATHER, FATHER_BIRTH);
+        helper.addNewEntry(MOTHER, MOTHER_BIRTH);
+        helper.addNewEntry(BROTHER, BROTHER_BIRTH);
+        helper.addNewEntry(ME, ME_BIRTH);
+        helper.addNewEntry(SISTER, SISTER_BIRTH);
+        helper.addNewEntry(CHILD1, CHILD1_BIRTH);
+        helper.addNewEntry(CHILD2, CHILD2_BIRTH);
+        helper.addNewEntry(SPOUSE, SPOUSE_BIRTH);
 
-        Person myFather = getPersonByGivenName(MY_FATHER);
-        Person myMother = getPersonByGivenName(MY_MOTHER);
-        Person myBrother = getPersonByGivenName(MY_BROTHER);
+        Person myFather = getPersonByGivenName(FATHER);
+        Person myMother = getPersonByGivenName(MOTHER);
+        Person myBrother = getPersonByGivenName(BROTHER);
         Person me = getPersonByGivenName(ME);
-        Person mySister = getPersonByGivenName(MY_SISTER);
-        Person myChild1 = getPersonByGivenName(MY_CHILD1);
-        Person myChild2 = getPersonByGivenName(MY_CHILD2);
-        Person mySpouse = getPersonByGivenName(MY_SPOUSE);
+        Person mySister = getPersonByGivenName(SISTER);
+        Person myChild1 = getPersonByGivenName(CHILD1);
+        Person myChild2 = getPersonByGivenName(CHILD2);
+        Person mySpouse = getPersonByGivenName(SPOUSE);
 
         assertNotNull(myFather);
         assertNotNull(myMother);
@@ -176,7 +160,7 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         assertNotNull(myChild2);
         assertNotNull(mySpouse);
 
-        helper.fireEditRelativesButton(ME, "1990");
+        helper.fireEditRelativesButton(ME, String.valueOf(ME_BIRTH));
 
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
         helper.parentsTableHasOnlyThisMembers();
@@ -184,72 +168,72 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.siblingsTableHasOnlyThisMembers();
         helper.childrenTableHasOnlyThisMembers();
 
-        helper.dragAndDropToTable(MY_MOTHER, PARENTS_TABLE);
+        helper.dragAndDropToTable(MOTHER, PARENTS_TABLE);
 
         helper.parentsTableHasOnlyThisMembers(myMother);
         helper.personsTableHasOnlyThisMembers(myFather, myBrother, mySister, myChild1, myChild2, mySpouse);
 
-        helper.dragAndDropToTable(MY_FATHER, PARENTS_TABLE);
+        helper.dragAndDropToTable(FATHER, PARENTS_TABLE);
 
         helper.parentsTableHasOnlyThisMembers(myFather, myMother);
         helper.personsTableHasOnlyThisMembers(myBrother, mySister, myChild1, myChild2, mySpouse);
 
-        helper.fireDeleteButton(MY_FATHER, "parentsGivenNameColumn");
+        helper.fireDeleteButton(FATHER, "parentsGivenNameColumn");
 
         helper.parentsTableHasOnlyThisMembers(myMother);
         helper.personsTableHasOnlyThisMembers(myFather, myBrother, mySister, myChild1, myChild2, mySpouse);
 
-        helper.fireDeleteButton(MY_MOTHER, "parentsGivenNameColumn");
+        helper.fireDeleteButton(MOTHER, "parentsGivenNameColumn");
 
         helper.parentsTableHasOnlyThisMembers();
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
 
-        helper.dragAndDropToTable(MY_SPOUSE, SPOUSES_TABLE);
+        helper.dragAndDropToTable(SPOUSE, SPOUSES_TABLE);
 
         helper.spousesTableHasOnlyThisMembers(mySpouse);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2);
 
-        helper.fireDeleteButton(MY_SPOUSE, "spousesGivenNameColumn");
+        helper.fireDeleteButton(SPOUSE, "spousesGivenNameColumn");
 
         helper.spousesTableHasOnlyThisMembers();
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
 
-        helper.dragAndDropToTable(MY_BROTHER, SIBLINGS_TABLE);
+        helper.dragAndDropToTable(BROTHER, SIBLINGS_TABLE);
 
         helper.siblingsTableHasOnlyThisMembers(myBrother);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, mySister, myChild1, myChild2, mySpouse);
 
-        helper.dragAndDropToTable(MY_SISTER, SIBLINGS_TABLE);
+        helper.dragAndDropToTable(SISTER, SIBLINGS_TABLE);
 
         helper.siblingsTableHasOnlyThisMembers(myBrother, mySister);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myChild1, myChild2, mySpouse);
 
-        helper.fireDeleteButton(MY_BROTHER, "siblingsGivenNameColumn");
+        helper.fireDeleteButton(BROTHER, "siblingsGivenNameColumn");
 
         helper.siblingsTableHasOnlyThisMembers(mySister);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, myChild1, myChild2, mySpouse);
 
-        helper.fireDeleteButton(MY_SISTER, "siblingsGivenNameColumn");
+        helper.fireDeleteButton(SISTER, "siblingsGivenNameColumn");
 
         helper.siblingsTableHasOnlyThisMembers();
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
 
-        helper.dragAndDropToTable(MY_CHILD1, CHILDREN_TABLE);
+        helper.dragAndDropToTable(CHILD1, CHILDREN_TABLE);
 
         helper.childrenTableHasOnlyThisMembers(myChild1);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild2, mySpouse);
 
-        helper.dragAndDropToTable(MY_CHILD2, CHILDREN_TABLE);
+        helper.dragAndDropToTable(CHILD2, CHILDREN_TABLE);
 
         helper.childrenTableHasOnlyThisMembers(myChild1, myChild2);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, mySpouse);
 
-        helper.fireDeleteButton(MY_CHILD1, "childrenGivenNameColumn");
+        helper.fireDeleteButton(CHILD1, "childrenGivenNameColumn");
 
         helper.childrenTableHasOnlyThisMembers(myChild2);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, mySpouse);
 
-        helper.fireDeleteButton(MY_CHILD2, "childrenGivenNameColumn");
+        helper.fireDeleteButton(CHILD2, "childrenGivenNameColumn");
 
         helper.childrenTableHasOnlyThisMembers();
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
@@ -258,26 +242,25 @@ public class InputRelativesTestFX extends BaseTestFXClass {
     @Test
     @DisplayName("test if tables and model are synchronized correctly")
     void addRelatives() {
+        helper.addNewEntry(GRANDFATHER, GRANDFATHER_BIRTH);
+        helper.addNewEntry(GRANDMOTHER, GRANDMOTHER_BIRTH);
+        helper.addNewEntry(FATHER, FATHER_BIRTH);
+        helper.addNewEntry(MOTHER, MOTHER_BIRTH);
+        helper.addNewEntry(BROTHER, BROTHER_BIRTH);
+        helper.addNewEntry(ME, ME_BIRTH);
+        helper.addNewEntry(SISTER, SISTER_BIRTH);
+        helper.addNewEntry(CHILD1, CHILD1_BIRTH);
+        helper.addNewEntry(CHILD2, CHILD2_BIRTH);
 
-        helper.addNewEntry(MY_GRANDFATHER, "", Year.of(1938));
-        helper.addNewEntry(MY_GRANDMOTHER, "", Year.of(1940));
-        helper.addNewEntry(MY_FATHER, "", Year.of(1968));
-        helper.addNewEntry(MY_MOTHER, "", Year.of(1970));
-        helper.addNewEntry(MY_BROTHER, "", Year.of(1988));
-        helper.addNewEntry(ME, "", Year.of(1990));
-        helper.addNewEntry(MY_SISTER, "", Year.of(1992));
-        helper.addNewEntry(MY_CHILD1, "", Year.of(2010));
-        helper.addNewEntry(MY_CHILD2, "", Year.of(2012));
-
-        Person grandfather = getPersonByGivenName(MY_GRANDFATHER);
-        Person grandmother = getPersonByGivenName(MY_GRANDMOTHER);
-        Person father = getPersonByGivenName(MY_FATHER);
-        Person mother = getPersonByGivenName(MY_MOTHER);
-        Person brother = getPersonByGivenName(MY_BROTHER);
+        Person grandfather = getPersonByGivenName(GRANDFATHER);
+        Person grandmother = getPersonByGivenName(GRANDMOTHER);
+        Person father = getPersonByGivenName(FATHER);
+        Person mother = getPersonByGivenName(MOTHER);
+        Person brother = getPersonByGivenName(BROTHER);
         Person me = getPersonByGivenName(ME);
-        Person sister = getPersonByGivenName(MY_SISTER);
-        Person myChild1 = getPersonByGivenName(MY_CHILD1);
-        Person myChild2 = getPersonByGivenName(MY_CHILD2);
+        Person sister = getPersonByGivenName(SISTER);
+        Person myChild1 = getPersonByGivenName(CHILD1);
+        Person myChild2 = getPersonByGivenName(CHILD2);
 
         assertNotNull(grandfather);
         assertNotNull(grandmother);
@@ -290,7 +273,7 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         assertNotNull(myChild2);
 
         // GRANDFATHER:
-        helper.fireEditRelativesButton(MY_GRANDFATHER, "1938");
+        helper.fireEditRelativesButton(GRANDFATHER, String.valueOf(GRANDFATHER_BIRTH));
 
         helper.personsTableHasOnlyThisMembers(grandmother, father, mother, brother, me, sister, myChild1, myChild2);
         helper.parentsTableHasOnlyThisMembers();
@@ -298,8 +281,8 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.siblingsTableHasOnlyThisMembers();
         helper.childrenTableHasOnlyThisMembers();
 
-        helper.dragAndDropToTable(MY_GRANDMOTHER, SPOUSES_TABLE);
-        helper.dragAndDropToTable(MY_FATHER, CHILDREN_TABLE);
+        helper.dragAndDropToTable(GRANDMOTHER, SPOUSES_TABLE);
+        helper.dragAndDropToTable(FATHER, CHILDREN_TABLE);
 
         helper.personsTableHasOnlyThisMembers(mother, brother, me, sister, myChild1, myChild2);
         helper.parentsTableHasOnlyThisMembers();
@@ -310,7 +293,7 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         type(KeyCode.ENTER);
 
         // GRANDMOTHER:
-        helper.fireEditRelativesButton(MY_GRANDMOTHER, "1940");
+        helper.fireEditRelativesButton(GRANDMOTHER, String.valueOf(GRANDMOTHER_BIRTH));
 
         helper.personsTableHasOnlyThisMembers(father, mother, brother, me, sister, myChild1, myChild2);
         helper.parentsTableHasOnlyThisMembers();
@@ -318,7 +301,7 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.siblingsTableHasOnlyThisMembers();
         helper.childrenTableHasOnlyThisMembers();
 
-        helper.dragAndDropToTable(MY_FATHER, CHILDREN_TABLE);
+        helper.dragAndDropToTable(FATHER, CHILDREN_TABLE);
 
         helper.personsTableHasOnlyThisMembers(mother, brother, me, sister, myChild1, myChild2);
         helper.parentsTableHasOnlyThisMembers();
@@ -329,7 +312,7 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         type(KeyCode.ENTER);
 
         // FATHER:
-        helper.fireEditRelativesButton(MY_FATHER, "1968");
+        helper.fireEditRelativesButton(FATHER, String.valueOf(FATHER_BIRTH));
 
         helper.personsTableHasOnlyThisMembers(mother, brother, me, sister, myChild1, myChild2);
         helper.parentsTableHasOnlyThisMembers(grandmother, grandfather);
@@ -337,10 +320,10 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.siblingsTableHasOnlyThisMembers();
         helper.childrenTableHasOnlyThisMembers();
 
-        helper.dragAndDropToTable(MY_MOTHER, SPOUSES_TABLE);
-        helper.dragAndDropToTable(MY_BROTHER, CHILDREN_TABLE);
+        helper.dragAndDropToTable(MOTHER, SPOUSES_TABLE);
+        helper.dragAndDropToTable(BROTHER, CHILDREN_TABLE);
         helper.dragAndDropToTable(ME, CHILDREN_TABLE);
-        helper.dragAndDropToTable(MY_SISTER, CHILDREN_TABLE);
+        helper.dragAndDropToTable(SISTER, CHILDREN_TABLE);
 
         helper.personsTableHasOnlyThisMembers(myChild1, myChild2);
         helper.parentsTableHasOnlyThisMembers(grandmother, grandfather);
@@ -351,7 +334,7 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         type(KeyCode.ENTER);
 
         // MOTHER:
-        helper.fireEditRelativesButton(MY_MOTHER, "1970");
+        helper.fireEditRelativesButton(MOTHER, String.valueOf(MOTHER_BIRTH));
 
         helper.personsTableHasOnlyThisMembers(brother, me, sister, myChild1, myChild2);
         helper.parentsTableHasOnlyThisMembers();
@@ -359,9 +342,9 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.siblingsTableHasOnlyThisMembers();
         helper.childrenTableHasOnlyThisMembers();
 
-        helper.dragAndDropToTable(MY_BROTHER, CHILDREN_TABLE);
+        helper.dragAndDropToTable(BROTHER, CHILDREN_TABLE);
         helper.dragAndDropToTable(ME, CHILDREN_TABLE);
-        helper.dragAndDropToTable(MY_SISTER, CHILDREN_TABLE);
+        helper.dragAndDropToTable(SISTER, CHILDREN_TABLE);
 
         helper.personsTableHasOnlyThisMembers(myChild1, myChild2);
         helper.parentsTableHasOnlyThisMembers();
@@ -372,7 +355,7 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         type(KeyCode.ENTER);
 
         // ME:
-        helper.fireEditRelativesButton(ME, "1990");
+        helper.fireEditRelativesButton(ME, String.valueOf(ME_BIRTH));
 
         helper.personsTableHasOnlyThisMembers(myChild1, myChild2);
         helper.parentsTableHasOnlyThisMembers(father, mother);
@@ -380,8 +363,8 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.siblingsTableHasOnlyThisMembers(brother, sister);
         helper.childrenTableHasOnlyThisMembers();
 
-        helper.dragAndDropToTable(MY_CHILD1, CHILDREN_TABLE);
-        helper.dragAndDropToTable(MY_CHILD2, CHILDREN_TABLE);
+        helper.dragAndDropToTable(CHILD1, CHILDREN_TABLE);
+        helper.dragAndDropToTable(CHILD2, CHILDREN_TABLE);
 
         helper.personsTableHasOnlyThisMembers();
         helper.parentsTableHasOnlyThisMembers(father, mother);

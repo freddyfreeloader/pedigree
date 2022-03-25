@@ -172,19 +172,51 @@ public class TestFxHelperMethods extends ApplicationTest {
      * Verifies that the {@code Label} in the main-view has the given text if clicked on the given index in the main table.
      *
      * @param index       the index in the main table to click
-     * @param nameAndYear the string in the label
+     * @param strings the string in the label
      */
-    public void checkLabels(int index, String nameAndYear) {
-        VBox mainVbox = lookup(MAIN_VBOX).queryAs(VBox.class);
-        assertNotNull(mainVbox);
+    public void checkLabels(int index, String... strings) {
         Node tableRow = lookup(".table-row-cell").nth(index).query();
         clickOn(tableRow);
-        HBox hbox = (HBox) mainVbox.getChildren().get(0);
-        Label label = (Label) hbox.getChildren().get(0);
+        Label label = getLabelFromScrollPane(strings[0]);
 
-        verifyThat(label, LabeledMatchers.hasText(nameAndYear));
+        for (String text : strings) {
+            verifyThat(label, LabeledMatchers.hasText(CoreMatchers.containsString(text)));
+        }
     }
-
+    /**
+     * Convenience method to insert a new entry in the main table.<br>
+     * Year of birth is null.<br>
+     * Fires 'add entry button', inserts arguments and types ENTER.
+     * @param givenName   the given name to insert
+     * @param familyName  the family name to insert
+     */
+    public void addNewEntry(String givenName, String familyName) {
+        addNewEntry(givenName, familyName, null);
+    }
+    /**
+     * Convenience method to insert a new entry in the main table.<br>
+     * Family name is empty, year of birth is null.<br>
+     * Fires 'add entry button', inserts arguments and types ENTER.
+     *
+     * @param givenName   the given name to insert
+     */
+    public void addNewEntry(String givenName) {
+        addNewEntry(givenName, "", null);
+    }
+    /**
+     * Convenience method to insert a new entry in the main table.<br>
+     * Family name is empty.<br>
+     * Fires 'add entry button', inserts arguments and types ENTER.
+     *
+     * @param givenName   the given name to insert
+     * @param yearOfBirth the year of birth to insert
+     */
+    public void addNewEntry(String givenName,  Year yearOfBirth) {
+        addNewEntry(givenName, "", yearOfBirth);
+    }
+    public void addNewEntry(String givenName,  int yearOfBirth) {
+        addNewEntry(givenName, "", Year.of(yearOfBirth));
+    }
     /**
      * Convenience method to insert a new entry in the main table.
      * Fires 'add entry button', inserts arguments and types ENTER.

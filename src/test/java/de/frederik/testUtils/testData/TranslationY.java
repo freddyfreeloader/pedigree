@@ -20,6 +20,19 @@ import java.util.List;
  */
 public class TranslationY implements TestPersons {
 
+    public static final String ME = "mainPerson";
+    public static final int ME_BIRTH = 1985;
+    public static final String MY_BROTHER = "myBrother";
+    public static final int MY_BROTHER_BIRTH = 1995;
+    public static final String MY_SISTER = "mySister";
+    public static final int MY_SISTER_BIRTH = 1990;
+    public static final String MY_SPOUSE = "mySpouse";
+    public static final int MY_SPOUSE_BIRTH = 1988;
+    public static final String MY_CHILD = "myChild";
+    public static final int MY_CHILD_BIRTH = 2000;
+    public static final String SIBLING_OF_SPOUSE = "siblingOfSpouse";
+    public static final int SIBLING_OF_SPOUSE_BIRTH = 1999;
+
     private static int countId;
     private static List<Person> persons;
 
@@ -34,6 +47,7 @@ public class TranslationY implements TestPersons {
 
         return persons;
     }
+
     private static Person createPerson(String givenName, int yearOfBirth) {
 
         Person person = new Person(++countId, 1, givenName, "", Year.of(yearOfBirth));
@@ -43,14 +57,14 @@ public class TranslationY implements TestPersons {
 
     private static void createPersonsList() {
 
-        Person mySpouse = createPerson("mySpouse", 1988);
-        Person siblingOfSpouse = createPerson("siblingOfSpouse", 1999);
+        Person mySpouse = createPerson(MY_SPOUSE, MY_SPOUSE_BIRTH);
+        Person siblingOfSpouse = createPerson(SIBLING_OF_SPOUSE, SIBLING_OF_SPOUSE_BIRTH);
 
-        Person me = createPerson("mainPerson", 1985);
-        Person myBrother = createPerson("myBrother", 1995);
-        Person mySister = createPerson("mySister", 1990);
+        Person me = createPerson(ME, ME_BIRTH);
+        Person myBrother = createPerson(MY_BROTHER, MY_BROTHER_BIRTH);
+        Person mySister = createPerson(MY_SISTER, MY_SISTER_BIRTH);
 
-        Person myChild = createPerson("myChild", 2000);
+        Person myChild = createPerson(MY_CHILD, MY_CHILD_BIRTH);
 
         me.addSibling(myBrother, mySister);
         me.addChild(myChild);

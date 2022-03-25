@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static de.pedigreeProject.kinship.StateOfRelation.*;
+import static de.frederik.testUtils.testData.TranslationY.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TranslationNodesXTestFX extends BaseTestFXClass {
@@ -26,12 +27,6 @@ public class TranslationNodesXTestFX extends BaseTestFXClass {
     @Test
     @DisplayName("test spacing between labels: simple list")
     void testTranslation_simpleFamily() {
-        final String ME = "mainPerson";
-        final String MY_BROTHER = "myBrother";
-        final String MY_SISTER = "mySister";
-        final String MY_SPOUSE = "mySpouse";
-        final String MY_CHILD = "myChild";
-        final String SIBLING_OF_SPOUSE = "siblingOfSpouse";
 
         createTranslationTestPedigree();
         clickOn(MY_CHILD);
