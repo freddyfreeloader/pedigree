@@ -7,31 +7,16 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.*;
+import static de.frederik.testUtils.ConstantsForTesting.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.matcher.control.LabeledMatchers.*;
+import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 public class PedigreeManagementTestFX extends BaseTestFXClass {
 
     private final static Logger logger = LogManager.getLogger("tests");
-
-    private final static String DEFAULT_PEDIGREE = ResourceBundle.getBundle("pedigree").getString("default.pedigree.title");
-    private final static String FIRST_TEST_PEDIGREE = "first test pedigree";
-    private final static String SECOND_TEST_PEDIGREE = "second test pedigree";
-    private final static String CHANGED_TITLE = "New Title Of Pedigree";
-    private final static String EMPTY_TITLE = "";
-    private final static String CHANGED_DESCRIPTION = "New Description";
-    private final static String EXISTING_PEDIGREE1 = "Already existing Pedigree 1";
-    private final static String EXISTING_PEDIGREE2 = "Already existing Pedigree 2";
-
-    private final static String DELETE_ALERT = ResourceBundle.getBundle("alerts").getString("delete.pedigree");
-    private final static String TITLE_IS_BLANK_ALERT = ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("title.is.blank");
-    private final static String TITLE_ALREADY_EXISTS_ALERT = ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("name.already.exists");
 
     @Test
     @DisplayName("change title and description of pedigree, verify model and labels")

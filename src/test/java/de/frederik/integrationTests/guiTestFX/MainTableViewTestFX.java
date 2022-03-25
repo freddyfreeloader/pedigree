@@ -11,6 +11,7 @@ import java.time.Year;
 import java.util.ResourceBundle;
 
 import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.*;
+import static de.frederik.testUtils.ConstantsForTesting.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.TableViewMatchers.hasNumRows;
@@ -26,19 +27,19 @@ public class MainTableViewTestFX extends BaseTestFXClass {
         assertNotNull(table);
         verifyThat(table, hasNumRows(0));
 
-        helper.addNewEntry(GIVEN_NAME1, FAMILY_NAME1, Year.of(Integer.parseInt(YEAR_OF_BIRTH1)));
+        helper.addNewEntry(GIVEN_NAME1, FAMILY_NAME1, YEAR_OF_BIRTH1);
 
         verifyThat(table, hasNumRows(1));
         Person person = table.getItems().get(0);
         verifyPersonIsInSync(person, GIVEN_NAME1, FAMILY_NAME1, YEAR_OF_BIRTH1);
 
-        helper.addNewEntry(GIVEN_NAME2, FAMILY_NAME2, Year.of(Integer.parseInt(YEAR_OF_BIRTH2)));
+        helper.addNewEntry(GIVEN_NAME2, FAMILY_NAME2, YEAR_OF_BIRTH2);
 
         verifyThat(table, hasNumRows(2));
         Person person2 = table.getItems().get(1);
         verifyPersonIsInSync(person2, GIVEN_NAME2, FAMILY_NAME2, YEAR_OF_BIRTH2);
 
-        helper.addNewEntry(GIVEN_NAME, FAMILY_NAME, Year.of(Integer.parseInt(YEAR_OF_BIRTH)));
+        helper.addNewEntry(GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
 
         verifyThat(table, hasNumRows(3));
 
@@ -48,10 +49,10 @@ public class MainTableViewTestFX extends BaseTestFXClass {
         verifyPersonIsInSync(person3, GIVEN_NAME, FAMILY_NAME, YEAR_OF_BIRTH);
     }
 
-    private void verifyPersonIsInSync(Person person, String givenName, String familyName, String yearOfBirth) {
+    private void verifyPersonIsInSync(Person person, String givenName, String familyName, Year yearOfBirth) {
         assertEquals(person.getGivenName(), givenName);
         assertEquals(person.getFamilyName(), familyName);
-        assertEquals(person.getYearOfBirth().orElse(null), Year.of(Integer.parseInt(yearOfBirth)));
+        assertEquals(person.getYearOfBirth().orElse(null), yearOfBirth);
     }
 
     @Test

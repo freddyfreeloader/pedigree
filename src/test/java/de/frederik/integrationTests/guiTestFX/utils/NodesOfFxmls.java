@@ -50,17 +50,4 @@ public class NodesOfFxmls {
     public static final String CHILDREN_TABLE = "#childrenTable";
     public static final String SPOUSES_TABLE = "#spousesTable";
     public static final String PERSONS_TABLE = "#personsTable";
-
-
-
-
-    public final static String GIVEN_NAME = "GivenName";
-    public final static String GIVEN_NAME1 = "GivenName1";
-    public final static String GIVEN_NAME2 = "GivenName2";
-    public final static String FAMILY_NAME = "FamilyName";
-    public final static String FAMILY_NAME1 = "FamilyName1";
-    public final static String FAMILY_NAME2 = "FamilyName2";
-    public final static String YEAR_OF_BIRTH = "2000";
-    public final static String YEAR_OF_BIRTH1 = "2001";
-    public final static String YEAR_OF_BIRTH2 = "2002";
 }

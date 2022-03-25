@@ -48,9 +48,10 @@ public class RunProductionAppTestFX extends ApplicationTest {
         };
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("pedigree.fxml"));
         fxmlLoader.setControllerFactory(controllerFactory);
-        fxmlLoader.setResources(ResourceBundle.getBundle("pedigree"));
+        ResourceBundle bundle = ResourceBundle.getBundle("pedigree");
+        fxmlLoader.setResources(bundle);
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Stammbaum - genetische Verwandtschaft");
+        stage.setTitle(bundle.getString("stage.title.main"));
         stage.setScene(scene);
         stage.show();
         stage.toFront();

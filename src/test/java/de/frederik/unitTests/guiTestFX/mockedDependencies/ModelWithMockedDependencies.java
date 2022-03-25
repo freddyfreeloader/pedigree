@@ -1,7 +1,6 @@
 package de.frederik.unitTests.guiTestFX.mockedDependencies;
 
 import de.frederik.integrationTests.guiTestFX.utils.TestFxHelperMethods;
-import de.frederik.testUtils.TestDatabaseCleaner;
 import de.pedigreeProject.controller.MainModelController;
 import de.pedigreeProject.database.GatewayFactory;
 import de.pedigreeProject.database.PedigreeGateway;
@@ -23,9 +22,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.framework.junit5.Start;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

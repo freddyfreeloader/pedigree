@@ -17,7 +17,7 @@ public class ExceptionTest extends ModelWithMockedDependencies {
     @DisplayName("PersonDataController(): Tests if RuntimeException is being caught and alert dialog is shown.")
     void createNewPersonFail() {
         when(personGatewayMock.createPerson(any(), anyString(), anyString(), any())).thenThrow(new RuntimeException());
-        helper.addNewEntry("Test", "", null);
+        helper.addNewEntry("Test");
 
         helper.verifyAlertDialogAndPressEnter(alertMessage);
     }

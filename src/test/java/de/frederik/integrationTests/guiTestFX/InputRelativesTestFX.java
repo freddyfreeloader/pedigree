@@ -133,6 +133,11 @@ public class InputRelativesTestFX extends BaseTestFXClass {
     @DisplayName("basic test for drag&drop and delete buttons")
     void test_Table_Functions_DragAndDrop_DeleteFromTable() {
 
+        final String PARENTS = "parentsGivenNameColumn";
+        final String SPOUSES = "spousesGivenNameColumn";
+        final String SIBLINGS = "siblingsGivenNameColumn";
+        final String CHILDREN = "childrenGivenNameColumn";
+
         helper.addNewEntry(FATHER, FATHER_BIRTH);
         helper.addNewEntry(MOTHER, MOTHER_BIRTH);
         helper.addNewEntry(BROTHER, BROTHER_BIRTH);
@@ -178,12 +183,12 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.parentsTableHasOnlyThisMembers(myFather, myMother);
         helper.personsTableHasOnlyThisMembers(myBrother, mySister, myChild1, myChild2, mySpouse);
 
-        helper.fireDeleteButton(FATHER, "parentsGivenNameColumn");
+        helper.fireDeleteButton(FATHER, PARENTS);
 
         helper.parentsTableHasOnlyThisMembers(myMother);
         helper.personsTableHasOnlyThisMembers(myFather, myBrother, mySister, myChild1, myChild2, mySpouse);
 
-        helper.fireDeleteButton(MOTHER, "parentsGivenNameColumn");
+        helper.fireDeleteButton(MOTHER, PARENTS);
 
         helper.parentsTableHasOnlyThisMembers();
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
@@ -193,7 +198,7 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.spousesTableHasOnlyThisMembers(mySpouse);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2);
 
-        helper.fireDeleteButton(SPOUSE, "spousesGivenNameColumn");
+        helper.fireDeleteButton(SPOUSE, SPOUSES);
 
         helper.spousesTableHasOnlyThisMembers();
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
@@ -208,12 +213,12 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.siblingsTableHasOnlyThisMembers(myBrother, mySister);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myChild1, myChild2, mySpouse);
 
-        helper.fireDeleteButton(BROTHER, "siblingsGivenNameColumn");
+        helper.fireDeleteButton(BROTHER, SIBLINGS);
 
         helper.siblingsTableHasOnlyThisMembers(mySister);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, myChild1, myChild2, mySpouse);
 
-        helper.fireDeleteButton(SISTER, "siblingsGivenNameColumn");
+        helper.fireDeleteButton(SISTER, SIBLINGS);
 
         helper.siblingsTableHasOnlyThisMembers();
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);
@@ -228,12 +233,12 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.childrenTableHasOnlyThisMembers(myChild1, myChild2);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, mySpouse);
 
-        helper.fireDeleteButton(CHILD1, "childrenGivenNameColumn");
+        helper.fireDeleteButton(CHILD1, CHILDREN);
 
         helper.childrenTableHasOnlyThisMembers(myChild2);
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, mySpouse);
 
-        helper.fireDeleteButton(CHILD2, "childrenGivenNameColumn");
+        helper.fireDeleteButton(CHILD2, CHILDREN);
 
         helper.childrenTableHasOnlyThisMembers();
         helper.personsTableHasOnlyThisMembers(myFather, myMother, myBrother, mySister, myChild1, myChild2, mySpouse);

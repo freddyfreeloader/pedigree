@@ -3,7 +3,6 @@ package de.frederik.integrationTests.jUnit.model_Integration_Test;
 import de.pedigreeProject.model.Pedigree;
 import de.pedigreeProject.model.Person;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
@@ -13,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static de.frederik.testUtils.ConstantsForTesting.CHANGED_DESCRIPTION;
+import static de.frederik.testUtils.ConstantsForTesting.FIRST_TEST_PEDIGREE;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ModelTest_Pedigree extends ModelTest {
@@ -20,14 +21,12 @@ class ModelTest_Pedigree extends ModelTest {
     @Test
     @DisplayName("createNewPedigree() : valid input, tests all lists")
     void createNewPedigree_ValidInput() {
-        String title = "TestPedigree";
-        String description = "this is a test pedigree";
-        Pedigree pedigree = model.createNewPedigree(title, description).orElse(null);
+        Pedigree pedigree = model.createNewPedigree(FIRST_TEST_PEDIGREE, CHANGED_DESCRIPTION).orElse(null);
 
         assertNotNull(pedigree);
 
-        assertEquals(pedigree.getTitle(), title);
-        assertEquals(pedigree.getDescription(), description);
+        assertEquals(pedigree.getTitle(), FIRST_TEST_PEDIGREE);
+        assertEquals(pedigree.getDescription(), CHANGED_DESCRIPTION);
         assertTrue(pedigree.getId() != 0);
 
         assertTrue(model.getPedigrees().contains(pedigree));
@@ -83,42 +82,36 @@ class ModelTest_Pedigree extends ModelTest {
     void updatePedigreeTitleAndDescription_ValidInput() {
         Pedigree pedigree = createTestPedigree();
 
-        String changedTitle = "TestPedigree - changed";
-        String changedDescription = "TestPedigree have changed";
-
-        model.updatePedigreeTitleAndDescription(changedTitle, changedDescription);
+        model.updatePedigreeTitleAndDescription(FIRST_TEST_PEDIGREE, CHANGED_DESCRIPTION);
 
         Pedigree currentPedigree = model.getCurrentPedigree();
         assertSame(pedigree, currentPedigree);
-        assertEquals(changedTitle, currentPedigree.getTitle());
-        assertEquals(changedDescription, currentPedigree.getDescription());
+        assertEquals(FIRST_TEST_PEDIGREE, currentPedigree.getTitle());
+        assertEquals(CHANGED_DESCRIPTION, currentPedigree.getDescription());
     }
+
     @Test
     @DisplayName("updatePedigreeTitleAndDescription() : change only description")
     void updatePedigreeTitleAndDescription_changeDescription() {
         Pedigree pedigree = createTestPedigree();
-
         String unchangedTitle = pedigree.getTitle();
-        String changedDescription = "TestPedigree have changed";
 
-        model.updatePedigreeTitleAndDescription(unchangedTitle, changedDescription);
+        model.updatePedigreeTitleAndDescription(unchangedTitle, CHANGED_DESCRIPTION);
 
         Pedigree currentPedigree = model.getCurrentPedigree();
         assertSame(pedigree, currentPedigree);
         assertEquals(unchangedTitle, currentPedigree.getTitle());
-        assertEquals(changedDescription, currentPedigree.getDescription());
+        assertEquals(CHANGED_DESCRIPTION, currentPedigree.getDescription());
     }
 
-
     @Test
-    @DisplayName("updatePedigreeTitleAndDescription() : empty title should throw IllegalArgumentException")
+    @DisplayName("updatePedigreeTitleAndDescription() : empty title should throw IllegalArgumentException, pedigree should not have changed")
     void updatePedigreeTitleAndDescription_InvalidInput() {
         Pedigree pedigree = createTestPedigree();
         String oldTitle = pedigree.getTitle();
         String oldDescription = pedigree.getDescription();
-        String changedDescription = "TestPedigree without title";
 
-        assertThrows(IllegalArgumentException.class, () -> model.updatePedigreeTitleAndDescription("", changedDescription));
+        assertThrows(IllegalArgumentException.class, () -> model.updatePedigreeTitleAndDescription("", CHANGED_DESCRIPTION));
         Pedigree currentPedigree = model.getCurrentPedigree();
         assertEquals(pedigree, currentPedigree);
         assertEquals(oldTitle, currentPedigree.getTitle());
@@ -126,7 +119,7 @@ class ModelTest_Pedigree extends ModelTest {
     }
 
     @Test
-    @DisplayName("replacePedigree() : currentPedigree should updated")
+    @DisplayName("replacePedigree() : currentPedigree should be updated")
     void replacePedigree() {
         Pedigree firstPedigree = createTestPedigree("1");
         Pedigree secondPedigree = createTestPedigree("2");
@@ -152,6 +145,7 @@ class ModelTest_Pedigree extends ModelTest {
         model.replacePedigree(pedigree2);
         assertEquals(List.of(person2), model.getPersons());
     }
+
     @Test
     @DisplayName("current pedigree: if current pedigree changed, persons list should change too")
     void changeCurrentPedigree_personsList() {
@@ -175,7 +169,7 @@ class ModelTest_Pedigree extends ModelTest {
         assertEquals(List.of(person4, person5, person6), personGateway.readPersons(pedigree2));
     }
 
-    @RepeatedTest(1)
+    @Test
     @DisplayName("deletePedigree(): pedigrees should be deleted from pedigree list and database")
     void deletePedigree_syncListAndDatabase() {
         Pedigree pedigree1 = createTestPedigree("1");
@@ -194,7 +188,7 @@ class ModelTest_Pedigree extends ModelTest {
         assertEquals(List.of(defaultPedigree), pedigreeGateway.readPedigrees());
     }
 
-    @RepeatedTest(1)
+    @Test
     @DisplayName("deletePedigree(): last updated/created pedigree should be new current pedigree")
     void deletePedigree_testTimeStamp() {
 
@@ -224,7 +218,6 @@ class ModelTest_Pedigree extends ModelTest {
     @DisplayName("deletePedigree(): default pedigree should be created, if last user pedigree is deleted")
     void deletePedigree_defaultPedigree() {
         Pedigree userPedigree1 = createTestPedigree("1");
-
         Pedigree defaultPedigree = getDefaultPedigree();
 
         modelAndDatabaseHaveOnlyPedigrees(defaultPedigree, userPedigree1);
@@ -294,9 +287,9 @@ class ModelTest_Pedigree extends ModelTest {
         assertEquals(List.of(), personGateway.readPersons(pedigree1));
     }
 
-    private void modelAndDatabaseHaveOnlyPedigrees (Pedigree... pedigrees) {
-        assertEquals(List.of( pedigrees), model.getPedigrees());
-        assertEquals(List.of( pedigrees), pedigreeGateway.readPedigrees());
+    private void modelAndDatabaseHaveOnlyPedigrees(Pedigree... pedigrees) {
+        assertEquals(List.of(pedigrees), model.getPedigrees());
+        assertEquals(List.of(pedigrees), pedigreeGateway.readPedigrees());
     }
 
     private void assertTimeStampIsConsecutively(Pedigree... pedigrees) {

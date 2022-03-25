@@ -67,6 +67,7 @@ public class TranslationNodesYTestFX extends BaseTestFXClass {
         clickOn(PERSON_WITHOUT_YEAR).clickOn(MENU_VIEW).clickOn(MENU_AGE_CHECK_BOX);
 
         assertTrue(helper.mostlyOneLabelIsTranslated(), TRANSLATION);
+
         Set<Label> labels = helper.getLabelsFromScrollPane();
         labels.forEach(label -> {
             double translation = getTranslation(label);
