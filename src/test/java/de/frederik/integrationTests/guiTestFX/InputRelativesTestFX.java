@@ -79,7 +79,7 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.childrenTableHasOnlyThisMembers(myChild1);
 
         type(KeyCode.ENTER);
-
+        // Now add parents to alien, to provoke an error if "me" tries to add alien as sibling.
         helper.fireEditRelativesButton(ALIEN, String.valueOf(ALIEN_BIRTH));
         helper.personsTableHasOnlyThisMembers(me, myFather, myMother, myChild1, mySpouse, aliensFather, aliensMother);
 
@@ -104,9 +104,8 @@ public class InputRelativesTestFX extends BaseTestFXClass {
         helper.childrenTableHasOnlyThisMembers(myChild1);
     }
 
-
     @Test
-    @DisplayName("the children of sibling should not be in persons table")
+    @DisplayName("children of sibling should not be in persons table")
     void children_of_sibling_should_not_be_in_personsTable() {
         helper.addNewEntry(BROTHER, BROTHER_BIRTH);
         helper.addNewEntry(ME, ME_BIRTH);

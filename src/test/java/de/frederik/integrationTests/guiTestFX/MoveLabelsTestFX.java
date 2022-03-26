@@ -18,31 +18,31 @@ public class MoveLabelsTestFX extends BaseTestFXClass {
 
         clickOn(helper.getItemOfTableview(TABLE, ME));
 
-        moveToLabel(BROTHER);
+        moveToLabel(BROTHER); // brother is on left edge, so only moveRight button should appear
         verifyThat(MOVE_RIGHT, isVisible());
         verifyThat(MOVE_LEFT, not(isVisible()));
 
         helper.fireButton(MOVE_RIGHT);
 
-        moveToLabel(BROTHER);
+        moveToLabel(BROTHER); // brother is now in the middle, so both move buttons should appear
         verifyThat(MOVE_RIGHT, isVisible());
         verifyThat(MOVE_LEFT, isVisible());
 
         helper.fireButton(MOVE_RIGHT);
 
-        moveToLabel(BROTHER);
+        moveToLabel(BROTHER); // brother is on the right edge, so only moveLeft button should appear
         verifyThat(MOVE_RIGHT, not(isVisible()));
         verifyThat(MOVE_LEFT, isVisible());
 
         helper.fireButton(MOVE_LEFT);
-        moveToLabel(BROTHER);
 
+        moveToLabel(BROTHER);// brother is now in the middle, so both move buttons should appear
         verifyThat(MOVE_RIGHT, isVisible());
         verifyThat(MOVE_LEFT, isVisible());
 
         clickOn(helper.getItemOfTableview(TABLE, MOTHER));
 
-        moveToLabel(MOTHER);
+        moveToLabel(MOTHER); // mother has no neighbours, so no move button should appear
         verifyThat(MOVE_RIGHT, not(isVisible()));
         verifyThat(MOVE_LEFT, not(isVisible()));
     }

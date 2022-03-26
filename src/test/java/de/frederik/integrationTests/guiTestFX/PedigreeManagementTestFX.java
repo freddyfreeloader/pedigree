@@ -169,9 +169,9 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
         verifyThat(PEDIGREE_TITEL_LABEL, hasText(SECOND_TEST_PEDIGREE));
 
         clickOn(MENU_FILE).clickOn(MENU_RECENT);
-        assertTrue(helper.verifyLabelIsInMenu(DEFAULT_PEDIGREE));
-        assertTrue(helper.verifyLabelIsInMenu(FIRST_TEST_PEDIGREE));
-        assertTrue(helper.verifyLabelIsInMenu(SECOND_TEST_PEDIGREE));
+        assertTrue(helper.verifyTextIsInRecentMenu(DEFAULT_PEDIGREE));
+        assertTrue(helper.verifyTextIsInRecentMenu(FIRST_TEST_PEDIGREE));
+        assertTrue(helper.verifyTextIsInRecentMenu(SECOND_TEST_PEDIGREE));
 
         clickOn(MENU_DELETE);
         helper.verifyAlertDialogAndPressEnter(DELETE_ALERT);
@@ -179,9 +179,9 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
 
         verifyThat(PEDIGREE_TITEL_LABEL, hasText(FIRST_TEST_PEDIGREE));
         clickOn(MENU_FILE).clickOn(MENU_RECENT);
-        assertTrue(helper.verifyLabelIsInMenu(DEFAULT_PEDIGREE));
-        assertTrue(helper.verifyLabelIsInMenu(FIRST_TEST_PEDIGREE));
-        assertFalse(helper.verifyLabelIsInMenu(SECOND_TEST_PEDIGREE));
+        assertTrue(helper.verifyTextIsInRecentMenu(DEFAULT_PEDIGREE));
+        assertTrue(helper.verifyTextIsInRecentMenu(FIRST_TEST_PEDIGREE));
+        assertFalse(helper.verifyTextIsInRecentMenu(SECOND_TEST_PEDIGREE));
 
         clickOn(MENU_DELETE);
         helper.verifyAlertDialogAndPressEnter(DELETE_ALERT);
@@ -189,9 +189,9 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
 
         verifyThat(PEDIGREE_TITEL_LABEL, hasText(DEFAULT_PEDIGREE));
         clickOn(MENU_FILE).clickOn(MENU_RECENT);
-        assertTrue(helper.verifyLabelIsInMenu(DEFAULT_PEDIGREE));
-        assertFalse(helper.verifyLabelIsInMenu(FIRST_TEST_PEDIGREE));
-        assertFalse(helper.verifyLabelIsInMenu(SECOND_TEST_PEDIGREE));
+        assertTrue(helper.verifyTextIsInRecentMenu(DEFAULT_PEDIGREE));
+        assertFalse(helper.verifyTextIsInRecentMenu(FIRST_TEST_PEDIGREE));
+        assertFalse(helper.verifyTextIsInRecentMenu(SECOND_TEST_PEDIGREE));
 
         clickOn(MENU_DELETE);
         helper.verifyAlertDialogAndPressEnter(DELETE_ALERT);
@@ -200,9 +200,9 @@ public class PedigreeManagementTestFX extends BaseTestFXClass {
         // if default pedigree is deleted, another new default pedigree is created
         verifyThat(PEDIGREE_TITEL_LABEL, hasText(DEFAULT_PEDIGREE));
         clickOn(MENU_FILE).clickOn(MENU_RECENT);
-        assertTrue(helper.verifyLabelIsInMenu(DEFAULT_PEDIGREE));
-        assertFalse(helper.verifyLabelIsInMenu(FIRST_TEST_PEDIGREE));
-        assertFalse(helper.verifyLabelIsInMenu(SECOND_TEST_PEDIGREE));
+        assertTrue(helper.verifyTextIsInRecentMenu(DEFAULT_PEDIGREE));
+        assertFalse(helper.verifyTextIsInRecentMenu(FIRST_TEST_PEDIGREE));
+        assertFalse(helper.verifyTextIsInRecentMenu(SECOND_TEST_PEDIGREE));
     }
 
     private void modelCreateNewPedigree(String title) {

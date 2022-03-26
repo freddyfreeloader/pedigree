@@ -74,19 +74,31 @@ abstract class BaseTestFXClass extends ApplicationTest {
                 .orElse(null);
     }
 
+    /**
+     * @see de.frederik.testUtils.testData.BaseFamily
+     */
     void createBaseFamilyPedigree() {
-        createAndReplaceTestPedigree(TestDatabase.getPedigreeOfBaseFamily());
+        Pedigree pedigree = TestDatabase.getPedigreeOfBaseFamily();
+        replacePedigree(pedigree);
     }
 
+    /**
+     * @see de.frederik.testUtils.testData.Buddenbrooks
+     */
     void createBuddenbrookPedigree() {
-        createAndReplaceTestPedigree(TestDatabase.getPedigreeOfBuddenbrook());
+        Pedigree pedigree = TestDatabase.getPedigreeOfBuddenbrook();
+        replacePedigree(pedigree);
     }
 
+    /**
+     * @see de.frederik.testUtils.testData.TranslationY
+     */
     void createTranslationTestPedigree() {
-        createAndReplaceTestPedigree(TestDatabase.getTranslationTestPedigree());
+        Pedigree pedigree = TestDatabase.getTranslationTestPedigree();
+        replacePedigree(pedigree);
     }
 
-    void createAndReplaceTestPedigree(Pedigree pedigree) {
+    void replacePedigree(Pedigree pedigree) {
         Platform.runLater(() -> model.replacePedigree(pedigree));
         interrupt();
     }

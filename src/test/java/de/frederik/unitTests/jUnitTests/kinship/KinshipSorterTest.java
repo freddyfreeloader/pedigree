@@ -1,5 +1,6 @@
 package de.frederik.unitTests.jUnitTests.kinship;
 
+import de.frederik.testUtils.testData.BuddenbrooksData;
 import de.frederik.testUtils.testData.TestDatabase;
 import de.pedigreeProject.kinship.KinshipSorter;
 import de.pedigreeProject.kinship.KinshipSorterImpl;
@@ -32,24 +33,19 @@ class KinshipSorterTest {
     @DisplayName("Sorter: test sort order with Buddenbrooks pedigree from oldest person")
     void getSortedList_BuddenbrooksFromTop() {
 
-        List<List<Person>> expectedList = getExpectedOrderedList(JOHAN.toString());
-        Map<Person, Integer> personIntegerMap = getPersonGeneration(JOHAN.toString());
+        List<List<Person>> expectedList = getExpectedOrderedList(JOHAN);
+        Map<Person, Integer> personIntegerMap = getPersonGeneration(JOHAN);
         KinshipSorter kinshipSorter = new KinshipSorterImpl();
 
         assertEquals(expectedList, kinshipSorter.getSortedLists(personIntegerMap));
     }
 
-    /**
-     * Pedigree of Buddenbrooks:
-     *
-     * @see <a href="http://buddenbrookhaus.de/file/stb_fam_buddenbrook.pdf">http://buddenbrookhaus.de</a>
-     */
     @Test
     @DisplayName("Sorter: test sort order with Buddenbrooks pedigree from youngest person")
     void getSortedList_BuddenbrooksFromBottom() {
 
-        List<List<Person>> expectedList = getExpectedOrderedList(ELISABETH_WEINSCHENK.toString());
-        Map<Person, Integer> personIntegerMap = getPersonGeneration(ELISABETH_WEINSCHENK.toString());
+        List<List<Person>> expectedList = getExpectedOrderedList(ELISABETH_WEINSCHENK);
+        Map<Person, Integer> personIntegerMap = getPersonGeneration(ELISABETH_WEINSCHENK);
         KinshipSorter kinshipSorter = new KinshipSorterImpl();
 
         assertEquals(expectedList, kinshipSorter.getSortedLists(personIntegerMap));
@@ -59,95 +55,44 @@ class KinshipSorterTest {
     @DisplayName("Sorter: test sort order with Buddenbrooks pedigree from middle")
     void getSortedList_BuddenbrooksFromMiddle() {
 
-        List<List<Person>> expectedList = getExpectedOrderedList(ANTONIE.toString());
-        Map<Person, Integer> personIntegerMap = getPersonGeneration(ANTONIE.toString());
+        List<List<Person>> expectedList = getExpectedOrderedList(ANTONIE);
+        Map<Person, Integer> personIntegerMap = getPersonGeneration(ANTONIE);
         KinshipSorter kinshipSorter = new KinshipSorterImpl();
 
         assertEquals(expectedList, kinshipSorter.getSortedLists(personIntegerMap));
     }
 
-    private Map<Person, Integer> getPersonGeneration(String fullName) {
+    private Map<Person, Integer> getPersonGeneration(BuddenbrooksData person) {
 
         Map<Person, Integer> map = new HashMap<>();
 
-        if (fullName.equals(ANTONIE.toString())) {
+        if (person.equals(ANTONIE)) {
 
-            map.put(getPersonByFullName(JOHAN.toString()), -3);
-            map.put(getPersonByFullName(JOHANN.toString()), -2);
-            map.put(getPersonByFullName(ELISABETH_WEINSCHENK.toString()), 2);
-            map.put(getPersonByFullName(CATHARINA.toString()), -2);
-            map.put(getPersonByFullName(BERNHARD.toString()), -2);
-            map.put(getPersonByFullName(ANTOINETTE.toString()), -2);
-            map.put(getPersonByFullName(LEBERECHT.toString()), -2);
-            map.put(getPersonByFullName(OLLY.toString()), -1);
-            map.put(getPersonByFullName(GOTTHOLD.toString()), -1);
-            map.put(getPersonByFullName(JUSTUS.toString()), -1);
-            map.put(getPersonByFullName(KLOTHILDE.toString()), -1);
-            map.put(getPersonByFullName(ELISABETH_KROEGER.toString()), -1);
-            map.put(getPersonByFullName(GISELA.toString()), 1);
-            map.put(getPersonByFullName(JOHANN_JEAN.toString()), -1);
-            map.put(getPersonByFullName(JAKOB.toString()), 0);
-            map.put(getPersonByFullName(FREDERIKE.toString()), 0);
-            map.put(getPersonByFullName(CHRISTIAN.toString()), 0);
-            map.put(getPersonByFullName(PFIFFI.toString()), 0);
-            map.put(getPersonByFullName(ANTONIE.toString()), 0);
-            map.put(getPersonByFullName(JUERGEN.toString()), 0);
-            map.put(getPersonByFullName(HENRIETTE.toString()), 0);
-            map.put(getPersonByFullName(THOMAS.toString()), 0);
-            map.put(getPersonByFullName(CLARA.toString()), 0);
-            map.put(getPersonByFullName(HANNO.toString()), 1);
-            map.put(getPersonByFullName(ERIKA.toString()), 1);
+            map.putAll(getMapOfGeneration(-3, JOHAN));
+            map.putAll(getMapOfGeneration(-2, JOHANN, CATHARINA, BERNHARD, ANTOINETTE, LEBERECHT));
+            map.putAll(getMapOfGeneration(-1, OLLY, GOTTHOLD, JUSTUS, KLOTHILDE, ELISABETH_KROEGER, JOHANN_JEAN));
+            map.putAll(getMapOfGeneration(0, JAKOB, FREDERIKE, CHRISTIAN, PFIFFI, ANTONIE, JUERGEN, HENRIETTE, THOMAS, CLARA));
+            map.putAll(getMapOfGeneration(1, HANNO, GISELA, ERIKA));
+            map.putAll(getMapOfGeneration(2, ELISABETH_WEINSCHENK));
+
         }
-        if (fullName.equals(ELISABETH_WEINSCHENK.toString())) {
+        if (person.equals(ELISABETH_WEINSCHENK)) {
 
-            map.put(getPersonByFullName(JOHAN.toString()), -5);
-            map.put(getPersonByFullName(JOHANN.toString()), -4);
-            map.put(getPersonByFullName(CATHARINA.toString()), -4);
-            map.put(getPersonByFullName(BERNHARD.toString()), -4);
-            map.put(getPersonByFullName(LEBERECHT.toString()), -4);
-            map.put(getPersonByFullName(ANTOINETTE.toString()), -4);
-            map.put(getPersonByFullName(OLLY.toString()), -3);
-            map.put(getPersonByFullName(GOTTHOLD.toString()), -3);
-            map.put(getPersonByFullName(JUSTUS.toString()), -3);
-            map.put(getPersonByFullName(KLOTHILDE.toString()), -3);
-            map.put(getPersonByFullName(ELISABETH_KROEGER.toString()), -3);
-            map.put(getPersonByFullName(JOHANN_JEAN.toString()), -3);
-            map.put(getPersonByFullName(BENDIX.toString()), -2);
-            map.put(getPersonByFullName(FREDERIKE.toString()), -2);
-            map.put(getPersonByFullName(CHRISTIAN.toString()), -2);
-            map.put(getPersonByFullName(ANTONIE.toString()), -2);
-            map.put(getPersonByFullName(JAKOB.toString()), -2);
-            map.put(getPersonByFullName(JUERGEN.toString()), -2);
-            map.put(getPersonByFullName(HENRIETTE.toString()), -2);
-            map.put(getPersonByFullName(THOMAS.toString()), -2);
-            map.put(getPersonByFullName(CLARA.toString()), -2);
-            map.put(getPersonByFullName(PFIFFI.toString()), -2);
-            map.put(getPersonByFullName(ERIKA.toString()), -1);
-            map.put(getPersonByFullName(HANNO.toString()), -1);
-            map.put(getPersonByFullName(GISELA.toString()), -1);
-            map.put(getPersonByFullName(HUGO.toString()), -1);
-            map.put(getPersonByFullName(ELISABETH_WEINSCHENK.toString()), 0);
+            map.putAll(getMapOfGeneration(-5, JOHAN));
+            map.putAll(getMapOfGeneration(-4, JOHANN, CATHARINA, BERNHARD, LEBERECHT, ANTOINETTE));
+            map.putAll(getMapOfGeneration(-3, OLLY, GOTTHOLD, JUSTUS, KLOTHILDE, ELISABETH_KROEGER, JOHANN_JEAN));
+            map.putAll(getMapOfGeneration(-2, BENDIX, FREDERIKE, CHRISTIAN, ANTONIE, JAKOB, JUERGEN, HENRIETTE, THOMAS, CLARA, PFIFFI));
+            map.putAll(getMapOfGeneration(-1, ERIKA, HANNO, GISELA, HUGO));
+            map.putAll(getMapOfGeneration(0, ELISABETH_WEINSCHENK));
+
         }
-        if (fullName.equals(JOHAN.toString())) {
-
-            map.put(getPersonByFullName(JOHAN.toString()), 0);
-            map.put(getPersonByFullName(JOHANN.toString()), 1);
-            map.put(getPersonByFullName(BERNHARD.toString()), 1);
-            map.put(getPersonByFullName(OLLY.toString()), 2);
-            map.put(getPersonByFullName(GOTTHOLD.toString()), 2);
-            map.put(getPersonByFullName(KLOTHILDE.toString()), 2);
-            map.put(getPersonByFullName(JOHANN_JEAN.toString()), 2);
-            map.put(getPersonByFullName(CLARA.toString()), 3);
-            map.put(getPersonByFullName(FREDERIKE.toString()), 3);
-            map.put(getPersonByFullName(CHRISTIAN.toString()), 3);
-            map.put(getPersonByFullName(ANTONIE.toString()), 3);
-            map.put(getPersonByFullName(HENRIETTE.toString()), 3);
-            map.put(getPersonByFullName(THOMAS.toString()), 3);
-            map.put(getPersonByFullName(PFIFFI.toString()), 3);
-            map.put(getPersonByFullName(ERIKA.toString()), 4);
-            map.put(getPersonByFullName(GISELA.toString()), 4);
-            map.put(getPersonByFullName(HANNO.toString()), 4);
-            map.put(getPersonByFullName(ELISABETH_WEINSCHENK.toString()), 5);
+        if (person.equals(JOHAN)) {
+            map.putAll(getMapOfGeneration(0, JOHAN));
+            map.putAll(getMapOfGeneration(1, JOHANN, BERNHARD));
+            map.putAll(getMapOfGeneration(2, OLLY, GOTTHOLD, KLOTHILDE, JOHANN_JEAN));
+            map.putAll(getMapOfGeneration(3, CLARA, FREDERIKE, CHRISTIAN, ANTONIE, HENRIETTE, THOMAS, PFIFFI));
+            map.putAll(getMapOfGeneration(4, ERIKA, GISELA, HANNO));
+            map.putAll(getMapOfGeneration(5, ELISABETH_WEINSCHENK));
         }
         //  HashMap has no natural order, but if the map are not changed
         //  the result of reading the map is nearly every time in the same order.
@@ -160,148 +105,60 @@ class KinshipSorterTest {
         return shuffleMap;
     }
 
-    private List<List<Person>> getExpectedOrderedList(String person) {
+    private Map<Person, Integer> getMapOfGeneration(int generation, BuddenbrooksData... persons) {
+        Map<Person, Integer> map = new HashMap<>();
+        for (BuddenbrooksData person : persons) {
+            map.put(getPersonByFullName(person), generation);
+        }
+        return map;
+    }
+
+    private List<List<Person>> getExpectedOrderedList(BuddenbrooksData person) {
         List<List<Person>> sortedList = new ArrayList<>();
-        if (person.equals(JOHAN.toString())) {
+        if (person.equals(JOHAN)) {
 
-            List<Person> generation0 = new ArrayList<>();
-            generation0.add(getPersonByFullName(JOHAN.toString()));
-            sortedList.add(generation0);
-
-            List<Person> generation1 = new ArrayList<>();
-            generation1.add(getPersonByFullName(JOHANN.toString()));
-            generation1.add(getPersonByFullName(BERNHARD.toString()));
-            sortedList.add(generation1);
-
-            List<Person> generation2 = new ArrayList<>();
-            generation2.add(getPersonByFullName(GOTTHOLD.toString()));
-            generation2.add(getPersonByFullName(JOHANN_JEAN.toString()));
-            generation2.add(getPersonByFullName(OLLY.toString()));
-            generation2.add(getPersonByFullName(KLOTHILDE.toString()));
-            sortedList.add(generation2);
-
-            List<Person> generation3 = new ArrayList<>();
-            generation3.add(getPersonByFullName(FREDERIKE.toString()));
-            generation3.add(getPersonByFullName(HENRIETTE.toString()));
-            generation3.add(getPersonByFullName(PFIFFI.toString()));
-            generation3.add(getPersonByFullName(THOMAS.toString()));
-            generation3.add(getPersonByFullName(ANTONIE.toString()));
-            generation3.add(getPersonByFullName(CHRISTIAN.toString()));
-            generation3.add(getPersonByFullName(CLARA.toString()));
-            sortedList.add(generation3);
-
-            List<Person> generation4 = new ArrayList<>();
-            generation4.add(getPersonByFullName(HANNO.toString()));
-            generation4.add(getPersonByFullName(ERIKA.toString()));
-            generation4.add(getPersonByFullName(GISELA.toString()));
-            sortedList.add(generation4);
-
-            List<Person> generation5 = new ArrayList<>();
-            generation5.add(getPersonByFullName(ELISABETH_WEINSCHENK.toString()));
-            sortedList.add(generation5);
+            sortedList.add(getGenerationList(JOHAN));
+            sortedList.add(getGenerationList(JOHANN, BERNHARD));
+            sortedList.add(getGenerationList(GOTTHOLD, JOHANN_JEAN, OLLY, KLOTHILDE));
+            sortedList.add(getGenerationList(FREDERIKE, HENRIETTE, PFIFFI, THOMAS, ANTONIE, CHRISTIAN, CLARA));
+            sortedList.add(getGenerationList(HANNO, ERIKA, GISELA));
+            sortedList.add(getGenerationList(ELISABETH_WEINSCHENK));
         }
+        if (person.equals(ELISABETH_WEINSCHENK)) {
 
-        if (person.equals(ELISABETH_WEINSCHENK.toString())) {
-
-            List<Person> generation0 = new ArrayList<>();
-            generation0.add(getPersonByFullName(JOHAN.toString()));
-            sortedList.add(generation0);
-
-            List<Person> generation1 = new ArrayList<>();
-            generation1.add(getPersonByFullName(JOHANN.toString()));
-            generation1.add(getPersonByFullName(ANTOINETTE.toString()));
-            generation1.add(getPersonByFullName(BERNHARD.toString()));
-            generation1.add(getPersonByFullName(LEBERECHT.toString()));
-            generation1.add(getPersonByFullName(CATHARINA.toString()));
-            sortedList.add(generation1);
-
-            List<Person> generation2 = new ArrayList<>();
-            generation2.add(getPersonByFullName(GOTTHOLD.toString()));
-            generation2.add(getPersonByFullName(JOHANN_JEAN.toString()));
-            generation2.add(getPersonByFullName(ELISABETH_KROEGER.toString()));
-            generation2.add(getPersonByFullName(OLLY.toString()));
-            generation2.add(getPersonByFullName(KLOTHILDE.toString()));
-            generation2.add(getPersonByFullName(JUSTUS.toString()));
-            sortedList.add(generation2);
-
-            List<Person> generation3 = new ArrayList<>();
-            generation3.add(getPersonByFullName(FREDERIKE.toString()));
-            generation3.add(getPersonByFullName(HENRIETTE.toString()));
-            generation3.add(getPersonByFullName(PFIFFI.toString()));
-            generation3.add(getPersonByFullName(THOMAS.toString()));
-            generation3.add(getPersonByFullName(ANTONIE.toString()));
-            generation3.add(getPersonByFullName(BENDIX.toString()));
-            generation3.add(getPersonByFullName(CHRISTIAN.toString()));
-            generation3.add(getPersonByFullName(CLARA.toString()));
-            generation3.add(getPersonByFullName(JUERGEN.toString()));
-            generation3.add(getPersonByFullName(JAKOB.toString()));
-            sortedList.add(generation3);
-
-            List<Person> generation4 = new ArrayList<>();
-            generation4.add(getPersonByFullName(HANNO.toString()));
-            generation4.add(getPersonByFullName(ERIKA.toString()));
-            generation4.add(getPersonByFullName(HUGO.toString()));
-            generation4.add(getPersonByFullName(GISELA.toString()));
-            sortedList.add(generation4);
-
-            List<Person> generation5 = new ArrayList<>();
-            generation5.add(getPersonByFullName(ELISABETH_WEINSCHENK.toString()));
-            sortedList.add(generation5);
+            sortedList.add(getGenerationList(JOHAN));
+            sortedList.add(getGenerationList(JOHANN, ANTOINETTE, BERNHARD, LEBERECHT, CATHARINA));
+            sortedList.add(getGenerationList(GOTTHOLD, JOHANN_JEAN, ELISABETH_KROEGER, OLLY, KLOTHILDE, JUSTUS));
+            sortedList.add(getGenerationList(FREDERIKE, HENRIETTE, PFIFFI, THOMAS, ANTONIE, BENDIX, CHRISTIAN, CLARA, JUERGEN, JAKOB));
+            sortedList.add(getGenerationList(HANNO, ERIKA, HUGO, GISELA));
+            sortedList.add(getGenerationList(ELISABETH_WEINSCHENK));
         }
-        if (person.equals(ANTONIE.toString())) {
+        if (person.equals(ANTONIE)) {
 
-            List<Person> generation0 = new ArrayList<>();
-            generation0.add(getPersonByFullName(JOHAN.toString()));
-            sortedList.add(generation0);
-
-            List<Person> generation1 = new ArrayList<>();
-            generation1.add(getPersonByFullName(JOHANN.toString()));
-            generation1.add(getPersonByFullName(ANTOINETTE.toString()));
-            generation1.add(getPersonByFullName(BERNHARD.toString()));
-            generation1.add(getPersonByFullName(LEBERECHT.toString()));
-            generation1.add(getPersonByFullName(CATHARINA.toString()));
-            sortedList.add(generation1);
-
-            List<Person> generation2 = new ArrayList<>();
-            generation2.add(getPersonByFullName(GOTTHOLD.toString()));
-            generation2.add(getPersonByFullName(JOHANN_JEAN.toString()));
-            generation2.add(getPersonByFullName(ELISABETH_KROEGER.toString()));
-            generation2.add(getPersonByFullName(OLLY.toString()));
-            generation2.add(getPersonByFullName(KLOTHILDE.toString()));
-            generation2.add(getPersonByFullName(JUSTUS.toString()));
-            sortedList.add(generation2);
-
-            List<Person> generation3 = new ArrayList<>();
-            generation3.add(getPersonByFullName(FREDERIKE.toString()));
-            generation3.add(getPersonByFullName(HENRIETTE.toString()));
-            generation3.add(getPersonByFullName(PFIFFI.toString()));
-            generation3.add(getPersonByFullName(THOMAS.toString()));
-            generation3.add(getPersonByFullName(ANTONIE.toString()));
-            generation3.add(getPersonByFullName(CHRISTIAN.toString()));
-            generation3.add(getPersonByFullName(CLARA.toString()));
-            generation3.add(getPersonByFullName(JUERGEN.toString()));
-            generation3.add(getPersonByFullName(JAKOB.toString()));
-            sortedList.add(generation3);
-
-            List<Person> generation4 = new ArrayList<>();
-            generation4.add(getPersonByFullName(HANNO.toString()));
-            generation4.add(getPersonByFullName(ERIKA.toString()));
-            generation4.add(getPersonByFullName(GISELA.toString()));
-            sortedList.add(generation4);
-
-            List<Person> generation5 = new ArrayList<>();
-            generation5.add(getPersonByFullName(ELISABETH_WEINSCHENK.toString()));
-            sortedList.add(generation5);
+            sortedList.add(getGenerationList(JOHAN));
+            sortedList.add(getGenerationList(JOHANN, ANTOINETTE, BERNHARD, LEBERECHT, CATHARINA));
+            sortedList.add(getGenerationList(GOTTHOLD, JOHANN_JEAN, ELISABETH_KROEGER, OLLY, KLOTHILDE, JUSTUS));
+            sortedList.add(getGenerationList(FREDERIKE, HENRIETTE, PFIFFI, THOMAS, ANTONIE, CHRISTIAN, CLARA, JUERGEN, JAKOB));
+            sortedList.add(getGenerationList(HANNO, ERIKA, GISELA));
+            sortedList.add(getGenerationList(ELISABETH_WEINSCHENK));
         }
         return sortedList;
     }
 
-    private @Nullable Person getPersonByFullName(String fullName) {
+    private List<Person> getGenerationList(BuddenbrooksData... persons) {
+        List<Person> generation = new ArrayList<>();
+        for (BuddenbrooksData person : persons) {
+            generation.add(getPersonByFullName(person));
+        }
+        return generation;
+    }
+
+    private @Nullable Person getPersonByFullName(BuddenbrooksData fullName) {
         try {
             return buddenbrooks.stream()
-                    .filter(person -> person.toString().equals(fullName))
+                    .filter(person -> person.toString().equals(fullName.toString()))
                     .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException(fullName + " is not provided!"));
+                    .orElseThrow(() -> new IllegalArgumentException(fullName.toString() + " is not provided!"));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return null;

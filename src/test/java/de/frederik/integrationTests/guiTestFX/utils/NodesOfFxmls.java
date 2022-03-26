@@ -22,6 +22,7 @@ public class NodesOfFxmls {
     public final static String MENU_DELETE = "#menuDeletePedigree";
     public final static String MENU_EXIT = "#exitWithoutSaving";
     public final static String MENU_BAR = "#menuBar";
+
     public final static String MOVE_RIGHT = "#move-right-button";
     public final static String MOVE_LEFT = "#move-left-button";
 

@@ -30,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.*;
+import static org.testfx.matcher.base.WindowMatchers.isShowing;
 import static org.testfx.matcher.control.TableViewMatchers.*;
 import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
@@ -39,7 +40,7 @@ import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 public class TestFxHelperMethods extends ApplicationTest {
 
     /**
-     * Fills the TextField Node with the text.
+     * Fills the TextField with the text.
      *
      * @param textFieldNode the fx:id of the node as '#XXX' String
      * @param text          the string to insert
@@ -99,8 +100,8 @@ public class TestFxHelperMethods extends ApplicationTest {
     /**
      * Searches for a Label in the given Pane with the given text String.
      *
-     * @param paneToSearch the fx:id of the pane to search
-     * @param textToSearch the string in the Label to look for
+     * @param paneToSearch the fx:id of the Pane to search
+     * @param textToSearch the String in the Label to look for
      * @return the founded Label or null
      */
     public Label getLabelFromPaneWithText(String paneToSearch, String textToSearch) {
@@ -112,10 +113,10 @@ public class TestFxHelperMethods extends ApplicationTest {
     }
 
     /**
-     * Searches in the given Stage for a TableColumn with given string
+     * Searches in the given Stage for a TableColumn with given String
      *
      * @param stage          the Stage where to search for
-     * @param stringToSearch the string in the TableColumn
+     * @param stringToSearch the String in the TableColumn
      * @return a {@code Predicate<Node>}
      */
     @NotNull
@@ -127,11 +128,11 @@ public class TestFxHelperMethods extends ApplicationTest {
     }
 
     /**
-     * Searches for a TableColumn with given string within the same stage of the given table
+     * Searches for a TableColumn with given String within the same Stage of the given table
      *
      * @param table        the fx:id of the table to search from as '#XXX'
      * @param textToSearch the text to search
-     * @return a {@code Node} (TableColumn) where the string and table matches
+     * @return a {@code Node} (TableColumn) where the String and table matches
      */
     @SuppressWarnings("rawtypes")
     public Node getItemOfTableview(String table, String textToSearch) {
@@ -142,11 +143,11 @@ public class TestFxHelperMethods extends ApplicationTest {
 
     /**
      * Returns a {@code Predicate<Node>} that verifies if the Node contains the given CSS-Selector and <br>
-     * contains both given strings in the object graph (in th TableRow)
+     * contains both given strings in the object graph (in the TableRow)
      *
      * @param cssSelector      the CSS-Selector of the Node (Button)
-     * @param tableRowElement1 first string to search in the TableRow
-     * @param tableRowElement2 second string to search in the TableRow
+     * @param tableRowElement1 first String to search in the TableRow
+     * @param tableRowElement2 second String to search in the TableRow
      * @return a {@code Predicate<Node>} if arguments are found
      */
     @NotNull
@@ -221,6 +222,14 @@ public class TestFxHelperMethods extends ApplicationTest {
         addNewEntry(givenName, "", yearOfBirth);
     }
 
+    /**
+     * Convenience method to insert a new entry in the main table.<br>
+     * Family name is empty.<br>
+     * Fires 'add entry button', inserts arguments and types ENTER.
+     *
+     * @param givenName   the given name to insert
+     * @param yearOfBirth the year of birth to insert
+     */
     public void addNewEntry(String givenName, int yearOfBirth) {
         addNewEntry(givenName, "", Year.of(yearOfBirth));
     }
@@ -254,7 +263,7 @@ public class TestFxHelperMethods extends ApplicationTest {
 
     /**
      * Convenience method to create a new pedigree via menu.
-     *
+     * Description is empty.
      * @param title the title of pedigree
      */
     public void createTestPedigree(String title) {
@@ -296,7 +305,7 @@ public class TestFxHelperMethods extends ApplicationTest {
         interrupt();
     }
 
-    public void changeTitleAndDescriptionOfPedigree(TextField titleTF, TextField descriptionTF, String title, String description) {
+    private void changeTitleAndDescriptionOfPedigree(TextField titleTF, TextField descriptionTF, String title, String description) {
         Platform.runLater(() -> {
             titleTF.setText(title);
             descriptionTF.setText(description);
@@ -329,7 +338,7 @@ public class TestFxHelperMethods extends ApplicationTest {
         });
     }
 
-    public boolean verifyLabelIsInMenu(String pedigreeTitle) {
+    public boolean verifyTextIsInRecentMenu(String pedigreeTitle) {
         Set<LabeledText> nodesInRecentMenu = lookup(pedigreeTitle).lookup(instanceOf(LabeledText.class)).queryAll();
 
         return nodesInRecentMenu.stream()
@@ -356,10 +365,8 @@ public class TestFxHelperMethods extends ApplicationTest {
     }
 
     public Label getLabelFromScrollPane(String identifier) {
-        Node scrollPane = lookup(SCROLL_PANE).query();
-        Set<Label> labels = from(scrollPane).lookup(instanceOf(Label.class)).queryAll();
+        Set<Label> labels = getLabelsFromScrollPane();
         return labels.stream().filter(label -> label.getText().contains(identifier)).findFirst().orElse(null);
-
     }
 
     public boolean mostlyOneLabelIsTranslated() {
@@ -382,7 +389,7 @@ public class TestFxHelperMethods extends ApplicationTest {
     public void verifyStageIsShowing(String stageRoot) {
         verifyThat(stageRoot, isNotNull());
         Node stage = lookup(stageRoot).query();
-        verifyThat(window(stage), WindowMatchers.isShowing());
+        verifyThat(window(stage), isShowing());
     }
 
     public void personsTableHasOnlyThisMembers(Person... persons) {

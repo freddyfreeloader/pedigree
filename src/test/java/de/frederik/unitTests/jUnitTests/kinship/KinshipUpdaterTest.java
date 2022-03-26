@@ -203,7 +203,7 @@ class KinshipUpdaterTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("remove siblings")
     void updateSiblings_RemoveSiblings() {
         Person person = createPerson(1);
         Person sibling1 = createPerson(2);

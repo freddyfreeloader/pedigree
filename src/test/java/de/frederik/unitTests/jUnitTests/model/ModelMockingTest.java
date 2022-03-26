@@ -388,8 +388,6 @@ class ModelMockingTest {
     }
 
     private Person createTestPerson(int id) {
-
-
         return new Person(id, 1, "TestPerson" + id, "", null);
     }
 
