@@ -21,7 +21,7 @@ class PersonGatewayTest extends Gateway_TestCase {
 
     @ParameterizedTest(name = "[{index}] given name: <{0}>, family name: <{1}>, year: <{2}> ")
     @MethodSource("validPersons")
-    @DisplayName("Creating person with valid parameters should pass, strings should be stripped.")
+    @DisplayName("Creating person with valid arguments should pass, strings should be stripped.")
     void createPerson_ValidInput(String givenName, String familyName, Year yearOfBirth) {
         Person person = personGateway.createPerson(testPedigree, givenName, familyName, yearOfBirth).orElse(null);
         assertNotNull(person);
@@ -45,7 +45,7 @@ class PersonGatewayTest extends Gateway_TestCase {
 
     @ParameterizedTest(name = "[{index}] given name: <{0}>, family name: <{1}>, year: <{2}> ")
     @MethodSource("invalidPersons")
-    @DisplayName("Creating person with invalid parameters should fail.")
+    @DisplayName("Creating person with invalid arguments should fail.")
     void createPerson_InvalidInput(String givenName, String familyName, Year yearOfBirth) {
         assertThrows(IllegalArgumentException.class, () -> personGateway.createPerson(testPedigree, givenName, familyName, yearOfBirth));
     }

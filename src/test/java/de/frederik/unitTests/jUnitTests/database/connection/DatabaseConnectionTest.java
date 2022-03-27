@@ -17,7 +17,7 @@ class DatabaseConnectionTest {
     @DisplayName("try database connection to <testDatabase.db>")
     void getConnection() {
 
-        DatabaseConnection connection = new DatabaseConnectionSqlite(" testDatabase.db ");
+        DatabaseConnection connection = new DatabaseConnectionSqlite("testDatabase.db");
 
         assertNotNull(connection.getConnection());
     }
@@ -25,7 +25,7 @@ class DatabaseConnectionTest {
     @Test
     @DisplayName("try database connection to <:::> should fail")
     void getConnection_Failed() {
-        logger.info("testing failing connection");
+//        logger.info("testing failing connection");
 
         DatabaseConnection connection = new DatabaseConnectionSqlite(":::");
 
