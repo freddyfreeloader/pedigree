@@ -4,4 +4,4 @@ A simple application to calculate and visualize the genetic relationship within 
 ___
 Download runnable app:
 [PedigreeProject.zip](https://drive.google.com/file/d/1Bm-JkACiAlXEGPZJYkVSAuv0lO0-uFy7/view?usp=sharing)
-(Require Java 17, Windows 10)
+(ca. 25 MB, Require [Java 17](https://www.oracle.com/java/technologies/downloads/), Windows 10)
