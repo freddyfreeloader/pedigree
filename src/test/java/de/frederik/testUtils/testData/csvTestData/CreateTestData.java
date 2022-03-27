@@ -2,12 +2,18 @@ package de.frederik.testUtils.testData.csvTestData;
 
 import de.pedigreeProject.model.Person;
 import de.frederik.testUtils.testData.TestDatabase;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
 public class CreateTestData {
+
+    final static Logger logger = LogManager.getLogger(CreateTestData.class);
 
     public static void main(String[] args) {
         createData();
@@ -20,7 +26,17 @@ public class CreateTestData {
         }
     }
 
-    private static void createData() {
+    private static void createData()  {
+        Path directory = Paths.get("csvTestData");
+        if(Files.notExists(directory)) {
+            try {
+                Files.createDirectory(directory);
+            } catch (IOException e) {
+                logger.error("Can't create directory for test data!", e);
+                System.out.println("Can't create directory <" + directory + "> !");
+                e.printStackTrace();
+            }
+        }
         List<Person> buddenbrooks = TestDatabase.getBuddenbrooks();
 
         TestCSV_Factory couldBeChild = new CouldBeChild(buddenbrooks);
