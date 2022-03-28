@@ -20,9 +20,25 @@ public class RandomPersons implements TestPersons {
     }
 
     private List<Person> createRandomTestPersons() {
+        List<Person> finalPersonsList = new ArrayList<>();
+        List<Person> siblingsOfParents = new ArrayList<>();
         int numberOfParents = 50;
         int numberOfChildren = 50;
-        // create n new persons for parental line
+
+        List<Person> personsForParentalLine = createPersonsForParentalLine(numberOfParents);
+
+        List<Person> personsForSiblingsChildrenLine = createPersonsForSiblingsChildrenLine(numberOfChildren, numberOfParents);
+
+        Person me = getAndRemoveRandomPersonFromList(personsForParentalLine);
+
+        createParentline(me, personsForParentalLine, finalPersonsList, siblingsOfParents);
+
+        createChildrensLine(finalPersonsList, personsForSiblingsChildrenLine, siblingsOfParents);
+
+        return finalPersonsList;
+    }
+
+    private List<Person> createPersonsForParentalLine(int numberOfParents) {
         List<Person> personsForParentalLine = new ArrayList<>();
         for (int i = 0; i <= numberOfParents; i++) {
             Person person = new Person(i, 1, "Parent nr.".concat(String.valueOf(i)),
@@ -30,27 +46,19 @@ public class RandomPersons implements TestPersons {
                     Year.of(ThreadLocalRandom.current().nextInt(1800, 2020)));
             personsForParentalLine.add(person);
         }
+        return personsForParentalLine;
+    }
 
-        // create n new persons for children's line of siblings
-        List<Person> personsForSiblingsChildrensLine = new ArrayList<>();
+    private List<Person> createPersonsForSiblingsChildrenLine(int numberOfChildren, int numberOfParents) {
+        List<Person> personsForSiblingsChildrenLine = new ArrayList<>();
         for (int i = numberOfParents + 1; i <= numberOfParents + numberOfChildren; i++) {
             Person person = new Person(i, 1,
                     "Child nr.".concat(String.valueOf(i)),
                     "",
                     null);
-            personsForSiblingsChildrensLine.add(person);
+            personsForSiblingsChildrenLine.add(person);
         }
-
-        List<Person> finalPersonsList = new ArrayList<>();
-        List<Person> siblingsOfParents = new ArrayList<>();
-
-        Person me = getAndRemoveRandomPersonFromList(personsForParentalLine);
-
-        createParentline(me, personsForParentalLine, finalPersonsList, siblingsOfParents);
-
-        createChildrensLine(finalPersonsList, personsForSiblingsChildrensLine, siblingsOfParents);
-
-        return finalPersonsList;
+        return personsForSiblingsChildrenLine;
     }
 
 
