@@ -1,6 +1,6 @@
 # PedigreeProject
 
-A simple JavaFX application to calculate and visualize the genetic relationship within a family tree.
+A simple JavaFX desktop application to calculate and visualize the genetic relationship within a family tree.
 ___
 
 
@@ -23,6 +23,7 @@ Mein Fokus lag auch eher darauf, mich in einem größeren Projekt mit verschiedene
 - TestFX
 - Log4j2
 - Clean Code
+- Dokumentation
 
 
 
