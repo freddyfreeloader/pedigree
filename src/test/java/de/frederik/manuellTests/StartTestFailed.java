@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
-@Disabled("test can't run automatically. You have to close alert dialogs manually.")
+//@Disabled("test can't run automatically. You have to close alert dialogs manually.")
 class StartTestFailed {
     final static org.apache.logging.log4j.Logger logger = LogManager.getLogger(StartTestFailed.class.getName());
 

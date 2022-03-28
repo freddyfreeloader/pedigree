@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
-@Disabled("test can't run automatically.")
+//@Disabled("test can't run automatically.")
 class StartTest {
     final static org.apache.logging.log4j.Logger logger = LogManager.getLogger(StartTest.class.getName());
 
