@@ -31,9 +31,9 @@ public class RandomPersons implements TestPersons {
 
         Person me = getAndRemoveRandomPersonFromList(personsForParentalLine);
 
-        createParentline(me, personsForParentalLine, finalPersonsList, siblingsOfParents);
+        createParentLine(me, personsForParentalLine, finalPersonsList, siblingsOfParents);
 
-        createChildrensLine(finalPersonsList, personsForSiblingsChildrenLine, siblingsOfParents);
+        createChildrenLine(finalPersonsList, personsForSiblingsChildrenLine, siblingsOfParents);
 
         return finalPersonsList;
     }
@@ -66,14 +66,14 @@ public class RandomPersons implements TestPersons {
      * Moves recursively persons from the {@code personsForParentalLine} list to the {@code finalPersonList}.<br>
      * Each person gets randomly 0-2 parents and 0-1 siblings.<br>
      * For each parent this method will be called again.<br>
-     * The siblings were added to the siblingsOfParents list, used by {@link #createChildrensLine}.<br>
+     * The siblings were added to the siblingsOfParents list, used by {@link #createChildrenLine}.<br>
      *
      * @param me person that will get 0,1 or 2 parents and 0 or 1 sibling
      * @param personsForParentalLine list from where parents and siblings are taken from
      * @param finalPersonsList the final list
      * @param siblingsOfParents list where siblings of parent are saved
      */
-    private static void createParentline(Person me, List<Person> personsForParentalLine, List<Person> finalPersonsList, List<Person> siblingsOfParents) {
+    private static void createParentLine(Person me, List<Person> personsForParentalLine, List<Person> finalPersonsList, List<Person> siblingsOfParents) {
         if (me != null) {
             finalPersonsList.add(me);
             Person parent1 = getAndRemoveRandomPersonFromList(personsForParentalLine);
@@ -102,18 +102,18 @@ public class RandomPersons implements TestPersons {
                     siblingOfMe.addParent(parent2);
                 }
             }
-            me.getParents().forEach(parent -> createParentline(parent, personsForParentalLine, finalPersonsList, siblingsOfParents));
+            me.getParents().forEach(parent -> createParentLine(parent, personsForParentalLine, finalPersonsList, siblingsOfParents));
         }
     }
 
     /**
-     * Iterates through {@code siblingsOfParents} list (created in {@link #createParentline}) and adds 0-1 children to each member.
+     * Iterates through {@code siblingsOfParents} list (created in {@link #createParentLine}) and adds 0-1 children to each member.
      *
      */
-    private static void createChildrensLine(List<Person> finalPersonsList, List<Person> personsForSiblingsChildrensLine, List<Person> siblingsOfParents) {
+    private static void createChildrenLine(List<Person> finalPersonsList, List<Person> personsForSiblingsChildrenLine, List<Person> siblingsOfParents) {
         Person person = getAndRemoveRandomPersonFromList(siblingsOfParents);
         if (person != null) {
-            Person randomChild = getAndRemoveRandomPersonFromList(personsForSiblingsChildrensLine);
+            Person randomChild = getAndRemoveRandomPersonFromList(personsForSiblingsChildrenLine);
 
             if (randomChild != null) {
 
@@ -121,7 +121,7 @@ public class RandomPersons implements TestPersons {
                 person.addChild(randomChild);
                 randomChild.addParent(person);
             }
-            createChildrensLine(finalPersonsList, personsForSiblingsChildrensLine, siblingsOfParents);
+            createChildrenLine(finalPersonsList, personsForSiblingsChildrenLine, siblingsOfParents);
         }
     }
 
