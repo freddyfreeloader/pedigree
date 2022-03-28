@@ -5,7 +5,7 @@ ___
 
 
 Download runnable app:
-[PedigreeProject.zip](https://drive.google.com/file/d/1Bm-JkACiAlXEGPZJYkVSAuv0lO0-uFy7/view?usp=sharing)
+[PedigreeProject.zip](https://drive.google.com/file/d/1uQY-JPEgkUBn4qUWO2j30bCAjvW0RSpO/view?usp=sharing)
 (ca. 25 MB, requires [Java 17](https://www.oracle.com/java/technologies/downloads/), Windows 10)
 - extract PedigreeProject.zip
 - run with PedigreeProject_Start.vbs
