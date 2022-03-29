@@ -9,8 +9,12 @@ import de.pedigreeProject.utils.IndexChanger;
 import de.pedigreeProject.utils.gui_utils.StageInjectorService;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,6 +31,8 @@ public class MainApp extends Application {
     final static Logger logger = LogManager.getLogger(MainApp.class.getName());
 
     static String databaseName = "./Data/pedigree.db";
+    static final ResourceBundle resourceBundle = ResourceBundle.getBundle("pedigree", getSystemLocale());
+
 
     public MainApp() {
     }
@@ -39,7 +45,28 @@ public class MainApp extends Application {
         }
         Model model = dependencyInjection(databaseName);
         try {
-            new StageInjectorService(new MainModelController(model)).showAndWait();
+
+            Callback<Class<?>, Object> controllerFactory = controllerType -> {
+                if (controllerType == MainModelController.class) {
+                    return new MainModelController(model);
+                } else {
+                    logger.error("Unexpected controller class: " + controllerType.getName());
+                    throw new IllegalStateException("Unexpected controller class: " + controllerType.getName());
+                }
+            };
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("pedigree.fxml"));
+            fxmlLoader.setControllerFactory(controllerFactory);
+            fxmlLoader.setResources(resourceBundle);
+
+
+            Scene scene = new Scene(fxmlLoader.load());
+            stage = new Stage();
+//            stage.setTitle(title);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.showAndWait();
+
+//            new StageInjectorService(new MainModelController(model)).showAndWait();
         } catch (RuntimeException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("alerts", Locale.getDefault()).getString("database"));
             alert.showAndWait();
@@ -73,5 +100,9 @@ public class MainApp extends Application {
             databaseName = args[0];
         }
         launch();
+    }
+    private static Locale getSystemLocale(){
+        String country = System.getProperty("user.country");
+        return new Locale(String.format("%s_%s", country.toLowerCase(),country.toUpperCase()));
     }
 }
