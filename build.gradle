@@ -65,6 +65,15 @@ distributions {
 
 test {
     useJUnitPlatform()
+    jvmArgs = [
+            '--add-opens', "pedigreeModule/de.pedigreeProject.MainApp=org.testfx.junit5",
+            '--add-opens', 'javafx.graphics/com.sun.javafx.application=org.testfx',
+            '--add-opens', 'javafx.controls/com.sun.javafx.scene.control=pedigreeModule',
+            '--add-exports', 'javafx.graphics/com.sun.javafx.application=ALL-UNNAMED',
+            '--add-exports', 'javafx.graphics/com.sun.javafx.application=pedigreeModule',
+            '--add-exports', 'javafx.controls/com.sun.javafx.scene.control=pedigreeModule',
+            '--add-exports', 'javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED',
+    ]
 }
 
 

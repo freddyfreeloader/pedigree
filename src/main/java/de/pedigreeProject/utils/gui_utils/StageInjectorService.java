@@ -132,6 +132,9 @@ public class StageInjectorService implements StageInjector {
         if (title == null) {
             getTitle();
         }
+        if (parent==null) {
+            System.out.println("Parent is null! Application can't start");
+        }
         Scene scene = new Scene(parent);
         stage = new Stage();
         stage.setTitle(title);

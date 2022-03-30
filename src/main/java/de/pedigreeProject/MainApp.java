@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 
 public class MainApp extends Application {
@@ -33,6 +34,12 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        Path path = Path.of(".");
+//        Files.list(path).forEach(path1 -> System.out.println(path1));
+        try (Stream<Path> paths = Files.walk(Paths.get("."))) {
+            paths.filter(file -> file.toString().endsWith(".fxml"))
+                    .forEach(System.out::println);
+        }
         if (!Files.exists(Path.of("./Data"))) {
 
             Files.createDirectory(Paths.get("./Data"));

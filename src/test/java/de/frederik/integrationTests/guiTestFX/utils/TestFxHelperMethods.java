@@ -12,10 +12,7 @@ import javafx.stage.Stage;
 import org.hamcrest.CoreMatchers;
 import org.jetbrains.annotations.NotNull;
 import org.testfx.framework.junit5.ApplicationTest;
-import org.testfx.matcher.base.NodeMatchers;
-import org.testfx.matcher.base.WindowMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
-import org.testfx.matcher.control.TableViewMatchers;
 import org.testfx.robot.Motion;
 
 import java.time.Year;
@@ -26,12 +23,13 @@ import java.util.function.Predicate;
 
 import static de.frederik.integrationTests.guiTestFX.utils.NodesOfFxmls.*;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
-import static org.testfx.matcher.base.NodeMatchers.*;
+import static org.testfx.matcher.base.NodeMatchers.isNotNull;
+import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.base.WindowMatchers.isShowing;
-import static org.testfx.matcher.control.TableViewMatchers.*;
+import static org.testfx.matcher.control.TableViewMatchers.hasNumRows;
+import static org.testfx.matcher.control.TableViewMatchers.hasTableCell;
 import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 
 /**
@@ -85,11 +83,11 @@ public class TestFxHelperMethods extends ApplicationTest {
      * Verifies if a DialogPane with given contentText is shown, closes the dialog with ESCAPE.
      *
      * @param contentText the contentText of the alert
-     */
+     *//*
     public void verifyAlertDialogAndPressEscape(String contentText) {
         verifyAlertDialog(contentText);
         type(KeyCode.ESCAPE);
-    }
+    }*/
     private void verifyAlertDialog(String contentText) {
         Node dialog = lookup(".dialog-pane").query();
         final DialogPane dialogPane = (DialogPane) dialog.getScene().getRoot();
