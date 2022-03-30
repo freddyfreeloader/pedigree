@@ -11,7 +11,6 @@ module pedigreeModule {
     requires org.jetbrains.annotations;
     requires org.apache.logging.log4j;
 
-//    exports de.pedigreeProject to javafx.graphics, javafx.fxml;
     exports de.pedigreeProject;
     opens de.pedigreeProject to javafx.fxml, javafx.graphics;
     opens de.pedigreeProject.model to javafx.fxml;
@@ -19,7 +18,4 @@ module pedigreeModule {
     opens de.pedigreeProject.controller to javafx.fxml;
     opens de.pedigreeProject.controller.inputRelatives to javafx.fxml;
     opens de.pedigreeProject.controller.pedigreeController to javafx.fxml;
-//    exports de.pedigreeProject.controller;
-//    exports de.pedigreeProject.database;
-//    exports de.pedigreeProject.model;
 }
